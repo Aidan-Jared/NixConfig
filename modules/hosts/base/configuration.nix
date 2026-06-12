@@ -21,23 +21,17 @@
       self.nixosModules.baseHardware
       self.nixosModules.users
 
-      self.nixosModules.niri
       # self.nixosModules.noctalia
       self.nixosModules.waylandEnv
       
       self.nixosModules.nvidia
+      self.nixosModules.tuiGreeter
+      self.nixosModules.niri
     ];
 
-    programs.dconf.enable = true;
-    programs.niri.enable = true;
     # nixpkgs.overlays = [
     #   inputs.noctalia.overlays.default
     # ];
-    environment.loginShellInit = ''
-      if [ "$(tty)" = "/dev/tty1" ] && [ -z "$WAYLAND_DISPLAY" ]; then
-        exec niri-session
-      fi
-    '';    
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;

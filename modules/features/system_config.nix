@@ -20,6 +20,13 @@
     security.polkit.enable = true;
     services.gnome.gnome-keyring.enable = true;
 
+    xdg.portal = {
+     enable = true;
+     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+     config.niri.default = [ "gnome" "gtk" ];
+    };
+
+    programs.dconf.enable = true;
     # Required for your home-manager bash configurations to work cleanly
     system.stateVersion = "26.05";
 

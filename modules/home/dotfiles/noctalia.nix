@@ -9,24 +9,24 @@
         env = {
           "NOCTALIA_CACHE_DIR" = "/tmp/vj-noctalia-cache/";
         };
-        colors = {
-          mError = "#fb4934";
-          mHover = "#83a598";
-          mOnError = "#282828";
-          mOnHover = "#282828";
-          mOnPrimary = "#282828";
-          mOnSecondary = "#282828";
-          mOnSurface = "#fbf1c7";
-          mOnSurfaceVariant = "#ebdbb2";
-          mOnTertiary = "#282828";
-          mOutline = "#57514e";
-          mPrimary = "#b8bb26";
-          mSecondary = "#fabd2f";
-          mShadow = "#282828";
-          mSurface = "#282828";
-          mSurfaceVariant = "#3c3836";
-          mTertiary = "#83a598";
-        };
+        # colors = {
+        #   mError = "#fb4934";
+        #   mHover = "#83a598";
+        #   mOnError = "#282828";
+        #   mOnHover = "#282828";
+        #   mOnPrimary = "#282828";
+        #   mOnSecondary = "#282828";
+        #   mOnSurface = "#fbf1c7";
+        #   mOnSurfaceVariant = "#ebdbb2";
+        #   mOnTertiary = "#282828";
+        #   mOutline = "#57514e";
+        #   mPrimary = "#b8bb26";
+        #   mSecondary = "#fabd2f";
+        #   mShadow = "#282828";
+        #   mSurface = "#282828";
+        #   mSurfaceVariant = "#3c3836";
+        #   mTertiary = "#83a598";
+        # };
         settings = {
           appLauncher = {
             customLaunchPrefix = "";
@@ -161,16 +161,16 @@
               }
             ];
           };
-          # colorSchemes = {
-          #   darkMode = true;
-          #   generateTemplatesForPredefined = true;
-          #   manualSunrise = "06:30";
-          #   manualSunset = "18:30";
-          #   matugenSchemeType = "scheme-fruit-salad";
-          #   predefinedScheme = "Gruvbox";
-          #   schedulingMode = "off";
-          #   useWallpaperColors = false;
-          # };
+          colorSchemes = {
+            darkMode = true;
+            generateTemplatesForPredefined = true;
+            manualSunrise = "06:30";
+            manualSunset = "18:30";
+            # matugenSchemeType = "scheme-fruit-salad";
+            # predefinedScheme = "Gruvbox";
+            schedulingMode = "off";
+            useWallpaperColors = true;
+          };
           controlCenter = {
             cards = [
               {
@@ -250,7 +250,7 @@
             allowPanelsOnScreenWithoutBar = true;
             animationDisabled = false;
             animationSpeed = 1;
-            # avatarImage = ../../nixos/features/wallpaper/gruvbox-mountain-village.png;
+            avatarImage = ./wallpaper.webp;
             boxRadiusRatio = 1;
             compactLockScreen = false;
             dimmerOpacity = 0.15;
