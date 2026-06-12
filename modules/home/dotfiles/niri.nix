@@ -1,114 +1,125 @@
-{ self, inputs, ... }: {
-  flake.homeModules.niri = { pkgs, lib, config, ... }: {
+{ inputs, self, ... }: {
 
-    options.myConfig.niri.terminal = lib.mkOption {
+  flake.nixosModules.niri = { pkgs, ... }: {
+    programs.niri = {
+      enable = true;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
+    };
+  };
+
+  flake.wrappersModules.niri = { config, lib, pkgs, ... }: {
+    options.terminal = lib.mkOption {
       type = lib.types.str;
       default = "ghostty";
     };
 
-    config.home.packages = with pkgs; [
-      ghostty
-      grim
-      slurp
-      swappy
-      wl-clipboard
-      xwayland-satellite
-      alsa-utils
-    ];
+    config = {
+      settings = let
+        noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia-shell;
+      in {
 
-    config.programs.niri.settings = {
-      prefer-no-csd = false;
-
-      input = {
-        keyboard.xkb.layout = "us";
-        touchpad.natural-scroll = false;
-        mouse.accel-profile = "flat";
-      };
-
-      binds = {
-        "Mod+T".action.spawn          = config.myConfig.niri.terminal;
-
-        "Mod+Q".action.close-window          = null;
-        "Mod+F".action.maximize-column       = null;
-        "Mod+G".action.fullscreen-window     = null;
-        "Mod+Shift+F".action.toggle-window-floating = null;
-        "Mod+C".action.center-column         = null;
-
-        "Mod+H".action.focus-column-left     = null;
-        "Mod+L".action.focus-column-right    = null;
-        "Mod+K".action.focus-window-up       = null;
-        "Mod+J".action.focus-window-down     = null;
-
-        "Mod+Left".action.focus-column-left  = null;
-        "Mod+Right".action.focus-column-right = null;
-        "Mod+Up".action.focus-window-up      = null;
-        "Mod+Down".action.focus-window-down  = null;
-
-        "Mod+Shift+H".action.move-column-left  = null;
-        "Mod+Shift+L".action.move-column-right = null;
-        "Mod+Shift+K".action.move-window-up    = null;
-        "Mod+Shift+J".action.move-window-down  = null;
-
-        "Mod+1".action.focus-workspace = "w0";
-        "Mod+2".action.focus-workspace = "w1";
-        "Mod+3".action.focus-workspace = "w2";
-        "Mod+4".action.focus-workspace = "w3";
-        "Mod+5".action.focus-workspace = "w4";
-        "Mod+6".action.focus-workspace = "w5";
-        "Mod+7".action.focus-workspace = "w6";
-        "Mod+8".action.focus-workspace = "w7";
-        "Mod+9".action.focus-workspace = "w8";
-        "Mod+0".action.focus-workspace = "w9";
-
-        "Mod+Shift+1".action.move-column-to-workspace = "w0";
-        "Mod+Shift+2".action.move-column-to-workspace = "w1";
-        "Mod+Shift+3".action.move-column-to-workspace = "w2";
-        "Mod+Shift+4".action.move-column-to-workspace = "w3";
-        "Mod+Shift+5".action.move-column-to-workspace = "w4";
-        "Mod+Shift+6".action.move-column-to-workspace = "w5";
-        "Mod+Shift+7".action.move-column-to-workspace = "w6";
-        "Mod+Shift+8".action.move-column-to-workspace = "w7";
-        "Mod+Shift+9".action.move-column-to-workspace = "w8";
-        "Mod+Shift+0".action.move-column-to-workspace = "w9";
-
-        "XF86AudioRaiseVolume".action.spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
-        "XF86AudioLowerVolume".action.spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-        "Mod+V".action.spawn-sh = "${pkgs.alsa-utils}/bin/amixer sset Capture toggle";
-
-        "Mod+Ctrl+H".action.set-column-width = "-5%";
-        "Mod+Ctrl+L".action.set-column-width = "+5%";
-        "Mod+Ctrl+J".action.set-window-height = "-5%";
-        "Mod+Ctrl+K".action.set-window-height = "+5%";
-
-        "Mod+WheelScrollDown".action.focus-column-left    = null;
-        "Mod+WheelScrollUp".action.focus-column-right     = null;
-        "Mod+Ctrl+WheelScrollDown".action.focus-workspace-down = null;
-        "Mod+Ctrl+WheelScrollUp".action.focus-workspace-up     = null;
-
-        "Mod+Ctrl+S".action.spawn-sh   = "${lib.getExe pkgs.grim} -l 0 - | ${pkgs.wl-clipboard}/bin/wl-copy";
-        "Mod+Shift+E".action.spawn-sh  = "${pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe pkgs.swappy} -f -";
-        "Mod+Shift+S".action.spawn-sh  = lib.getExe (pkgs.writeShellApplication {
-          name = "screenshot";
-          text = ''
-            ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp} -w 0)" - \
-            | ${pkgs.wl-clipboard}/bin/wl-copy
-          '';
-        });
-      };
-
-      layout = {
-        gaps = 5;
-        focus-ring = {
-          width = 2;
+        input = {
+          keyboard = {
+            xkb.layout = "us";
+            repeat-rate = 40;
+            repeat-delay = 250;
+          };
+          touchpad = {
+            natural-scroll = false;
+            tap = false;
+          };
+          mouse.accel-profile = "flat";
         };
+
+        binds = {
+          "Mod+Return".spawn = config.terminal;
+
+          "Mod+Q".close-window         = null;
+          "Mod+F".maximize-column      = null;
+          "Mod+G".fullscreen-window    = null;
+          "Mod+Shift+F".toggle-window-floating = null;
+          "Mod+C".center-column        = null;
+
+          "Mod+H".focus-column-left    = null;
+          "Mod+L".focus-column-right   = null;
+          "Mod+K".focus-window-up      = null;
+          "Mod+J".focus-window-down    = null;
+
+          "Mod+Left".focus-column-left  = null;
+          "Mod+Right".focus-column-right = null;
+          "Mod+Up".focus-window-up      = null;
+          "Mod+Down".focus-window-down  = null;
+
+          "Mod+Shift+H".move-column-left  = null;
+          "Mod+Shift+L".move-column-right = null;
+          "Mod+Shift+K".move-window-up    = null;
+          "Mod+Shift+J".move-window-down  = null;
+
+          "Mod+1".focus-workspace = "w0";
+          "Mod+2".focus-workspace = "w1";
+          "Mod+3".focus-workspace = "w2";
+          "Mod+4".focus-workspace = "w3";
+          "Mod+5".focus-workspace = "w4";
+          "Mod+6".focus-workspace = "w5";
+          "Mod+7".focus-workspace = "w6";
+          "Mod+8".focus-workspace = "w7";
+          "Mod+9".focus-workspace = "w8";
+          "Mod+0".focus-workspace = "w9";
+
+          "Mod+Shift+1".move-column-to-workspace = "w0";
+          "Mod+Shift+2".move-column-to-workspace = "w1";
+          "Mod+Shift+3".move-column-to-workspace = "w2";
+          "Mod+Shift+4".move-column-to-workspace = "w3";
+          "Mod+Shift+5".move-column-to-workspace = "w4";
+          "Mod+Shift+6".move-column-to-workspace = "w5";
+          "Mod+Shift+7".move-column-to-workspace = "w6";
+          "Mod+Shift+8".move-column-to-workspace = "w7";
+          "Mod+Shift+9".move-column-to-workspace = "w8";
+          "Mod+Shift+0".move-column-to-workspace = "w9";
+
+          "Mod+S".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
+          "Mod+V".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
+
+          "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
+          "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
+
+          "Mod+Ctrl+H".set-column-width  = "-5%";
+          "Mod+Ctrl+L".set-column-width  = "+5%";
+          "Mod+Ctrl+J".set-window-height = "-5%";
+          "Mod+Ctrl+K".set-window-height = "+5%";
+
+          "Mod+WheelScrollDown".focus-column-left         = null;
+          "Mod+WheelScrollUp".focus-column-right          = null;
+          "Mod+Ctrl+WheelScrollDown".focus-workspace-down = null;
+          "Mod+Ctrl+WheelScrollUp".focus-workspace-up     = null;
+
+          "Mod+Ctrl+S".spawn-sh  = "${lib.getExe config.pkgs.grim} -l 0 - | ${config.pkgs.wl-clipboard}/bin/wl-copy";
+          "Mod+Shift+E".spawn-sh = "${config.pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe config.pkgs.swappy} -f -";
+          "Mod+Shift+S".spawn-sh = lib.getExe (config.pkgs.writeShellApplication {
+            name = "screenshot";
+            text = ''
+              ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
+              | ${config.pkgs.wl-clipboard}/bin/wl-copy
+            '';
+          });
+        };
+
+        layout = {
+          gaps = 5;
+          focus-ring.width = 2;
+        };
+
+        xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
+
+        spawn-at-startup = [ noctaliaExe ];
       };
+    };
+  };
 
-      # workspaces = {
-      #   "w0" = ws; "w1" = ws; "w2" = ws; "w3" = ws; "w4" = ws;
-      #   "w5" = ws; "w6" = ws; "w7" = ws; "w8" = ws; "w9" = ws;
-      # };
-
-      xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+  perSystem = { pkgs, ... }: {
+    packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
+      inherit pkgs;
+      imports = [ self.wrappersModules.niri ];
     };
   };
 }

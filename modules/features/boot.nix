@@ -47,19 +47,19 @@
     };
   };
 
-  flake.nixosModules.encrypt = { pkgs, lib, ... }: {
-    imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
+#  flake.nixosModules.encrypt = { pkgs, lib, ... }: {
+#    imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
 
-    environment.systemPackages = [ pkgs.sbctl ]; # for key management + debugging
-
-    boot.loader.systemd-boot.enable = lib.mkForce false; # lanzaboote replaces this
-    boot.lanzaboote = {
-      enable = true;
-      pkiBundle = "/var/lib/sbctl";
-    };
+#    environment.systemPackages = [ pkgs.sbctl ]; # for key management + debugging
+#
+ #   boot.loader.systemd-boot.enable = lib.mkForce false; # lanzaboote replaces this
+ #   boot.lanzaboote = {
+  #    enable = true;
+   #   pkiBundle = "/var/lib/sbctl";
+  #  };
 
     # TPM2 auto-unlock for LUKS (ties decryption to Secure Boot state)
-    boot.initrd.systemd.enable = true;
-    security.tpm2.enable = true;
-  };
+  #  boot.initrd.systemd.enable = true;
+  #  security.tpm2.enable = true;
+#  };
 }

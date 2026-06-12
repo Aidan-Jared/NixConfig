@@ -13,8 +13,8 @@
   
   flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
     imports = [
-      inputs.niri.homeModules.niri
-      inputs.noctalia.homeModules.default
+      # inputs.niri.homeModules.niri
+      # inputs.noctalia.homeModules.default
       inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
       self.homeModules.cliTools
@@ -23,8 +23,6 @@
       self.homeModules.yazi
       self.homeModules.zen
       self.homeModules.stylix
-      self.homeModules.niri
-      self.homeModules.noctalia
       self.homeModules.btop
       self.homeModules.starship
       self.homeModules.ghostty

@@ -1,5 +1,6 @@
 { self, inputs, ... }: {
-  flake.homeModules.ghostty = { ... }: {
+  flake.homeModules.ghostty = { pkgs, ... }: {
+    home.packages = [ pkgs.ghostty ];
     programs.ghostty = {
       enable = true;
       enableBashIntegration = true;
