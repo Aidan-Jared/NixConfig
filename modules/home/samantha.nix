@@ -13,8 +13,6 @@
   
   flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
     imports = [
-      # inputs.niri.homeModules.niri
-      # inputs.noctalia.homeModules.default
       inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
       self.homeModules.cliTools
@@ -25,15 +23,18 @@
       self.homeModules.stylix
       self.homeModules.btop
       self.homeModules.starship
+      self.homeModules.atuin
       self.homeModules.ghostty
       self.homeModules.git
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python
+      self.homeModules.devenv
       self.homeModules.comunication
       self.homeModules.zed
     ];
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;
+    xdg.configFile."mimeapps.list".force = true;
   };
 }

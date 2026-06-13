@@ -13,6 +13,11 @@
       default = "ghostty";
     };
 
+    environment.systemPackages = [
+      pkgs.wl-clipboard 
+      pkgs.grim 
+    ];
+
     config = {
       settings = let
         noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia-shell;
@@ -77,20 +82,20 @@
           "Mod+Shift+9".move-column-to-workspace = 8;
           "Mod+Shift+0".move-column-to-workspace = 9;
 
-          "Mod+A".spawn-sh = "${noctaliaExe} msg panel-toggle launcher";
-          "Mod+F".spawn = "ghostty -e yazi";
-          "Mod+Shift+F".spawn = "pcmanfm";
+          "Mod+A".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
+          "Mod+E".spawn-sh = "ghostty -e yazi";
+          "Mod+Ctrl+E".spawn = "pcmanfm";
           "Mod+V".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
 
-          "Mod+Escape".spawn-sh = "${noctaliaExe} msg session lock";
+          "Mod+Escape".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
 
           "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
           "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
           "XF86AudioMute".spawn-sh = "wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-          "XF86MonBrightnessUp".spawn-sh = "${noctaliaExe} msg brightness-up";
-          "XF86MonBrightnessDown".spawn-sh = "${noctaliaExe} msg brightness-down";
-          "XF86Sleep".spawn-sh = "${noctaliaExe} msg session lock-and-suspend";
-          "XF86Standby".spawn-sh = "${noctaliaExe} msg session lock-and-suspend";
+          "XF86MonBrightnessUp".spawn-sh = "${noctaliaExe} ipc call brightness increase";
+          "XF86MonBrightnessDown".spawn-sh = "${noctaliaExe} ipc call brightness decrease";
+          "XF86Sleep".spawn-sh = "${noctaliaExe} ipc call sessionMenu lockAndSuspend";
+          "XF86Standby".spawn-sh = "${noctaliaExe} ipc call sessionMenu lockAndSuspend";
           # "XF86Standby".system = "Suspend";
 
           "Mod+Ctrl+H".set-column-width  = "-5%";
@@ -153,7 +158,13 @@
         ];
         xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
 
-        spawn-at-startup = [ noctaliaExe ];
+        spawn-at-startup = [
+         noctaliaExe 
+         (lib.getExe (
+             pkgs.writeShellScriptBin "wallpaper"
+             "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
+           ))
+        ];
       };
     };
   };

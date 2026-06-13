@@ -224,32 +224,32 @@
               }
             ];
           };
-          dock = {
-            enabled = false;
-            displayMode = "auto_hide";  # or "always_show"
-            size = 1;
-            backgroundOpacity = 1;
-            floatingRatio = 1;
-            animationSpeed = 2;
-            deadOpacity = 0.6;
-            colorizeIcons = false;
-            inactiveIndicators = true;
-            onlySameOutput = true;
-            pinnedStatic = false;
-            monitors = [];
-            pinnedApps = [
-              "ghostty"
-              "zen"
-              "zed"
-              "elsement"
-              # add app IDs here
-            ];
-          };
+          # dock = {
+          #   enabled = false;
+          #   displayMode = "auto_hide";  # or "always_show"
+          #   size = 1;
+          #   backgroundOpacity = 1;
+          #   floatingRatio = 1;
+          #   animationSpeed = 2;
+          #   deadOpacity = 0.6;
+          #   colorizeIcons = false;
+          #   inactiveIndicators = true;
+          #   onlySameOutput = true;
+          #   pinnedStatic = false;
+          #   monitors = [];
+          #   pinnedApps = [
+          #     "ghostty"
+          #     "zen"
+          #     "zed"
+          #     "elsement"
+          #     # add app IDs here
+          #   ];
+          # };
           general = {
             allowPanelsOnScreenWithoutBar = true;
             animationDisabled = false;
             animationSpeed = 1;
-            avatarImage = ./wallpaper.webp;
+            avatarImage = ../wallpaper.png;
             boxRadiusRatio = 1;
             compactLockScreen = false;
             dimmerOpacity = 0.15;
@@ -454,8 +454,8 @@
           };
           wallpaper = {
             # bye bye
-            enabled = true;
-            path = ./wallpaper.webp;
+            enabled = false;
+            path = ../wallpaper.png;
           };
         };
       };

@@ -83,29 +83,31 @@ flake.nixosModules.nvidiaCuda = { pkgs, lib, config, ... }: let
       nixpkgs.config.cudaSupport = true;
 
       environment.systemPackages = [
-        cudaPkg.cuda_nvcc
-        cudaPkg.cudatoolkit
-        cudaPkg.cudnn
-        cudaPkg.libcublas
-        cudaPkg.libcufft
-        cudaPkg.libcurand
-        cudaPkg.libcusolver
-        cudaPkg.libcusparse
+        pkgs.cudaPkg.cuda_nvcc
+        pkgs.cudaPkg.cudatoolkit
+        pkgs.cudaPkg.cudnn
+        pkgs.cudaPkg.libcublas
+        pkgs.cudaPkg.libcufft
+        pkgs.cudaPkg.libcurand
+        pkgs.cudaPkg.libcusolver
+        pkgs.cudaPkg.libcusparse
       ];
 
       environment.variables = {
         CUDA_PATH       = "${cudaPkg.cudatoolkit}";
-        LD_LIBRARY_PATH = lib.makeSearchPathOutput "lib" "lib" [
-          cudaPkg.cudatoolkit
-          cudaPkg.cudnn
-          (lib.getLib pkgs.linuxPackages.nvidia_x11)
+        LD_LIBRARY_PATH = builtins.concatStringsSep ":" [
+          "/run/opengl-driver/lib"
+          "/run/opengl-driver-32/lib"
+          "${pkgs.stdenv.cc.cc.lib}/lib"
+          "${pkgs.zlib}/lib"
         ];
-        XLA_FLAGS = "--xla_gpu_cuda_data_dir=${cudaPkg.cudatoolkit}";
+        XLA_FLAGS = "--xla_gpu_cuda_data_dir=${pkgs.cudaPkg.cudatoolkit}";
       } // lib.optionalAttrs cfg.extras.jax {
         JAX_PLATFORMS = "cuda,cpu";
       } // lib.optionalAttrs cfg.extras.torch {
         TORCH_CUDA_ARCH_LIST = "8.0;8.6;8.9;9.0";
       };
     };
+
   };
 }

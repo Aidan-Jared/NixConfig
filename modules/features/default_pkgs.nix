@@ -17,6 +17,7 @@
       gcc
       gnumake
       cmake
+      pcmanfm
 
       # Text Editors
       helix        
@@ -35,5 +36,9 @@
       openssl
       glibc
     ];
+
+    xdg.mime.defaultApplications = {
+      "inode/directory" = "pcmanfm.desktop";
+    };
   };
 }

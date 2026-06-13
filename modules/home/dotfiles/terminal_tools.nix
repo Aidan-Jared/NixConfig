@@ -12,6 +12,32 @@
       };
     };
   };
+
+  flake.homeModules.atuin = { ... }: {
+    programs.atuin = {
+      enable = true;
+      settings = {
+        enter_accept = true;
+        search_mode = "daemon-fuzzy";
+        sync.records = true;
+        daemon = {
+          enabled = true;
+          autostart = true;
+        };
+        stats = {
+          common_subcommands = [
+            "cargo"
+            "uv"
+            "nix"
+            "nixos"
+            "zellij"
+            "hx"
+            "git"
+          ];
+        };
+      };
+    };
+  };
   
   flake.homeModules.git = { ... }: {
     programs.git = {

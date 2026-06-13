@@ -47,7 +47,7 @@
               _children = [
                 {
                   Run._args = ["gitui"];
-                  _children = [{            
+                  Run._children = [{            
                     floating = true;
                     close_on_exit = true;
                   }];
@@ -61,7 +61,7 @@
               _children = [
                 {
                   LaunchOrFocusPlugin._args = ["zellij:layout-manager"];
-                  _children = [{            
+                  LaunchOrFocusPlugin._children = [{            
                     floating = true;
                     close_on_exit = true;
                   }];
@@ -84,7 +84,7 @@
           { bind = { _args = ["j"]; MoveFocus._args = ["down"];  }; }
           { bind = { _args = ["k"]; MoveFocus._args = ["up"];    }; }
           { bind = { _args = ["l"]; MoveFocus._args = ["right"]; }; }
-          { bind._args = ["c"]; _children = [{ SwitchToMode._args = ["renamepane"]; } { PaneNameInput._args = [0]; }]; }
+          { bind._args = ["c"]; bind._children = [{ SwitchToMode._args = ["renamepane"]; } { PaneNameInput._args = [0]; }]; }
           { bind = { _args = ["d"]; _children = [{ NewPane._args = ["down"]; } { SwitchToMode._args = ["normal"]; }]; }; }
           { bind = { _args = ["e"]; _children = [{ TogglePaneEmbedOrFloating = {}; } { SwitchToMode._args = ["normal"]; }]; }; }
           { bind = { _args = ["f"]; _children = [{ ToggleFocusFullscreen = {}; } { SwitchToMode._args = ["normal"]; }]; }; }

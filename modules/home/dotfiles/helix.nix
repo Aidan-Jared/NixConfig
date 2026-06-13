@@ -10,6 +10,7 @@
         # theme = "github_dark_dimmed";
 
         editor = {
+          clipboard-provider = "wayland";
           auto-save = true;
           auto-format = true;
           gutters = [ "diff" "diagnostics" "line-numbers" "spacer" ];

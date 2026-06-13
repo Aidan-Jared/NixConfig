@@ -12,12 +12,12 @@
     };
   };
 
-  flake.nixosModules.noctaliaGreeter = { pkgs, lib, inputs, config, ... }:
+  flake.nixosModules.noctaliaGreeter = { pkgs, lib, config, ... }:
   let
     system = pkgs.stdenv.hostPlatform.system;
     greeterPkg = inputs.noctalia-greeter.packages.${system}.default;
   in{
-    environment.systemPackages = [
+    imports = [
       inputs.noctalia-greeter.nixosModules.default
     ];
 

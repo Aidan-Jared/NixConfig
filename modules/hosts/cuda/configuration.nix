@@ -1,14 +1,14 @@
 { self, inputs, ... }:
 {
 
-  flake.nixosConfigurations.baseMachine = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.cudaMachine = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      self.nixosModules.baseConfiguration
+      self.nixosModules.cudaConfiguration
     ];
   };
 
-  flake.nixosModules.baseConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.cudaConfiguration = { pkgs, lib, ... }: {
 
     imports = [
       inputs.home-manager.nixosModules.home-manager

@@ -2,7 +2,6 @@
 {
   flake.homeModules.cliTools = { pkgs, lib, ... }: {
    	home.packages = with pkgs; [
-      pcmanfm
       xdg-utils
    	  
    	  fzf
@@ -37,6 +36,7 @@
       glow  
       poppler
       imagemagick
+      swaybg
    	];
    
   };
