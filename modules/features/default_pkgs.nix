@@ -27,6 +27,8 @@
       nix-search-cli
       nixpkgs-fmt
       nil
+      wl-clipboard
+      grim
     ];
 
     programs.nix-ld.enable = true;

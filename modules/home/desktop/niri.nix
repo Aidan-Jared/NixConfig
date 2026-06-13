@@ -13,14 +13,10 @@
       default = "ghostty";
     };
 
-    environment.systemPackages = [
-      pkgs.wl-clipboard 
-      pkgs.grim 
-    ];
 
     config = {
       settings = let
-        noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia-shell;
+        noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia;
       in {
 
         input = {
@@ -60,43 +56,42 @@
           "Mod+Shift+K".move-window-up    = {};
           "Mod+Shift+J".move-window-down  = {};
 
-          "Mod+1".focus-workspace = 0;
-          "Mod+2".focus-workspace = 1;
-          "Mod+3".focus-workspace = 2;
-          "Mod+4".focus-workspace = 3;
-          "Mod+5".focus-workspace = 4;
-          "Mod+6".focus-workspace = 5;
-          "Mod+7".focus-workspace = 6;
-          "Mod+8".focus-workspace = 7;
-          "Mod+9".focus-workspace = 8;
-          "Mod+0".focus-workspace = 9;
+          "Mod+1".focus-workspace = "0";
+          "Mod+2".focus-workspace = "1";
+          "Mod+3".focus-workspace = "2";
+          "Mod+4".focus-workspace = "3";
+          "Mod+5".focus-workspace = "4";
+          "Mod+6".focus-workspace = "5";
+          "Mod+7".focus-workspace = "6";
+          "Mod+8".focus-workspace = "7";
+          "Mod+9".focus-workspace = "8";
+          "Mod+0".focus-workspace = "9";
 
-          "Mod+Shift+1".move-column-to-workspace = 0;
-          "Mod+Shift+2".move-column-to-workspace = 1;
-          "Mod+Shift+3".move-column-to-workspace = 2;
-          "Mod+Shift+4".move-column-to-workspace = 3;
-          "Mod+Shift+5".move-column-to-workspace = 4;
-          "Mod+Shift+6".move-column-to-workspace = 5;
-          "Mod+Shift+7".move-column-to-workspace = 6;
-          "Mod+Shift+8".move-column-to-workspace = 7;
-          "Mod+Shift+9".move-column-to-workspace = 8;
-          "Mod+Shift+0".move-column-to-workspace = 9;
+          "Mod+Shift+1".move-column-to-workspace = "0";
+          "Mod+Shift+2".move-column-to-workspace = "1";
+          "Mod+Shift+3".move-column-to-workspace = "2";
+          "Mod+Shift+4".move-column-to-workspace = "3";
+          "Mod+Shift+5".move-column-to-workspace = "4";
+          "Mod+Shift+6".move-column-to-workspace = "5";
+          "Mod+Shift+7".move-column-to-workspace = "6";
+          "Mod+Shift+8".move-column-to-workspace = "7";
+          "Mod+Shift+9".move-column-to-workspace = "8";
+          "Mod+Shift+0".move-column-to-workspace = "9";
 
-          "Mod+A".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
+          "Mod+A".spawn-sh = "${noctaliaExe} msg panel-toggle launcher";
           "Mod+E".spawn-sh = "ghostty -e yazi";
           "Mod+Ctrl+E".spawn = "pcmanfm";
           "Mod+V".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
 
-          "Mod+Escape".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
+          "Mod+Escape".spawn-sh = "${noctaliaExe} msg lock-session";
 
           "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
           "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
           "XF86AudioMute".spawn-sh = "wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-          "XF86MonBrightnessUp".spawn-sh = "${noctaliaExe} ipc call brightness increase";
-          "XF86MonBrightnessDown".spawn-sh = "${noctaliaExe} ipc call brightness decrease";
-          "XF86Sleep".spawn-sh = "${noctaliaExe} ipc call sessionMenu lockAndSuspend";
-          "XF86Standby".spawn-sh = "${noctaliaExe} ipc call sessionMenu lockAndSuspend";
-          # "XF86Standby".system = "Suspend";
+          "XF86MonBrightnessUp".spawn-sh = "${noctaliaExe} msg volume-up";
+          "XF86MonBrightnessDown".spawn-sh = "${noctaliaExe} msg volume-down";
+          "XF86Sleep".spawn-sh = "${noctaliaExe} msg suspend-session";
+          "XF86Standby".spawn-sh = "${noctaliaExe} msg suspend-session";
 
           "Mod+Ctrl+H".set-column-width  = "-5%";
           "Mod+Ctrl+L".set-column-width  = "+5%";
