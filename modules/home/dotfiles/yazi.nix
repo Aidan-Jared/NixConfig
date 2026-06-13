@@ -3,7 +3,7 @@
   flake.homeModules.yazi = { pkgs, lib, ... }: {
 
 	  home.packages = with pkgs; [
-	    # yaziPlugins.starship
+	    yaziPlugins.starship
 	    # yaziPlugins.ouch
 	    # yaziPlugins.piper
 	    # yaziPlugins.duckdb
@@ -372,61 +372,33 @@
 	      ];
 	    };
 
-	    # theme = {
-	    #   flavor = {
-	    #     # dark  = "rose-pine";
-	    #     # light = "";
-	    #   };
-
-	      # mgr = {
-	      #   cwd = { fg = "cyan"; };
-	      #   find_keyword  = { fg = "yellow"; bold = true; italic = true; underline = true; };
-	      #   find_position = { fg = "magenta"; bg = "reset"; bold = true; italic = true; };
-	      #   symlink_target   = { italic = true; };
-	      #   marker_copied    = { fg = "lightgreen";  bg = "lightgreen"; };
-	      #   marker_cut       = { fg = "lightred";    bg = "lightred"; };
-	      #   marker_marked    = { fg = "lightcyan";   bg = "lightcyan"; };
-	      #   marker_selected  = { fg = "lightyellow"; bg = "lightyellow"; };
-	      #   count_copied     = { fg = "white"; bg = "green"; };
-	      #   count_cut        = { fg = "white"; bg = "red"; };
-	      #   count_selected   = { fg = "black"; bg = "yellow"; };
-	      #   border_symbol = "│";
-	      #   border_style  = { fg = "gray"; };
-	      # };
-
-	      # tabs = {
-	      #   active   = { bg = "blue"; bold = true; };
-	      #   inactive = { fg = "blue"; bg = "gray"; };
-	      #   sep_inner = { open = ""; close = ""; };
-	      #   sep_outer = { open = ""; close = ""; };
-	      # };
-
-	      # mode = {
-	      #   normal_main = { bg = "blue"; bold = true; };
-	      #   normal_alt  = { fg = "blue"; bg = "gray"; };
-	      #   select_main = { bg = "red"; bold = true; };
-	      #   select_alt  = { fg = "red"; bg = "gray"; };
-	      #   unset_main  = { bg = "red"; bold = true; };
-	      #   unset_alt   = { fg = "red"; bg = "gray"; };
-	      # };
-
-	      # status = {
-	      #   sep_left  = { open = ""; close = ""; };
-	      #   sep_right = { open = ""; close = ""; };
-	      #   perm_sep   = { fg = "darkgray"; };
-	      #   perm_type  = { fg = "green"; };
-	      #   perm_read  = { fg = "yellow"; };
-	      #   perm_write = { fg = "red"; };
-	      #   perm_exec  = { fg = "cyan"; };
-	      #   progress_label  = { bold = true; };
-	      #   progress_normal = { fg = "green"; bg = "black"; };
-	      #   progress_error  = { fg = "yellow"; bg = "red"; };
-	      # };
-	    # };
 	  };
 
 
-	   # programs.starship = {
+    xdg.desktopEntries.yazi = {
+      name = "Yazi";
+      genericName = "File Manager";
+      comment = "Terminal file manager";
+      # Change `foot` to your actual terminal emulator
+      exec = "ghostty -e yazi %u";
+      terminal = false;   # false because we handle the terminal ourselves
+      categories = [ "System" "FileManager" ];
+      mimeType = [ "inode/directory" ];
+      icon = "system-file-manager";
+      startupNotify = true;
+    };
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = [ "yazi.desktop" "pcmanfm.desktop" ];
+      };
+      # Ensure nothing else hijacks directory opening
+      associations.added = {
+        "inode/directory" = [ "yazi.desktop" "pcmanfm.desktop" ];
+      };
+    };
+
+    # programs.starship = {
 	   #   enable = true;
 	   # };
 	   # programs.ouch = {

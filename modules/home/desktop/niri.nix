@@ -78,7 +78,8 @@
           "Mod+Shift+0".move-column-to-workspace = 9;
 
           "Mod+A".spawn-sh = "${noctaliaExe} msg panel-toggle launcher";
-          # "Mod+F".spawn = [ (lib.getExe pkgs.ghostty) "-e" (lib.getExe pkgs.yazi) ];
+          "Mod+F".spawn = "ghostty -e yazi";
+          "Mod+Shift+F".spawn = "pcmanfm";
           "Mod+V".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
 
           "Mod+Escape".spawn-sh = "${noctaliaExe} msg session lock";
