@@ -3,7 +3,7 @@
   flake.homeModules.yazi = { pkgs, lib, ... }: {
 
 	  home.packages = with pkgs; [
-	    yaziPlugins.starship
+	    # yaziPlugins.starship
 	    # yaziPlugins.ouch
 	    # yaziPlugins.piper
 	    # yaziPlugins.duckdb
