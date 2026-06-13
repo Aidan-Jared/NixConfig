@@ -47,8 +47,10 @@
               _children = [
                 {
                   Run._args = ["gitui"];
-                  floating = true;
-                  close_on_exit = true;
+                  _children = [{            
+                    floating = true;
+                    close_on_exit = true;
+                  }];
                 }
               ];
             };
@@ -59,8 +61,10 @@
               _children = [
                 {
                   LaunchOrFocusPlugin._args = ["zellij:layout-manager"];
-                  floating = true;
-                  move_to_focused_tab = true;
+                  _children = [{            
+                    floating = true;
+                    close_on_exit = true;
+                  }];
                 }
               ];
             };

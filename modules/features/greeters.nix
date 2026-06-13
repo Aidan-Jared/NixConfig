@@ -11,4 +11,26 @@
       };
     };
   };
+
+  flake.nixosModules.noctaliaGreeter = { pkgs, lib, inputs, config, ... }:
+  let
+    system = pkgs.stdenv.hostPlatform.system;
+    greeterPkg = inputs.noctalia-greeter.packages.${system}.default;
+  in{
+    environment.systemPackages = [
+      inputs.noctalia-greeter.nixosModules.default
+    ];
+
+    programs.noctalia-greeter = {
+      enable = true;
+      package = greeterPkg;
+      greeter-args = "--session niri";
+    };
+
+    users.users.greeter = {
+      isSystemUser = true;
+      group = "greeter";
+    };
+    users.groups.greeter = {};
+  };
 }

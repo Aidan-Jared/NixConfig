@@ -9,24 +9,6 @@
         env = {
           "NOCTALIA_CACHE_DIR" = "/tmp/vj-noctalia-cache/";
         };
-        # colors = {
-        #   mError = "#fb4934";
-        #   mHover = "#83a598";
-        #   mOnError = "#282828";
-        #   mOnHover = "#282828";
-        #   mOnPrimary = "#282828";
-        #   mOnSecondary = "#282828";
-        #   mOnSurface = "#fbf1c7";
-        #   mOnSurfaceVariant = "#ebdbb2";
-        #   mOnTertiary = "#282828";
-        #   mOutline = "#57514e";
-        #   mPrimary = "#b8bb26";
-        #   mSecondary = "#fabd2f";
-        #   mShadow = "#282828";
-        #   mSurface = "#282828";
-        #   mSurfaceVariant = "#3c3836";
-        #   mTertiary = "#83a598";
-        # };
         settings = {
           appLauncher = {
             customLaunchPrefix = "";
@@ -38,7 +20,7 @@
             position = "center";
             showCategories = true;
             sortByMostUsed = true;
-            terminalCommand = "kitty -e";
+            terminalCommand = "ghostty -e";
             useApp2Unit = false;
             viewMode = "list";
           };
@@ -52,20 +34,29 @@
             volumeStep = 5;
           };
           bar = {
-            capsuleOpacity = 1;
+            capsuleOpacity = .3;
             density = "comfortable";
             exclusive = true;
-            floating = false;
+            floating = true;
             marginHorizontal = 0.25;
             marginVertical = 0.25;
             monitors = [];
             outerCorners = true;
-            position = "left";
+            position = "top";
             showCapsule = false;
             showOutline = false;
-            transparent = false;
+            transparent = true;
             widgets = {
-              center = [];
+              center = [
+                {
+                  customFont = "";
+                  formatHorizontal = "HH:mm ddd, MMM dd";
+                  formatVertical = "HH mm - dd MM";
+                  id = "Clock";
+                  useCustomFont = false;
+                  usePrimaryColor = true;
+                }
+              ];
               left = [
                 {
                   colorizeDistroLogo = true;
@@ -113,17 +104,12 @@
                   displayMode = "alwaysHide";
                   id = "Microphone";
                 }
+                # {
+                #   displayMode = "forceOpen";
+                #   id = "KeyboardLayout";
+                # }
                 {
-                  displayMode = "forceOpen";
-                  id = "KeyboardLayout";
-                }
-                {
-                  customFont = "";
-                  formatHorizontal = "HH:mm ddd, MMM dd";
-                  formatVertical = "HH mm - dd MM";
-                  id = "Clock";
-                  useCustomFont = false;
-                  usePrimaryColor = true;
+                  id = "SystemMonitor";
                 }
                 {
                   blacklist = [];
@@ -212,8 +198,8 @@
             };
           };
           desktopWidgets = {
-            enabled = false;
-            gridSnap = false;
+            enabled = true;
+            gridSnap = true;
             monitorWidgets = [
               {
                 name = "HDMI-A-1";
@@ -227,24 +213,37 @@
                     x = 100;
                     y = 200;
                   }
+                  {
+                    id = "SystemMonitor";
+                    hideMode = "visible";
+                    showBackground = true;
+                    x = 100;
+                    y = 500;
+                  }
                 ];
               }
             ];
           };
           dock = {
-            animationSpeed = 2;
-            backgroundOpacity = 1;
-            colorizeIcons = false;
-            deadOpacity = 0.6;
-            displayMode = "auto_hide";
             enabled = false;
-            floatingRatio = 1;
-            inactiveIndicators = false;
-            monitors = [];
-            onlySameOutput = true;
-            pinnedApps = [];
-            pinnedStatic = false;
+            displayMode = "auto_hide";  # or "always_show"
             size = 1;
+            backgroundOpacity = 1;
+            floatingRatio = 1;
+            animationSpeed = 2;
+            deadOpacity = 0.6;
+            colorizeIcons = false;
+            inactiveIndicators = true;
+            onlySameOutput = true;
+            pinnedStatic = false;
+            monitors = [];
+            pinnedApps = [
+              "ghostty"
+              "zen"
+              "zed"
+              "elsement"
+              # add app IDs here
+            ];
           };
           general = {
             allowPanelsOnScreenWithoutBar = true;
@@ -354,19 +353,19 @@
               {
                 action = "lock";
                 command = "";
-                countdownEnabled = true;
+                countdownEnabled = false;
                 enabled = true;
               }
               {
                 action = "suspend";
                 command = "";
-                countdownEnabled = true;
+                countdownEnabled = false;
                 enabled = true;
               }
               {
                 action = "hibernate";
                 command = "";
-                countdownEnabled = true;
+                countdownEnabled = false;
                 enabled = true;
               }
               {
@@ -378,7 +377,7 @@
               {
                 action = "logout";
                 command = "";
-                countdownEnabled = true;
+                countdownEnabled = false;
                 enabled = true;
               }
               {
@@ -455,7 +454,8 @@
           };
           wallpaper = {
             # bye bye
-            enabled = false;
+            enabled = true;
+            path = ./wallpaper.webp;
           };
         };
       };
