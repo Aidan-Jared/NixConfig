@@ -16,8 +16,9 @@
       zoxide       
       zellij       
       gitui        
-      ripgrep      
-      fd           
+      ripgrep-all      
+      ripgrep
+      fd        
       jq
       jnv          
       jless
@@ -25,6 +26,7 @@
       rip2
       atuin
       bat
+      dust
 
       # file transfer
       croc

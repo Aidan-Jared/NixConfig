@@ -32,5 +32,18 @@
       group = "greeter";
     };
     users.groups.greeter = {};
+    systemd.tmpfiles.rules = [
+      # Ensure the state dir exists with correct ownership
+      "d  /var/lib/noctalia-greeter              0755 greeter greeter -"
+
+      # Deploy greeter.conf on first boot (C = copy-if-missing, preserves runtime writes)
+      # "C  /var/lib/noctalia-greeter/greeter.conf 0644 greeter greeter - ${greeterConf}"
+
+      # Wallpaper: symlink a store-path wallpaper so the greeter finds it without
+      # needing the GUI "Sync Now". Noctalia's sync writes to this same path.
+      # Replace ${self.wallpaper} with any absolute path or store path you prefer,
+      # e.g. "${./wallpaper.png}" for a file next to your flake.
+      "L+ /var/lib/noctalia-greeter/wallpaper    - - - - ${self.wallpaper}"
+      ];
   };
 }

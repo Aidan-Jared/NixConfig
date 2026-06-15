@@ -5,6 +5,7 @@
       enable = true;
       enableBashIntegration = true;
       settings = {
+        confirm-close-surface = false;
         font-size = 12;
         background-opacity = 0.9;
         window-padding-x = 8;

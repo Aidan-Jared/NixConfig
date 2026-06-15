@@ -2,31 +2,17 @@
 {
   flake.homeModules.yazi = { pkgs, lib, ... }: {
 
-	  home.packages = with pkgs; [
-	    # yaziPlugins.starship
-	    # yaziPlugins.ouch
-	    # yaziPlugins.piper
-	    # yaziPlugins.duckdb
-	    # yaziPlugins.full-border
-	    # yaziPlugins.git
-	    # yaziPlugins.gitui
-	    # yaziPlugins.glow
-	    # yaziPlugins.mount
-	    # yaziPlugins.office
-	    # duckdb
+	  home.packages = [
+	    pkgs.duckdb
 	  ];
 
 	  programs.yazi = {
-	    enable = true;
+	    # enable = true;
 	    enableBashIntegration = true;
 	    shellWrapperName = "y";
 
-	    # flavors = {
-	    #   rose-pine = rose-pine-flavor;
-	    #   catppuccin-mocha = catppuccin-mocha-flavor;
-	    # };
-
-	    package = pkgs.yazi;
+	    package = inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.default;
+	    # inputs.yazi.override{ _7zz = pkgs._7zz-rar; };
 
 	    settings = {
 	      mgr = {
@@ -37,7 +23,7 @@
 	        sort_dir_first = true;
 	        sort_translit  = false;
 	        linemode       = "none";
-	        show_hidden    = false;
+	        show_hidden    = true;
 	        show_symlink   = true;
 	        scrolloff      = 5;
 	        mouse_events   = [ "click" "scroll" ];
@@ -61,8 +47,6 @@
 	      opener = {
 	        edit = [
 	          { run = "\${EDITOR:-hx} %s"; desc = "helix"; for = "unix"; block = true; }
-	          { run = "zellij action new-tab -- \${EDITOR:-hx} %s"; desc = "helix (zellij tab)"; for = "unix"; }
-	          { run = "zellij action new-pane -- \${EDITOR:-hx} %s"; desc = "helix (zellij pane)"; for = "unix"; }
 	          { run = "zed %s"; desc = "zed"; for = "unix"; block = true; }
 	          { run = "code %s"; desc = "vscode"; for = "unix"; block = true; }
 	        ];
@@ -372,6 +356,89 @@
 	      ];
 	    };
 
+      plugins = with pkgs.yaziPlugins; {
+        git        = git;
+        full-border = full-border;
+        piper      = piper;
+        duckdb     = duckdb;
+
+      fetchers = [
+          { id = "mime"; group = "mime"; url = "*/";         run = "mime.dir";    prio = "high"; }
+          { id = "mime"; group = "mime"; url = "local://*";  run = "mime.local";  prio = "high"; }
+          { id = "mime"; group = "mime"; url = "remote://*"; run = "mime.remote"; prio = "high"; }
+        ];
+        prepend_fetchers = [
+          { id = "git"; url = "*";  run = "git"; group = "git"; }
+          { id = "git"; url = "*/"; run = "git"; group = "git"; }
+        ];
+        spotters = [
+          { url = "*/"; run = "folder"; }
+          { mime = "text/*"; run = "code"; }
+          { mime = "application/{mbox,javascript,wine-extension-ini}"; run = "code"; }
+          { mime = "image/{avif,hei?,jxl}"; run = "magick"; }
+          { mime = "image/svg+xml"; run = "svg"; }
+          { mime = "image/*"; run = "image"; }
+          { mime = "video/*"; run = "video"; }
+          { mime = "vfs/*"; run = "vfs"; }
+          { mime = "null/*"; run = "null"; }
+          { url = "*"; run = "file"; }
+        ];
+        preloaders = [
+          { mime = "image/{avif,hei?,jxl}"; run = "magick"; }
+          { mime = "image/svg+xml"; run = "svg"; }
+          { mime = "image/*"; run = "image"; }
+          { mime = "video/*"; run = "video"; }
+          { mime = "application/pdf"; run = "pdf"; }
+          { mime = "font/*"; run = "font"; }
+          { mime = "application/ms-opentype"; run = "font"; }
+        ];
+        prepend_preloaders = [
+          { url = "*.csv";     run = "duckdb"; multi = false; }
+          { url = "*.tsv";     run = "duckdb"; multi = false; }
+          { url = "*.json";    run = "duckdb"; multi = false; }
+          { url = "*.parquet"; run = "duckdb"; multi = false; }
+          { url = "*.xlsx";    run = "duckdb"; multi = false; }
+          { url = "*.db";      run = "duckdb"; multi = false; }
+        ];
+        previewers = [
+          { url = "*/"; run = "folder"; }
+          { mime = "text/*"; run = "code"; }
+          { mime = "application/{mbox,javascript,wine-extension-ini}"; run = "code"; }
+          { mime = "application/{json,ndjson}"; run = "json"; }
+          { mime = "image/{avif,hei?,jxl}"; run = "magick"; }
+          { mime = "image/svg+xml"; run = "svg"; }
+          { mime = "image/*"; run = "image"; }
+          { mime = "video/*"; run = "video"; }
+          { mime = "application/pdf"; run = "pdf"; }
+          { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}"; run = "archive"; }
+          { mime = "application/{debian*-package,redhat-package-manager,rpm,android.package-archive}"; run = "archive"; }
+          { url = "*.{AppImage,appimage}"; run = "archive"; }
+          { mime = "application/{iso9660-image,qemu-disk,ms-wim,apple-diskimage}"; run = "archive"; }
+          { mime = "application/virtualbox-{vhd,vhdx}"; run = "archive"; }
+          { url = "*.{img,fat,ext,ext2,ext3,ext4,squashfs,ntfs,hfs,hfsx}"; run = "archive"; }
+          { mime = "font/*"; run = "font"; }
+          { mime = "application/ms-opentype"; run = "font"; }
+          { mime = "inode/empty"; run = "empty"; }
+          { mime = "vfs/*"; run = "vfs"; }
+          { mime = "null/*"; run = "null"; }
+          { url = "*"; run = "file"; }
+        ];
+        prepend_previewers = [
+          { url = "*.tar*"; run = ''piper --format=url -- tar tf "$1"''; }
+          { url = "*.md";   run = ''piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"''; }
+          { url = "*/";     run = ''piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"''; }
+          { url = "*.csv";     run = "duckdb"; }
+          { url = "*.tsv";     run = "duckdb"; }
+          { url = "*.json";    run = "duckdb"; }
+          { url = "*.parquet"; run = "duckdb"; }
+          { url = "*.xlsx";    run = "duckdb"; }
+          { url = "*.db";      run = "duckdb"; }
+        ];
+      };
+      initLua = ''
+        require("git"):setup { order = 1500 }
+      '';
+
 	  };
 
 
@@ -397,37 +464,6 @@
         "inode/directory" = [ "yazi.desktop" "pcmanfm.desktop" ];
       };
     };
-
-    # programs.starship = {
-	   #   enable = true;
-	   # };
-	   # programs.ouch = {
-	   #   enable = true;
-	   # };
-	   # programs.piper = {
-	   #   enable = true;
-	   # };
-	   # programs.duckdb = {
-	   #   enable = true;
-	   # };
-	   # programs.full-border = {
-	   #   enable = true;
-	   # };
-	   # programs.git = {
-	   #   enable = true;
-	   # };
-	   # programs.gitui = {
-	   #   enable = true;
-	   # };
-	   # programs.glow = {
-	   #   enable = true;
-	   # };
-	   # programs.mount = {
-	   #   enable = true;
-	   # };
-	   # programs.office = {
-	   #   enable = true;
-	   # };
   };
 }
 

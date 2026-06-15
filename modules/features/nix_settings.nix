@@ -33,7 +33,7 @@
 
       substituters = [
         "https://devenv.cachix.org"
-        "https://cuda-nix.cachix.org"
+        # "https://cuda-nix.cachix.org"
         "https://cuda-maintainers.cachix.org"
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"

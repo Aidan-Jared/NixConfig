@@ -17,17 +17,20 @@
       LC_TIME = "en_NZ.UTF-8";
     };
 
+    environment.systemPackages = [ pkgs.polkit_gnome ];
+
     security.polkit.enable = true;
+    services.upower.enable = true;
     services.gnome.gnome-keyring.enable = true;
 
     xdg.portal = {
      enable = true;
-     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
      config.niri.default = lib.mkForce [ "gtk" ];
     };
 
     programs.dconf.enable = true;
-    # Required for your home-manager bash configurations to work cleanly
+
     system.stateVersion = "26.05";
 
   };
