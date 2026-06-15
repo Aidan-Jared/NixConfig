@@ -2,25 +2,36 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    import-tree.url = "github:vic/import-tree";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+    import-tree = {
+      url = "github:vic/import-tree";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrapper-modules = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.3";
+    crane = {
+      url = "github:ipetkov/crane";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # lanzaboote = {
+    #   url = "github:nix-community/lanzaboote/v0.4.3";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
 
     stylix = {
       url = "github:nix-community/stylix";
@@ -31,6 +42,16 @@
     #   url = "github:sodiboo/niri-flake";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+
+    nirimap = {
+      url = "github:alexandergknoll/nirimap";
+      flake = false;
+    };
+    
+    system76-scheduler-niri = {
+      url = "github:Kirottu/system76-scheduler-niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     noctalia = {
       url = "github:noctalia-dev/noctalia";
@@ -45,7 +66,16 @@
     yazi = {
       url = "github:sxyazi/yazi";
       inputs.nixpkgs.follows = "nixpkgs";
-      
+    };
+
+    nix-yazi-plugins = {
+      url = "github:lordkekz/nix-yazi-plugins?ref=yazi-v0.2.5";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

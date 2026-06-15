@@ -32,6 +32,7 @@
       self.homeModules.devenv
       self.homeModules.comunication
       self.homeModules.zed
+      self.homeModules.noctalia
     ];
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

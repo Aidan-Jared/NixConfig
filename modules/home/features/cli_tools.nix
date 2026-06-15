@@ -22,11 +22,13 @@
       jq
       jnv          
       jless
-      yazi
+      # yazi
       rip2
       atuin
       bat
       dust
+      
+      p7zip
 
       # file transfer
       croc
