@@ -113,7 +113,7 @@
               cx = 960.0;
               cy = 185.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "clock";
               settings = {
@@ -129,7 +129,7 @@
               cx = 960.0;
               cy = 392.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "weather";
               settings = {
@@ -143,7 +143,7 @@
               cx = 140.0;
               cy = 649.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -158,7 +158,7 @@
               cx = 140.0;
               cy = 503.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -173,7 +173,7 @@
               cx = 140.0;
               cy = 360.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -189,7 +189,7 @@
               cx = 140.0;
               cy = 217.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -206,7 +206,7 @@
               cx = 1552.0;
               cy = 624.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "fancy_audio_visualizer";
               settings = {
@@ -225,7 +225,7 @@
               cx = 1536.0;
               cy = 984.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "media_player";
               settings = {
@@ -352,7 +352,7 @@
           schema_version = 2;
           widget_order = [
             "lockscreen-widget-0000000000000007"
-            "lockscreen-login-box@eDP-1"
+            "lockscreen-login-box@"
             "lockscreen-widget-0000000000000001"
             "lockscreen-widget-0000000000000002"
             "lockscreen-widget-0000000000000003"
@@ -367,13 +367,13 @@
             visible = true;
           };
           widget = {
-            "lockscreen-login-box@eDP-1" = {
+            "lockscreen-login-box@" = {
               box_height = 0.0;
               box_width = 0.0;
               cx = 960.0;
               cy = 1112.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "login_box";
               settings = {
@@ -391,7 +391,7 @@
               cx = 960.0;
               cy = 185.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "clock";
               settings = {
@@ -406,7 +406,7 @@
               cx = 960.0;
               cy = 392.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "weather";
               settings = {
@@ -419,7 +419,7 @@
               cx = 140.0;
               cy = 649.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -433,7 +433,7 @@
               cx = 140.0;
               cy = 503.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -447,7 +447,7 @@
               cx = 140.0;
               cy = 360.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -462,7 +462,7 @@
               cx = 140.0;
               cy = 217.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "sysmon";
               settings = {
@@ -478,7 +478,7 @@
               cx = 1552.0;
               cy = 624.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "fancy_audio_visualizer";
               settings = {
@@ -496,7 +496,7 @@
               cx = 1536.0;
               cy = 984.0;
               enabled = true;
-              output = "eDP-1";
+              output = "";
               rotation = 0.0;
               type = "media_player";
               settings = {
