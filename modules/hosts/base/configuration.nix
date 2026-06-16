@@ -20,6 +20,7 @@
       self.nixosModules.systemConfig
       self.nixosModules.baseHardware
       self.nixosModules.users
+      self.nixosModules.remote
 
       # self.nixosModules.noctalia
       self.nixosModules.waylandEnv

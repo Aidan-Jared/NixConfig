@@ -27,19 +27,24 @@
             repeat-delay = 250;
           };
           touchpad = {
-            # natural-scroll = {};
-            # tap = {};
+            # natural-scroll = "false";
+            # tap = "false";
           };
-          mouse.accel-profile = "flat";
+          mouse = {
+            # natural-scroll = "false";
+            accel-profile = "flat";
+          };
         };
 
         binds = {
           "Mod+T".spawn = config.terminal;
 
           "Mod+Q".close-window = {};
+          "Mod+O".toggle-overview = {};
           "Mod+F".maximize-column = {};
           "Mod+G".fullscreen-window = {};
           "Mod+Shift+F".toggle-window-floating = {};
+          "Mod+Ctrl+F".switch-focus-between-floating-and-tiling = {};
           "Mod+C".center-column = {};
           "Mod+W".center-column = {};
 
@@ -47,16 +52,26 @@
           "Mod+L".focus-column-right = {};
           "Mod+K".focus-window-up = {};
           "Mod+J".focus-window-down = {};
+          "Mod+P".focus-workspace-up = {};
+          "Mod+N".focus-workspace-down = {};
 
           "Mod+Left".focus-column-left = {};
           "Mod+Right".focus-column-right = {};
           "Mod+Up".focus-window-up = {};
           "Mod+Down".focus-window-down = {};
 
+          "Mod+WheelScrollDown".focus-column-left = {};
+          "Mod+WheelScrollUp".focus-column-right = {};
+          "Mod+Ctrl+WheelScrollDown".focus-workspace-up = {};
+          "Mod+Ctrl+WheelScrollUp".focus-workspace-down = {};
+
           "Mod+Shift+H".move-column-left = {};
           "Mod+Shift+L".move-column-right = {};
           "Mod+Shift+K".move-window-up = {};
           "Mod+Shift+J".move-window-down = {};
+
+          "Mod+Comma".consume-window-into-column = {};
+          "Mod+Period".expel-window-from-column = {};
 
           "Mod+1".focus-workspace = 1;
           "Mod+2".focus-workspace = 2;
@@ -82,7 +97,7 @@
 
           "Mod+Space".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "launcher" ];
           "Mod+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "control-center" ];
-          "Mod+Comma".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "settings-toggle" ];
+          "Mod+Shift+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "settings-toggle" ];
 
           "Mod+E".spawn-sh = "ghostty -e yazi";
           "Mod+Ctrl+E".spawn = "pcmanfm";
@@ -90,9 +105,12 @@
 
           "Mod+Escape".spawn = [ "${noctaliaExe}" "msg" "session lock" ];
 
+          "Mod+Shift+P".power-off-monitors = {};
+
           "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
           "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-          "XF86AudioMute".spawn-sh = "wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
+          "XF86AudioMute".spawn-sh = "wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ toggle";
+          "XF86AudioMicMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
           "XF86MonBrightnessUp".spawn = [ "${noctaliaExe}" "msg" "brightness-up" ];
           "XF86MonBrightnessDown".spawn = [ "${noctaliaExe}" "msg" "brightness-down" ];
           "XF86Sleep".spawn = [ "${noctaliaExe}" "msg" "session lock-and-suspend" ];
@@ -103,15 +121,9 @@
           "Mod+Ctrl+J".set-window-height = "-5%";
           "Mod+Ctrl+K".set-window-height = "+5%";
 
-          "Mod+WheelScrollDown".focus-column-left = {};
-          "Mod+WheelScrollUp".focus-column-right = {};
-          "Mod+Ctrl+WheelScrollDown".focus-workspace-down = {};
-          "Mod+Ctrl+WheelScrollUp".focus-workspace-up = {};
-
-
           "Mod+Ctrl+S".spawn-sh  = "${lib.getExe config.pkgs.grim} -l 0 - | ${config.pkgs.wl-clipboard}/bin/wl-copy";
           "Mod+Shift+E".spawn-sh = "${config.pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe config.pkgs.swappy} -f -";
-          "Mod+Shift+S".spawn-sh = lib.getExe (config.pkgs.writeShellApplication {
+          "Print".spawn-sh = lib.getExe (config.pkgs.writeShellApplication {
             name = "screenshot";
             text = ''
               ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
