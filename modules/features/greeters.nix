@@ -1,5 +1,4 @@
 { self, inputs, ... }: {
-
   flake.nixosModules.tuiGreeter = { pkgs, lib, ... }: {
     services.greetd = {
       enable = true;
@@ -10,6 +9,10 @@
         };
       };
     };
+  };
+
+  flake.nixosModules.cosmicGreeter = { pkgs, lib, ... }: {
+    services.displayManager.cosmic-greeter.enable = true;
   };
 
   flake.nixosModules.noctaliaGreeter = { pkgs, lib, config, ... }:

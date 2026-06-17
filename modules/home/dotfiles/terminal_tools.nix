@@ -16,10 +16,10 @@
   flake.homeModules.atuin = { ... }: {
     programs.atuin = {
       enable = true;
-      enableBashIntegration = true;
+      # enableBashIntegration = true;
       settings = {
         enter_accept = true;
-        # search_mode = "daemon-fuzzy";
+        search_mode = "daemon-fuzzy";
         sync.records = true;
         daemon = {
           enabled = true;
