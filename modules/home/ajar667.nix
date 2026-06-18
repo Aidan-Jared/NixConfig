@@ -20,8 +20,17 @@
       # self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.devenv
-      self.homeModules.remote
     ];
+
+    
+    home.packages = [
+      pkgs.croc
+      pkgs.tailscale
+      pkgs.mosh
+    ];
+
+    programs.mosh.enable = true;
+    
     home.stateVersion = "25.05";
     programs.home-manager.enable = true;
     # xdg.configFile."mimeapps.list".force = true;
