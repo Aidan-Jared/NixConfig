@@ -5,7 +5,7 @@
           self.homeModules.ajar667Home
           {
             home.username = "ajar667";
-            home.homeDirectory = "ajar667";
+            home.homeDirectory = "/home/ajar667";
           }
         ];
   };
