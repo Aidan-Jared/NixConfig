@@ -18,7 +18,7 @@
       self.homeModules.cliTools
       self.homeModules.helix
       self.homeModules.zellij
-      self.homeModules.starship
+      # self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.devenv
     ];
