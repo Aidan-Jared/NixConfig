@@ -34,16 +34,16 @@
       programs.starship.enable = true;
       programs.fzf.enable = true;
 
-      programs.atuin = {
-        enable = true;
-        enableBashIntegration = true;
-        settings = {
-          auto_sync = true;
-          sync_frequency = "5m";
-          sync_address = "https://api.atuin.sh";
-          search_mode = "fuzzy";
-        };
-      };
+      # programs.atuin = {
+      #   enable = true;
+      #   enableBashIntegration = true;
+      #   settings = {
+      #     auto_sync = true;
+      #     sync_frequency = "5m";
+      #     sync_address = "https://api.atuin.sh";
+      #     search_mode = "fuzzy";
+      #   };
+      # };
 
       programs.direnv = {
         enable = true;
