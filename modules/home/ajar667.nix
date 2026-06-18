@@ -11,7 +11,7 @@
   };
 
   
-  flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
+  flake.homeModules.ajar667Home = { pkgs, lib, ... }: {
     imports = [
       inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
