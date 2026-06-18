@@ -26,10 +26,8 @@
     home.packages = [
       pkgs.croc
       pkgs.tailscale
-      pkgs.mosh
     ];
 
-    programs.mosh.enable = true;
     
     home.stateVersion = "25.05";
     programs.home-manager.enable = true;
