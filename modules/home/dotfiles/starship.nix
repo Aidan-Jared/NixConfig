@@ -15,7 +15,7 @@
         username = {
          	style_user = "#89b4fa";
          	show_always = true;
-         	format = "\[[$user]($style)\]";
+         	format = "\\[[$user]($style)\\]";
         };
         
         # Disable the package module, hiding it from the prompt completely
@@ -147,7 +147,7 @@
 
         hostname = {
          	ssh_symbol = " ";
-         	format = "\[[$ssh_symbol($hostname)]($style)\] ";
+         	format = "\\[[$ssh_symbol($hostname)]($style)\\] ";
        	};
 
         java = {
@@ -183,7 +183,7 @@
         nix_shell = {
          	symbol = " ";
          	disabled = false;
-         	format = "\[[$symbol$state( \($name\))]($style)\]";
+         	format = "\\[[$symbol$state( \\($name\\))]($style)\\]";
          	impure_msg = "impure";
          	pure_msg = "pure";
          	unknown_msg = "unknown";
@@ -285,7 +285,7 @@
           fish_indicator = "󰈺 ";
           powershell_indicator = "_";
           unknown_indicator = "mystery shell";
-          format = "\[[$indicator]($style)\]";
+          format = "\\[[$indicator]($style)\\]";
           disabled = false;
         };
 
@@ -314,7 +314,7 @@
         };
 
         directory = {
-         	format = "\[[ $path ]($style)[$read_only]($read_only_style)\]";
+         	format = "\\[[ $path ]($style)[$read_only]($read_only_style)\\]";
          	style = "#d0c8e8";
          	# truncation_length = 1000;
          	# truncation_symbol = "…/";
