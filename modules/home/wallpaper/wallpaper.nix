@@ -1,3 +1,3 @@
 {
-  flake.wallpaper = ./ascii_wallpaper.png;
+  flake.wallpaper = ./wallpaper.png;
 }

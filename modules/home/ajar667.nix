@@ -13,7 +13,6 @@
   
   flake.homeModules.ajar667Home = { pkgs, lib, ... }: {
     imports = [
-      inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
@@ -21,6 +20,7 @@
       # self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.devenv
+      self.homeModules.remote
     ];
     home.stateVersion = "25.05";
     programs.home-manager.enable = true;

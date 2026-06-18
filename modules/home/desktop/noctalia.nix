@@ -342,7 +342,7 @@
           blurred_desktop = false;
           enabled = true;
           fingerprint = false;
-          monitors = [];
+          monitors = ["all"];
           tint_intensity = 0.30000001192092896;
           wallpaper = self.wallpaper;
         };
