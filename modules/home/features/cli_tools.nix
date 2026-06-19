@@ -34,7 +34,7 @@
       croc
 
       # Desktop Apps
-      tailscale
+      # tailscale
       ffmpegthumbnailer 
       unar         
       glow  
@@ -42,6 +42,7 @@
       imagemagick
       swaybg
    	];
+
    
   };
 	
