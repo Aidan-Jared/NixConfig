@@ -286,7 +286,7 @@
           session_locked = [];
           session_unlocked = [];
           shutting_down = [];
-          started = [ "ghostty" ];
+          started = [];
           theme_mode_changed = [];
           wallpaper_changed = [];
           wifi_disabled = [];
@@ -342,7 +342,7 @@
           blurred_desktop = false;
           enabled = true;
           fingerprint = false;
-          monitors = ["all"];
+          monitors = [];
           tint_intensity = 0.30000001192092896;
           wallpaper = self.wallpaper;
         };
@@ -743,7 +743,7 @@
         };
 
         wallpaper = {
-          directory = "";
+          directory = self.wallpaper;
           directory_dark = "";
           directory_light = "";
           edge_smoothness = 0.30000001192092896;
