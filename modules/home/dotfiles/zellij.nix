@@ -305,7 +305,7 @@
                 plugin = {
                   location = "file:~/.config/zellij/plugins/zjstatus.wasm";
                   format_left  = "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}";
-                  format_right = "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}";
+                  # format_right = "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}";
                   mode_normal  = "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL ";  
                   mode_locked  = "#[bg=#f38ba8,fg=#1e1e2e,bold] LOCKED ";  
                   mode_pane    = "#[bg=#89b4fa,fg=#1e1e2e,bold] PANE ";    
