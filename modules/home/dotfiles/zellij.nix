@@ -6,7 +6,7 @@
       enable = true;
 
       settings = {
-        theme = "cyber-noir-m";
+        # theme = "cyber-noir-m";
         default_mode = "normal";
         default_layout = "default";
         scrollback_editor = "hx";
@@ -29,7 +29,7 @@
           tab-bar.location         = "zellij:tab-bar";
           welcome-screen = {
             location = "zellij:session-manager";
-            welcome_screen = true;
+            welcome_screen = false;
           };
           zjstatus.location = "file:~/.config/zellij/plugins/zjstatus.wasm";
         };
@@ -324,7 +324,6 @@
                 };
               };
             }
-            { pane._props.split_direction = "horizontal"; _children = [{ pane = {}; }]; }
             { pane = { size = 2; borderless = true; plugin.location = "zellij:status-bar"; }; }
           ];
         };
