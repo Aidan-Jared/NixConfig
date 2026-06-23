@@ -18,7 +18,7 @@
       self.nixosModules.nixSettings
       self.nixosModules.defaultPkgs
       self.nixosModules.systemConfig
-      self.nixosModules.baseHardware
+      self.nixosModules.cudaHardware
       self.nixosModules.users
       self.nixosModules.remote
       # self.nixosModules.noctalia

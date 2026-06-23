@@ -306,28 +306,31 @@
                   location = "file:~/.config/zellij/plugins/zjstatus.wasm";
                   format_left  = "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}";
                   # format_right = "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}";
-                  mode_normal  = "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL ";  
-                  mode_locked  = "#[bg=#f38ba8,fg=#1e1e2e,bold] LOCKED ";  
-                  mode_pane    = "#[bg=#89b4fa,fg=#1e1e2e,bold] PANE ";    
-                  mode_tab     = "#[bg=#89dceb,fg=#1e1e2e,bold] TAB ";     
-                  mode_resize  = "#[bg=#fab387,fg=#1e1e2e,bold] RESIZE ";  
-                  mode_scroll  = "#[bg=#f9e2af,fg=#1e1e2e,bold] SCROLL ";  
-                  mode_search  = "#[bg=#f9e2af,fg=#1e1e2e,bold] SEARCH ";  
-                  mode_session = "#[bg=#cba6f7,fg=#1e1e2e,bold] SESSION "; 
-                  mode_move    = "#[bg=#fab387,fg=#1e1e2e,bold] MOVE ";    
-                  mode_tmux    = "#[bg=#f38ba8,fg=#1e1e2e,bold] TMUX ";    
+                  mode_normal  = "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL ";
+                  mode_locked  = "#[bg=#f38ba8,fg=#1e1e2e,bold] LOCKED ";
+                  mode_pane    = "#[bg=#89b4fa,fg=#1e1e2e,bold] PANE ";
+                  mode_tab     = "#[bg=#89dceb,fg=#1e1e2e,bold] TAB ";
+                  mode_resize  = "#[bg=#fab387,fg=#1e1e2e,bold] RESIZE ";
+                  mode_scroll  = "#[bg=#f9e2af,fg=#1e1e2e,bold] SCROLL ";
+                  mode_search  = "#[bg=#f9e2af,fg=#1e1e2e,bold] SEARCH ";
+                  mode_session = "#[bg=#cba6f7,fg=#1e1e2e,bold] SESSION ";
+                  mode_move    = "#[bg=#fab387,fg=#1e1e2e,bold] MOVE ";
+                  mode_tmux    = "#[bg=#f38ba8,fg=#1e1e2e,bold] TMUX ";
                   mode_default_to_mode = "normal";
-                  tab_normal     = "#[fg=#6c7086] {index} {name} ";        
-                  tab_active     = "#[fg=#cba6f7,bold] {index} {name} ";   
+                  tab_normal     = "#[fg=#6c7086] {index} {name} ";
+                  tab_active     = "#[fg=#cba6f7,bold] {index} {name} ";
                   tab_fullscreen = "#[fg=#f38ba8,bold] {index} {name} [] ";
                   tab_sync       = "#[fg=#f9e2af,bold] {index} {name} <> ";
                 };
               };
             }
+            {
+              pane._props.split_direction = "horizontal";
+              pane = {};
+            }
             { pane = { size = 2; borderless = true; plugin.location = "zellij:status-bar"; }; }
           ];
         };
-
         dev = {
           layout._children = [
             {
@@ -357,11 +360,13 @@
               };
             }
             {
-              pane._props.split_direction = "vertical";
-              _children = [
-                { pane = { size = "70%"; command = "hx"; _children = [{ args = "."; }]; }; }
-                { pane = { size = "30%"; command = "bacon"; _children = [{ args = "clippy"; }]; }; }
-              ];
+              pane = {
+                _props.split_direction = "vertical";
+                _children = [
+                  { pane = { size = "70%"; command = "hx"; _children = [{ args = "."; }]; }; }
+                  { pane = { size = "30%"; command = "bacon"; _children = [{ args = "clippy"; }]; }; }
+                ];
+              };
             }
             { pane = { size = 2; borderless = true; plugin.location = "zellij:status-bar"; }; }
           ];

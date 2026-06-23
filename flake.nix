@@ -4,7 +4,6 @@
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     
     import-tree = {
@@ -14,7 +13,6 @@
 
     wrapper-modules = {
       url = "github:BirdeeHub/nix-wrapper-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
@@ -24,7 +22,6 @@
 
     crane = {
       url = "github:ipetkov/crane";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # lanzaboote = {

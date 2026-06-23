@@ -133,7 +133,7 @@
         };
 
         cursor = {
-          xcursor-size = 20;
+          xcursor-size = 10;
         };
 
         layout = {
@@ -169,11 +169,9 @@
 
         layer-rules = [
           {
-            matches = [
-              {
-                 namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; 
-              }
-            ];
+            matches = {
+              namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; 
+            };
             background-effect = {
               xray = false;
               # blur = false;  # uncomment to disable blur on noctalia surfaces
@@ -188,7 +186,11 @@
           # }
           # Option 1: blurred overview backdrop
           # {
-          #   matches = [{ namespace = "^noctalia-backdrop"; }];
+          #   matches = [
+          #     {
+          #       namespace = "^noctalia-backdrop"; 
+          #     }
+          #   ];
           #   place-within-backdrop = true;
           # }
         ];

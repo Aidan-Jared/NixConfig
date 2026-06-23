@@ -18,7 +18,7 @@
       self.nixosModules.nixSettings
       self.nixosModules.defaultPkgs
       self.nixosModules.systemConfig
-      self.nixosModules.baseHardware
+      self.nixosModules.serverHardware
       self.nixosModules.users
       self.nixosModules.remote
 
