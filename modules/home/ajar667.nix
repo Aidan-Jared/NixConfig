@@ -8,6 +8,7 @@
             home.homeDirectory = "/home/ajar667";
           }
         ];
+        inputs.nixpkgs.config.allowUnfree = true;
   };
 
   
@@ -26,6 +27,7 @@
     home.packages = [
       pkgs.croc
       pkgs.tailscale
+      pkgs.nvtopPackages.nvidia
     ];
 
     

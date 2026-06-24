@@ -12,6 +12,7 @@
 
     imports = [
       inputs.home-manager.nixosModules.home-manager
+      self.nixosModules.lix
       self.nixosModules.boot
 #      self.nixosModules.encrypt
       self.nixosModules.fonts
