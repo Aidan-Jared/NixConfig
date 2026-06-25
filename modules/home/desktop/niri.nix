@@ -141,24 +141,19 @@
           focus-ring.width = 2;
         };
 
-        window-rules = [
-          {
-            geometry-corner-radius = 20;
-            clip-to-geometry = false;
+        window-rule = {
+            geometry-corner-radius = 10;
+            clip-to-geometry = true;
             opacity = 0.85;
 
             background-effect = {
               blur = true;
               xray = true;
             };
-          }
-          {
-            matches = [{ app-id = "dev.noctalia.Noctalia.Settings"; }];
-            open-floating = true;
+            match = _: { props = { app-id = "dev.noctalia.Noctalia.Settings"; }; };            open-floating = true;
             default-column-width = { fixed = 1080; };
             default-window-height = { fixed = 920; };
-          }
-        ];
+          };
 
         blur = {
           passes = 2;
@@ -167,17 +162,16 @@
           saturation = 1.0;
         };
 
-        layer-rules = [
+        layer-rule = 
           {
-            matches = [
-              { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; } 
-            ];
-            
+            match = _: {
+                           props = { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; };
+            };            
             background-effect = {
               xray = false;
               # blur = false;  # uncomment to disable blur on noctalia surfaces
             };
-          }
+          };
           # {
           #   matches = [
           #     {
@@ -194,13 +188,12 @@
           #   ];
           #   place-within-backdrop = true;
           # }
-        ];
         xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
 
         spawn-at-startup = [
          noctaliaExe 
          (lib.getExe inputs.system76-scheduler-niri.packages.${pkgs.stdenv.hostPlatform.system}.default)
-        # (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.nirimap)
+        # (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.pandora)
          (lib.getExe (
              pkgs.writeShellScriptBin "wallpaper"
              "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -216,6 +209,17 @@
     #   craneLib = inputs.crane.mkLib pkgs;
     # commonArgs = {
     #   src = inputs.nirimap;
+    #   nativeBuildInputs = [ pkgs.pkg-config ];
+    #   buildInputs = [ pkgs.gtk4 pkgs.gtk4-layer-shell ];
+    # };
+    # cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+    # in craneLib.buildPackage ( commonArgs // {
+    #   inherit cargoArtifacts;
+    # } );
+    # packages.pandora = let
+    #   craneLib = inputs.crane.mkLib pkgs;
+    # commonArgs = {
+    #   src = inputs.pandora;
     #   nativeBuildInputs = [ pkgs.pkg-config ];
     #   buildInputs = [ pkgs.gtk4 pkgs.gtk4-layer-shell ];
     # };

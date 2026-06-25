@@ -39,10 +39,15 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    nirimap = {
-      url = "github:alexandergknoll/nirimap";
-      flake = false;
-    };
+    # nirimap = {
+    #   url = "github:alexandergknoll/nirimap";
+    #   flake = false;
+    # };
+    
+    # pandora = {
+    #   url = "github:PandorasFox/pandora";
+    #   flake = false;
+    # };
     
     system76-scheduler-niri = {
       url = "github:Kirottu/system76-scheduler-niri";
