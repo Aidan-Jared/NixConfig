@@ -145,11 +145,11 @@
           {
             geometry-corner-radius = 20;
             clip-to-geometry = false;
-            opacity = 0.9;
+            opacity = 0.85;
 
             background-effect = {
               blur = true;
-              xray = false;
+              xray = true;
             };
           }
           {
@@ -169,9 +169,10 @@
 
         layer-rules = [
           {
-            matches = {
-              namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; 
-            };
+            matches = [
+              { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; } 
+            ];
+            
             background-effect = {
               xray = false;
               # blur = false;  # uncomment to disable blur on noctalia surfaces
