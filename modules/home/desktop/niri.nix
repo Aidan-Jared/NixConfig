@@ -217,12 +217,17 @@
     #   inherit cargoArtifacts;
     # } );
     # packages.pandora = let
-    #   craneLib = inputs.crane.mkLib pkgs;
+    # craneLib = inputs.crane.mkLib pkgs;
     # commonArgs = {
     #   src = inputs.pandora;
     #   nativeBuildInputs = [ pkgs.pkg-config ];
-    #   buildInputs = [ pkgs.gtk4 pkgs.gtk4-layer-shell ];
-    # };
+    #   buildInputs = [
+    #       pkgs.wayland
+    #       pkgs.wayland-protocols
+    #       pkgs.libxkbcommon
+    #       pkgs.mesa 
+    #     ];
+    #   };
     # cargoArtifacts = craneLib.buildDepsOnly commonArgs;
     # in craneLib.buildPackage ( commonArgs // {
     #   inherit cargoArtifacts;

@@ -3,9 +3,14 @@
   flake.homeModules.stylix = { pkgs, lib, config, ... }: {
 
     stylix = {
-      enable   = true;
+      enable = true;
       polarity = "dark";
-      image    = self.wallpaper;
+      image = self.wallpaper;
+      cursor = {
+        name = "DMZ-Black";
+        size = 24;
+        package = pkgs.vanilla-dmz;
+      };
       fonts = {
         serif = {
           package = pkgs.fira;
@@ -26,6 +31,10 @@
           package = pkgs.noto-fonts-color-emoji;
           name = "Noto Color Emoji";
         };
+       };
+      stylix.override = {
+        base08 = "ff4444";  # red — errors
+        base09 = "ff8800";  # orange — warnings
       };
     # pass stylix colors into noctalia config
     };

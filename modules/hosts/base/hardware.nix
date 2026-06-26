@@ -2,7 +2,7 @@
 {
   flake.nixosModules.baseHardware = { config, lib, pkgs, modulesPath, ... }: { 
       imports = [
-        "/etc/nixos/hardware_configuration.nix"
+        "/etc/nixos/hardware-configuration.nix"
       ];
   #   imports = [
   #     (modulesPath + "/installer/scan/not-detected.nix")

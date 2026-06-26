@@ -20,7 +20,7 @@
       self.homeModules.zellij
       self.homeModules.yazi
       self.homeModules.zen
-      # self.homeModules.stylix
+      self.homeModules.stylix
       self.homeModules.btop
       self.homeModules.starship
       self.homeModules.atuin
