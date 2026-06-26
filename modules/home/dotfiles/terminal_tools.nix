@@ -4,7 +4,7 @@
   flake.homeModules.btop = { pkgs, ... }: {
     home.packages = [ pkgs.btop-cuda ];
     programs.btop = {
-      enable = true;
+      # enable = true;
       settings = {
         vim_keys = true;
         gpu_mirror_graph = true;
