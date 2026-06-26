@@ -1,7 +1,8 @@
 { self, inputs, ... }: {
 
   
-  flake.homeModules.btop = { ... }: {
+  flake.homeModules.btop = { pkgs, ... }: {
+    home.packages = [ pkgs.btop-cuda ];
     programs.btop = {
       enable = true;
       settings = {
@@ -13,13 +14,14 @@
     };
   };
 
-  flake.homeModules.atuin = { ... }: {
+  flake.homeModules.atuin = { pkgs, ... }: {
+    home.packages = [ pkgs.atuin ];
     programs.atuin = {
       enable = true;
-      # enableBashIntegration = true;
+      enableBashIntegration = true;
       settings = {
         enter_accept = true;
-        search_mode = "daemon-fuzzy";
+        search_mode = "fuzzy";
         sync.records = true;
         daemon = {
           enabled = true;

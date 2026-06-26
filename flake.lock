@@ -289,22 +289,6 @@
         "type": "github"
       }
     },
-    "nirimap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778591557,
-        "narHash": "sha256-Na9kVL2hyoIoVJUOOnkMtYuTkxOjzmQ80UvBtK/OrF0=",
-        "owner": "alexandergknoll",
-        "repo": "nirimap",
-        "rev": "ce955a337bddd54694e901894258bf66f38cefb5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "alexandergknoll",
-        "repo": "nirimap",
-        "type": "github"
-      }
-    },
     "nix-yazi-plugins": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -448,7 +432,6 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
-        "nirimap": "nirimap",
         "nix-yazi-plugins": "nix-yazi-plugins",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",

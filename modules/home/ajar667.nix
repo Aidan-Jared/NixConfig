@@ -13,6 +13,7 @@
 
   
   flake.homeModules.ajar667Home = { pkgs, lib, ... }: {
+    nixpkgs.config.allowUnfree = true;
     imports = [
       self.homeModules.shellBash
       self.homeModules.cliTools
@@ -21,13 +22,13 @@
       self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.devenv
+      self.homeModules.btop
     ];
 
     
     home.packages = [
       pkgs.croc
       pkgs.tailscale
-      pkgs.nvtopPackages.nvidia
     ];
 
     

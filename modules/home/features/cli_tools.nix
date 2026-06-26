@@ -3,7 +3,6 @@
   flake.homeModules.cliTools = { pkgs, lib, ... }: {
    	home.packages = with pkgs; [
       xdg-utils
-   	  
    	  fzf
 
    	  #backup
@@ -14,7 +13,6 @@
       eza          
       xcp
       zoxide       
-      zellij       
       gitui        
       ripgrep-all      
       ripgrep
@@ -24,7 +22,6 @@
       jless
       # yazi
       rip2
-      atuin
       bat
       dust
       
@@ -34,7 +31,6 @@
       croc
 
       # Desktop Apps
-      # tailscale
       ffmpegthumbnailer 
       unar         
       glow  

@@ -1,5 +1,7 @@
 { self, inputs, ... }: {
-  flake.homeModules.starship = { ... }: {
+  flake.homeModules.starship = { pkgs, ... }: {
+    home.packages = [ pkgs.starship ];
+   
     programs.starship = {
       enable = true;
       settings = {# Get editor completions based on the config schema
@@ -129,7 +131,7 @@
           conflicted = "[conflicted(red)";
           untracked = "[untracked(#4a5068)";
          	# deleted = "🗑";
-         	ahead = "⇡$(count)";
+         	ahead = "⇡\$(count)";
          	diverged = "⇕⇡$(ahead_count)⇣$(behind_count)";
          	behind = "⇣$(count)";
        	};
@@ -260,7 +262,7 @@
 
         python = {
          	symbol = " ";
-         	format = "\\[[$${symbol}$${pyenv_prefix}($${version})(\{$$virtualenv\})]($$style)\\]";
+         	format = "\\[[\${symbol}\${pyenv_prefix}(\${version})(\{\$virtualenv\})](\$style)\\]";
          	pyenv_version_name = true;
          	python_binary = [[ "uv" "run" "--no-python-downloads" "--no-project" "python" ]];
          	style = "#40e8ff";
