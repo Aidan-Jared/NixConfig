@@ -233,6 +233,18 @@
     #   inherit cargoArtifacts;
     # } );
 
+    packages.eww-niri-workspaces = let
+        craneLib = inputs.crane.mkLib pkgs;
+        src = pkgs.fetchFromGitHub {
+          owner = "druskus20";
+          repo  = "eww-niri-workspaces";
+          rev   = "master";
+          hash  = "sha256-135hmlggrp2dw5xy8z3dx0fzf2bj61zxrxkkldp4w3gyc9cpr8cf=";
+        };
+        commonArgs = { inherit src; };
+        cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+      in craneLib.buildPackage (commonArgs // { inherit cargoArtifacts; });
+
     packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
       imports = [

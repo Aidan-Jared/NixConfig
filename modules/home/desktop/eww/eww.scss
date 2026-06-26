@@ -1,0 +1,173 @@
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+
+$font:           "FiraCode Nerd Font Mono";
+$font-weight:    500;
+$font-size:      13px;
+
+$bg:             rgba(18, 18, 24, 0.0);
+$capsule-bg:     rgba(28, 28, 38, 0.50);
+$capsule-border: rgba(140, 140, 180, 0.18);
+$capsule-radius: 21px;
+
+$text:           #e0e0f0;
+$text-dim:       rgba(224, 224, 240, 0.55);
+$icon-color:     #a0a8d0;
+$accent:         #8eb4e3;
+$danger:         #e36b8e;
+$muted-color:    rgba(224, 224, 240, 0.3);
+
+$ws-size:        20px;
+$ws-radius:      6px;
+
+// ─── Reset ────────────────────────────────────────────────────────────────────
+
+* {
+  font-family: $font;
+  font-weight: $font-weight;
+  font-size:   $font-size;
+  color:       $text;
+  border:      none;
+  outline:     none;
+}
+
+// ─── Bar ──────────────────────────────────────────────────────────────────────
+
+.bar {
+  background: $bg;
+  padding: 0 50px;
+}
+
+.bar-left,
+.bar-center,
+.bar-right {
+  padding: 2px 0;
+}
+
+// ─── Capsule ──────────────────────────────────────────────────────────────────
+
+.capsule {
+  background:    $capsule-bg;
+  border-radius: $capsule-radius;
+  border:        1px solid $capsule-border;
+  padding:       0 10px;
+  min-height:    26px;
+  transition:    background 150ms ease, border-color 150ms ease;
+
+  &:hover {
+    background:   rgba(40, 40, 58, 0.70);
+    border-color: rgba(140, 140, 180, 0.32);
+  }
+}
+
+// ─── Icon + Label ─────────────────────────────────────────────────────────────
+
+.icon-label {
+  .icon {
+    color:     $icon-color;
+    font-size: 14px;
+    min-width: 16px;
+  }
+  .label {
+    color:     $text;
+    font-size: $font-size;
+  }
+}
+
+// ─── Workspaces ───────────────────────────────────────────────────────────────
+
+.workspaces-capsule { padding: 0 8px; }
+.workspaces         { padding: 0; }
+
+.workspace {
+  min-width:     $ws-size;
+  min-height:    $ws-size;
+  border-radius: $ws-radius;
+  margin:        0 1px;
+  padding:       0 3px;
+
+  label { font-size: 11px; color: $text-dim; }
+
+  &.occupied label { color: $text; }
+
+  &.active {
+    background:   rgba($accent, 0.22);
+    border:       1px solid rgba($accent, 0.45);
+    label { color: $accent; }
+  }
+
+  &.empty label { color: $muted-color; }
+}
+
+// ─── Clock ────────────────────────────────────────────────────────────────────
+
+.clock-capsule { padding: 0 14px; }
+
+.date-label {
+  color:       $text-dim;
+  font-size:   12px;
+  font-weight: 400;
+}
+
+.sep {
+  color:     $muted-color;
+  font-size: 11px;
+}
+
+.clock-label {
+  color:       $text;
+  font-weight: 600;
+  font-size:   13px;
+  min-width:   62px;
+}
+
+// ─── Weather ──────────────────────────────────────────────────────────────────
+
+.weather-label { color: $text-dim; }
+
+// ─── Sysmon ───────────────────────────────────────────────────────────────────
+
+.sysmon-capsule { padding: 0 12px; }
+
+.cpu-stat  .icon { color: #8eb4e3; }
+.ram-stat  .icon { color: #8ee3c0; }
+.gpu-stat  .icon { color: #b48ee3; }
+.disk-stat .icon { color: #e3c08e; }
+
+.cpu-stat .label,
+.ram-stat .label,
+.gpu-stat .label,
+.disk-stat .label {
+  font-size: 11px;
+  color:     $text-dim;
+  min-width: 28px;
+}
+
+// ─── Volume ───────────────────────────────────────────────────────────────────
+
+.muted {
+  .icon, .label { color: $muted-color; }
+}
+
+// ─── Battery ─────────────────────────────────────────────────────────────────
+
+.battery-capsule {
+  &.critical {
+    background:   rgba($danger, 0.15);
+    border-color: rgba($danger, 0.35);
+  }
+  .low {
+    .icon, .label { color: $danger; }
+  }
+}
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+
+.notif-capsule .icon { color: $icon-color; }
+
+// ─── Session ─────────────────────────────────────────────────────────────────
+
+.session-capsule {
+  .icon { color: $text-dim; }
+  &:hover .icon { color: $danger; }
+}
+

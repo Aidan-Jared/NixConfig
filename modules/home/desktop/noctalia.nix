@@ -37,7 +37,7 @@
             capsule_padding = 6.0;
             center = [ "date" "clock" "spacer_3" "weather" ];
             contact_shadow = false;
-            enabled = true;
+            enabled = false;
             end = [ "clipboard" "network" "bluetooth" "notifications" "battery" "session" ];
             font_weight = 500;
             layer = "top";
@@ -522,7 +522,7 @@
           blacklist = [];
           blacklist_allow_critical = true;
           collapse_on_dismiss = true;
-          enable_daemon = true;
+          enable_daemon = false;
           layer = "top";
           monitors = [];
           offset_x = 20;
