@@ -95,7 +95,9 @@
           "Mod+Shift+9".move-column-to-workspace = 9;
           "Mod+Shift+0".move-column-to-workspace = 10;
 
+          # "Mod+Space".spawn = [ "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae" "toggle" ];
           "Mod+Space".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "launcher" ];
+
           "Mod+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "control-center" ];
           "Mod+Shift+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "settings-toggle" ];
 
@@ -111,8 +113,8 @@
           "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
           "XF86AudioMute".spawn-sh = "wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ toggle";
           "XF86AudioMicMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-          "XF86MonBrightnessUp".spawn = [ "${noctaliaExe}" "msg" "brightness-up" ];
-          "XF86MonBrightnessDown".spawn = [ "${noctaliaExe}" "msg" "brightness-down" ];
+          "XF86MonBrightnessUp".spawn-sh   = "${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
+          "XF86MonBrightnessDown".spawn-sh = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
           "XF86Sleep".spawn = [ "${noctaliaExe}" "msg" "session lock-and-suspend" ];
           "XF86Standby".spawn = [ "${noctaliaExe}" "msg" "session lock-and-suspend" ];
 
@@ -193,6 +195,7 @@
         spawn-at-startup = [
          noctaliaExe 
          (lib.getExe inputs.system76-scheduler-niri.packages.${pkgs.stdenv.hostPlatform.system}.default)
+        # "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae"        
         # (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.pandora)
          (lib.getExe (
              pkgs.writeShellScriptBin "wallpaper"

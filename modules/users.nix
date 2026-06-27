@@ -7,7 +7,7 @@
       isNormalUser = true;
       description = "samantha";
       extraGroups = [ "networkmanager" "wheel" "docker" "kvm" "video" "audio" ];
-      shell = pkgs.bash; # Sets Zsh as default shell so home-manager settings hook in
+      shell = pkgs.bash;
     };
 
     users.users.samantha.group = "samantha";
