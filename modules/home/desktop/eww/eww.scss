@@ -1,23 +1,37 @@
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 
-$font:           "FiraCode Nerd Font Mono";
-$font-weight:    500;
-$font-size:      13px;
+$font:        "FiraCode Nerd Font Mono";
+$font-size:   13px;
+$font-weight: 500;
 
-$bg:             rgba(18, 18, 24, 0.0);
-$capsule-bg:     rgba(28, 28, 38, 0.50);
-$capsule-border: rgba(140, 140, 180, 0.18);
-$capsule-radius: 21px;
+$bar-bg:      rgba(15, 15, 20, 0.88);
+$text:        #cdd6f4;
+$text-dim:    rgba(205, 214, 244, 0.5);
+$bar-height:  36px;
+$skew:        16px;   // width of the angled cut on each side
 
-$text:           #e0e0f0;
-$text-dim:       rgba(224, 224, 240, 0.55);
-$icon-color:     #a0a8d0;
-$accent:         #8eb4e3;
-$danger:         #e36b8e;
-$muted-color:    rgba(224, 224, 240, 0.3);
+// Per-icon accent colors (Marisol palette)
+$col-ws-1:    #f38ba8;   // red
+$col-ws-2:    #fab387;   // peach
+$col-ws-3:    #f9e2af;   // yellow
+$col-ws-4:    #a6e3a1;   // green
+$col-ws-5:    #89dceb;   // sky
+$col-ws-6:    #89b4fa;   // blue
+$col-ws-7:    #cba6f7;   // mauve
+$col-ws-8:    #f38ba8;
+$col-ws-9:    #fab387;
+$col-ws-10:   #f9e2af;
 
-$ws-size:        20px;
-$ws-radius:      6px;
+$col-updates: #89b4fa;   // blue
+$col-music:   #a6e3a1;   // green
+$col-cpu:     #f38ba8;   // red
+$col-ram:     #89dceb;   // sky
+$col-disk:    #f9e2af;   // yellow
+$col-net:     #89b4fa;   // blue
+$col-vol:     #cba6f7;   // mauve
+$col-bat:     #a6e3a1;   // green
+$col-bat-low: #f38ba8;   // red
+$col-power:   #f38ba8;   // red
 
 // ─── Reset ────────────────────────────────────────────────────────────────────
 
@@ -28,146 +42,166 @@ $ws-radius:      6px;
   color:       $text;
   border:      none;
   outline:     none;
+  background:  transparent;
 }
 
-// ─── Bar ──────────────────────────────────────────────────────────────────────
+// ─── Bar root ─────────────────────────────────────────────────────────────────
 
-.bar {
-  background: $bg;
-  padding: 0 50px;
+.bar-root {
+  background: transparent;
+  min-height: $bar-height;
 }
 
-.bar-left,
-.bar-center,
+// ─── Left block ───────────────────────────────────────────────────────────────
+// Opaque background with an angled right edge via clip-path
+
+.bar-left {
+  background: $bar-bg;
+  padding:    0 #{$skew + 8px} 0 12px;
+  // angled cut on the right side: top-right cuts in by $skew
+  clip-path: polygon(0 0, calc(100% - #{$skew}) 0, 100% 100%, 0 100%);
+  min-height: $bar-height;
+}
+
+// ─── Center block ─────────────────────────────────────────────────────────────
+// Fully transparent — content floats over wallpaper
+
+.bar-center {
+  background: transparent;
+  padding:    0 8px;
+  min-height: $bar-height;
+}
+
+// ─── Right block ──────────────────────────────────────────────────────────────
+// Opaque background with an angled left edge
+
 .bar-right {
-  padding: 2px 0;
+  background: $bar-bg;
+  padding:    0 12px 0 #{$skew + 8px};
+  // angled cut on the left side: top-left cuts out by $skew
+  clip-path: polygon(#{$skew} 0, 100% 0, 100% 100%, 0 100%);
+  min-height: $bar-height;
 }
 
-// ─── Capsule ──────────────────────────────────────────────────────────────────
+// ─── Distro icon ──────────────────────────────────────────────────────────────
 
-.capsule {
-  background:    $capsule-bg;
-  border-radius: $capsule-radius;
-  border:        1px solid $capsule-border;
-  padding:       0 10px;
-  min-height:    26px;
-  transition:    background 150ms ease, border-color 150ms ease;
-
-  &:hover {
-    background:   rgba(40, 40, 58, 0.70);
-    border-color: rgba(140, 140, 180, 0.32);
-  }
-}
-
-// ─── Icon + Label ─────────────────────────────────────────────────────────────
-
-.icon-label {
-  .icon {
-    color:     $icon-color;
-    font-size: 14px;
-    min-width: 16px;
-  }
-  .label {
-    color:     $text;
-    font-size: $font-size;
-  }
+.distro-icon {
+  font-size: 18px;
+  color:     #89b4fa;
+  padding:   0 4px;
 }
 
 // ─── Workspaces ───────────────────────────────────────────────────────────────
 
-.workspaces-capsule { padding: 0 8px; }
-.workspaces         { padding: 0; }
+.workspaces { padding: 0 2px; }
 
-.workspace {
-  min-width:     $ws-size;
-  min-height:    $ws-size;
-  border-radius: $ws-radius;
-  margin:        0 1px;
-  padding:       0 3px;
-
-  label { font-size: 11px; color: $text-dim; }
-
-  &.occupied label { color: $text; }
-
-  &.active {
-    background:   rgba($accent, 0.22);
-    border:       1px solid rgba($accent, 0.45);
-    label { color: $accent; }
-  }
-
-  &.empty label { color: $muted-color; }
-}
-
-// ─── Clock ────────────────────────────────────────────────────────────────────
-
-.clock-capsule { padding: 0 14px; }
-
-.date-label {
-  color:       $text-dim;
-  font-size:   12px;
-  font-weight: 400;
-}
-
-.sep {
-  color:     $muted-color;
-  font-size: 11px;
-}
-
-.clock-label {
-  color:       $text;
-  font-weight: 600;
-  font-size:   13px;
-  min-width:   62px;
-}
-
-// ─── Weather ──────────────────────────────────────────────────────────────────
-
-.weather-label { color: $text-dim; }
-
-// ─── Sysmon ───────────────────────────────────────────────────────────────────
-
-.sysmon-capsule { padding: 0 12px; }
-
-.cpu-stat  .icon { color: #8eb4e3; }
-.ram-stat  .icon { color: #8ee3c0; }
-.gpu-stat  .icon { color: #b48ee3; }
-.disk-stat .icon { color: #e3c08e; }
-
-.cpu-stat .label,
-.ram-stat .label,
-.gpu-stat .label,
-.disk-stat .label {
-  font-size: 11px;
+.ws-dot {
+  font-size: 14px;
   color:     $text-dim;
-  min-width: 28px;
+  padding:   0 1px;
+  transition: color 100ms ease;
 }
 
-// ─── Volume ───────────────────────────────────────────────────────────────────
+.ws-empty   { color: $text-dim; font-size: 10px; }
+.ws-active  { font-size: 16px; }
 
-.muted {
-  .icon, .label { color: $muted-color; }
+// Per-workspace colors on active/occupied
+.ws-color-1.ws-occupied  { color: $col-ws-1; }
+.ws-color-2.ws-occupied  { color: $col-ws-2; }
+.ws-color-3.ws-occupied  { color: $col-ws-3; }
+.ws-color-4.ws-occupied  { color: $col-ws-4; }
+.ws-color-5.ws-occupied  { color: $col-ws-5; }
+.ws-color-6.ws-occupied  { color: $col-ws-6; }
+.ws-color-7.ws-occupied  { color: $col-ws-7; }
+.ws-color-8.ws-occupied  { color: $col-ws-8; }
+.ws-color-9.ws-occupied  { color: $col-ws-9; }
+.ws-color-10.ws-occupied { color: $col-ws-10; }
+
+.ws-color-1.ws-active  { color: $col-ws-1; }
+.ws-color-2.ws-active  { color: $col-ws-2; }
+.ws-color-3.ws-active  { color: $col-ws-3; }
+.ws-color-4.ws-active  { color: $col-ws-4; }
+.ws-color-5.ws-active  { color: $col-ws-5; }
+.ws-color-6.ws-active  { color: $col-ws-6; }
+.ws-color-7.ws-active  { color: $col-ws-7; }
+.ws-color-8.ws-active  { color: $col-ws-8; }
+.ws-color-9.ws-active  { color: $col-ws-9; }
+.ws-color-10.ws-active { color: $col-ws-10; }
+
+// ─── Media controls ───────────────────────────────────────────────────────────
+
+.media-controls { padding: 0 4px; }
+
+.media-btn {
+  font-size: 13px;
+  color:     $text-dim;
+  transition: color 100ms ease;
+  &:hover  { color: $text; }
 }
 
-// ─── Battery ─────────────────────────────────────────────────────────────────
+.media-btn.playing { color: #a6e3a1; }
 
-.battery-capsule {
-  &.critical {
-    background:   rgba($danger, 0.15);
-    border-color: rgba($danger, 0.35);
-  }
-  .low {
-    .icon, .label { color: $danger; }
-  }
+// ─── Active window ────────────────────────────────────────────────────────────
+
+.active-window { padding: 0 4px; }
+
+.window-icon {
+  font-size: 13px;
+  color:     #89b4fa;
 }
 
-// ─── Notifications ───────────────────────────────────────────────────────────
-
-.notif-capsule .icon { color: $icon-color; }
-
-// ─── Session ─────────────────────────────────────────────────────────────────
-
-.session-capsule {
-  .icon { color: $text-dim; }
-  &:hover .icon { color: $danger; }
+.window-title {
+  color:     $text;
+  font-size: 12px;
 }
 
+// ─── Center (clock + temp) ────────────────────────────────────────────────────
+
+.center-box { padding: 0 12px; }
+
+.clock-text {
+  color:       $text;
+  font-size:   13px;
+  font-weight: 600;
+}
+
+.temp-icon {
+  font-size: 13px;
+  color:     #f9e2af;
+}
+
+.temp-text {
+  color:     $text-dim;
+  font-size: 13px;
+}
+
+// ─── Right stats ──────────────────────────────────────────────────────────────
+
+.right-stats { padding: 0 4px; }
+
+.stat-item { }
+
+.stat-icon {
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 12px;
+  color:     $text;
+}
+
+.icon-updates { color: $col-updates; }
+.icon-music   { color: $col-music; }
+.icon-cpu     { color: $col-cpu; }
+.icon-ram     { color: $col-ram; }
+.icon-disk    { color: $col-disk; }
+.icon-net     { color: $col-net; }
+.icon-vol     { color: $col-vol; }
+.icon-muted   { color: $text-dim; }
+.icon-bat     { color: $col-bat; }
+.icon-bat-low { color: $col-bat-low; }
+.icon-power   {
+  color:     $col-power;
+  font-size: 14px;
+  &:hover { color: lighten($col-power, 15%); }
+}

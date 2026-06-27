@@ -4,17 +4,17 @@
   :initial "[]"
   "eww-niri-workspaces")
 
-(defpoll clock
+(deflisten active-window
+  :initial "{}"
+  `bash -c "niri msg --json event-stream 2>/dev/null | stdbuf -oL grep -o '\"WindowFocusChanged\":{[^}]*}' | stdbuf -oL sed 's/.*\"title\":\"\([^\"]*\)\".*/\1/'"`)
+
+(defpoll clock-time
   :interval "1s"
-  "date '+%H:%M:%S'")
+  "date '+%I:%M %p'")
 
-(defpoll date
-  :interval "60s"
-  "date '+%a %d %b'")
-
-(defpoll weather
-  :interval "30m"
-  `bash -c "curl -sf 'https://wttr.in/?format=%t+%C' 2>/dev/null || echo '-- --'"`)
+(defpoll temperature
+  :interval "10s"
+  `bash -c "sensors 2>/dev/null | awk '/^(CPU Temp|Tctl|Core 0|Package)/{gsub(/[+°C]/,\"\",$2); printf \"%.0f\", $2; exit}' || cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1 | awk '{printf \"%.0f\", $1/1000}' || echo '0'"`)
 
 (defpoll volume
   :interval "2s"
@@ -24,13 +24,9 @@
   :interval "2s"
   "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 'true' || echo 'false'")
 
-(defpoll brightness
-  :interval "2s"
-  "brightnessctl -m | awk -F, '{gsub(/%/,\"\",$4); print $4}'")
-
 (defpoll battery-level
   :interval "30s"
-  "cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1 || echo '0'")
+  "cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1 || echo ''")
 
 (defpoll battery-charging
   :interval "30s"
@@ -38,11 +34,23 @@
 
 (defpoll network-ssid
   :interval "10s"
-  "iwgetid -r 2>/dev/null || echo ''")
+  "iwgetid -r 2>/dev/null || echo 'eth'")
 
-(defpoll network-strength
-  :interval "10s"
-  `bash -c "iw dev 2>/dev/null | grep -m1 'Interface' | awk '{print $2}' | xargs -I{} iw dev {} link 2>/dev/null | awk '/signal:/{gsub(/-/,\"\"); print 100 - $2; exit}' || echo '0'"`)
+(defpoll network-speed
+  :interval "3s"
+  `bash -c "
+    iface=\$(ip route get 1.1.1.1 2>/dev/null | awk '{print \$5; exit}')
+    if [ -z \"\$iface\" ]; then echo '0 K'; exit; fi
+    r1=\$(cat /sys/class/net/\$iface/statistics/rx_bytes 2>/dev/null || echo 0)
+    sleep 1
+    r2=\$(cat /sys/class/net/\$iface/statistics/rx_bytes 2>/dev/null || echo 0)
+    bps=\$((r2 - r1))
+    if [ \$bps -gt 1048576 ]; then
+      printf '%.1f M' \$(echo \"\$bps/1048576\" | bc -l)
+    else
+      printf '%d K' \$((bps / 1024))
+    fi
+  "`)
 
 (defpoll cpu
   :interval "3s"
@@ -50,166 +58,151 @@
 
 (defpoll ram
   :interval "3s"
-  "free -m | awk '/^Mem:/{printf \"%.0f\", $3/$2*100}'")
-
-(defpoll gpu
-  :interval "3s"
-  "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1 || cat /sys/class/drm/card*/device/gpu_busy_percent 2>/dev/null | head -1 || echo '0'")
+  "free -h | awk '/^Mem:/{print $3}'")
 
 (defpoll disk
   :interval "30s"
-  "df -h / | awk 'NR==2{gsub(/%/,\"\",$5); print $5}'")
+  "df -h / | awk 'NR==2{print $3}'")
 
-;;;; ─── Helpers ────────────────────────────────────────────────────────────────
+(defpoll updates
+  :interval "5m"
+  "checkupdates 2>/dev/null | wc -l || echo '0'")
 
-(defwidget capsule [?class ?onclick ?tooltip]
-  (eventbox
-    :onclick onclick
-    :tooltip tooltip
-    (box :class "capsule ${class}"
-      (children))))
+(defpoll mpris-playing
+  :interval "2s"
+  "playerctl status 2>/dev/null | grep -q Playing && echo 'true' || echo 'false'")
 
-(defwidget icon-label [icon ?label ?class]
-  (box :class "icon-label ${class}"
-       :space-evenly false
-       :spacing 4
-    (label :class "icon" :text icon)
-    (when label
-      (label :class "label" :text label))))
+(defpoll mpris-title
+  :interval "2s"
+  "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null | head -c 40 || echo ''")
 
 ;;;; ─── Workspaces ─────────────────────────────────────────────────────────────
 
 (defwidget workspaces-widget []
-  (capsule :class "workspaces-capsule"
-    (box :class "workspaces"
-         :orientation "h"
-         :space-evenly false
-         :spacing 3
-      (for wsp in workspaces
-        (eventbox
-          :cursor "pointer"
-          :onclick "niri msg action focus-workspace ${wsp.index}"
-          (box
-            :class "workspace ${wsp.is_active ? 'active' : ''} ${arraylength(wsp.columns) == 0 ? 'empty' : 'occupied'}"
-            (label :text "${wsp.index}")))))))
+  (box :class "workspaces"
+       :orientation "h"
+       :space-evenly false
+       :spacing 4
+    (for wsp in workspaces
+      (eventbox
+        :cursor "pointer"
+        :onclick "niri msg action focus-workspace ${wsp.index}"
+        (label
+          :class "ws-dot ${wsp.is_active ? 'ws-active' : ''} ${arraylength(wsp.columns) == 0 ? 'ws-empty' : 'ws-occupied'} ws-color-${wsp.index}"
+          :text {arraylength(wsp.columns) == 0 ? "󰧞" : "󰧟"})))))
 
-;;;; ─── Clock & Date ───────────────────────────────────────────────────────────
+;;;; ─── Media Controls ────────────────────────────────────────────────────────
 
-(defwidget clock-widget []
-  (capsule :class "clock-capsule"
-    (box :orientation "h" :space-evenly false :spacing 8
-      (label :class "date-label" :text date)
-      (label :class "sep" :text "·")
-      (label :class "clock-label" :text clock))))
+(defwidget media-controls []
+  (box :class "media-controls"
+       :orientation "h"
+       :space-evenly false
+       :spacing 6
+    (eventbox :cursor "pointer" :onclick "playerctl previous"
+      (label :class "media-btn" :text ""))
+    (eventbox :cursor "pointer" :onclick "playerctl play-pause"
+      (label :class "media-btn ${mpris-playing == 'true' ? 'playing' : ''}"
+             :text {mpris-playing == "true" ? "" : ""}))
+    (eventbox :cursor "pointer" :onclick "playerctl next"
+      (label :class "media-btn" :text ""))))
 
-;;;; ─── Weather ────────────────────────────────────────────────────────────────
+;;;; ─── Active Window ─────────────────────────────────────────────────────────
 
-(defwidget weather-widget []
-  (capsule :class "weather-capsule"
-    (label :class "weather-label" :text weather)))
+(defwidget active-window-widget []
+  (box :class "active-window"
+       :orientation "h"
+       :space-evenly false
+       :spacing 6
+    (label :class "window-icon" :text "")
+    (label :class "window-title"
+           :text {active-window == "" ? "Desktop" : active-window}
+           :limit-width 30
+           :truncate true)))
 
-;;;; ─── Volume ─────────────────────────────────────────────────────────────────
+;;;; ─── Clock + Temp (center, transparent) ───────────────────────────────────
 
-(defwidget volume-widget []
-  (capsule :class "volume-capsule"
-    :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    (icon-label
-      :icon {volume-muted == "true" ? "󰝟" : volume > "70" ? "󰕾" : volume > "30" ? "󰖀" : "󰕿"}
-      :label "${volume}%"
-      :class {volume-muted == "true" ? "muted" : ""})))
+(defwidget center-widget []
+  (box :class "center-box"
+       :orientation "h"
+       :space-evenly false
+       :spacing 8
+    (label :class "clock-text" :text clock-time)
+    (label :class "temp-icon"  :text "")
+    (label :class "temp-text"  :text "${temperature}°")))
 
-;;;; ─── Brightness ─────────────────────────────────────────────────────────────
+;;;; ─── Right stats ────────────────────────────────────────────────────────────
 
-(defwidget brightness-widget []
-  (capsule :class "brightness-capsule"
-    (icon-label :icon "󰃞" :label "${brightness}%")))
+(defwidget stat [icon value class]
+  (box :class "stat-item"
+       :orientation "h"
+       :space-evenly false
+       :spacing 3
+    (label :class "stat-icon ${class}" :text icon)
+    (label :class "stat-value" :text value)))
 
-;;;; ─── Battery ────────────────────────────────────────────────────────────────
+(defwidget right-stats []
+  (box :class "right-stats"
+       :orientation "h"
+       :space-evenly false
+       :spacing 10
+    (stat :icon "" :value "${updates}"     :class "icon-updates")
+    (stat :icon "󰝚" :value ""             :class "icon-music")
+    (stat :icon "" :value "${cpu}%"        :class "icon-cpu")
+    (stat :icon "󰍛" :value "${ram}"        :class "icon-ram")
+    (stat :icon "󰋊" :value "${disk}"       :class "icon-disk")
+    (stat :icon "󰤨" :value "${network-speed}" :class "icon-net")
+    (eventbox :cursor "pointer"
+              :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      (stat :icon {volume-muted == "true" ? "󰝟" : "󰕾"}
+            :value "${volume}"
+            :class {volume-muted == "true" ? "icon-muted" : "icon-vol"}))
+    (when {battery-level != ""}
+      (stat :icon {battery-charging == "true" ? "󰂄" :
+                   battery-level > "90" ? "󰁹" :
+                   battery-level > "50" ? "󰁾" :
+                   battery-level > "20" ? "󰁼" : "󰂃"}
+            :value "${battery-level}"
+            :class {battery-level < "20" ? "icon-bat-low" : "icon-bat"}))
+    (eventbox :cursor "pointer" :onclick "wlogout"
+      (label :class "stat-icon icon-power" :text "󰐥"))))
 
-(defwidget battery-widget []
-  (capsule :class "battery-capsule ${battery-level < '20' ? 'critical' : ''}"
-    (icon-label
-      :icon {battery-charging == "true" ? "󰂄" :
-             battery-level > "90" ? "󰁹" :
-             battery-level > "70" ? "󰂀" :
-             battery-level > "50" ? "󰁾" :
-             battery-level > "30" ? "󰁼" :
-             battery-level > "15" ? "󰁺" : "󰂃"}
-      :label "${battery-level}%"
-      :class {battery-level < "20" ? "low" : ""})))
-
-;;;; ─── Network ────────────────────────────────────────────────────────────────
-
-(defwidget network-widget []
-  (capsule :class "network-capsule"
-    (icon-label
-      :icon {network-ssid == "" ? "󰤭" :
-             network-strength > "70" ? "󰤨" :
-             network-strength > "40" ? "󰤥" :
-             network-strength > "15" ? "󰤢" : "󰤟"}
-      :label {network-ssid == "" ? "offline" : network-ssid})))
-
-;;;; ─── System Stats ───────────────────────────────────────────────────────────
-
-(defwidget sysmon-widget []
-  (capsule :class "sysmon-capsule"
-    (box :orientation "h" :space-evenly false :spacing 10
-      (icon-label :icon "" :label "${cpu}%"  :class "cpu-stat")
-      (icon-label :icon "" :label "${ram}%"  :class "ram-stat")
-      (icon-label :icon "󰢮" :label "${gpu}%" :class "gpu-stat")
-      (icon-label :icon "󰋊" :label "${disk}%" :class "disk-stat"))))
-
-;;;; ─── Notifications ──────────────────────────────────────────────────────────
-
-(defwidget notifications-widget []
-  (capsule :class "notif-capsule"
-    :onclick "swaync-client -t"
-    (icon-label :icon "󰂚")))
-
-;;;; ─── Session ────────────────────────────────────────────────────────────────
-
-(defwidget session-widget []
-  (capsule :class "session-capsule"
-    :onclick "wlogout"
-    (icon-label :icon "󰐥")))
-
-;;;; ─── Bar Layout ─────────────────────────────────────────────────────────────
+;;;; ─── Bar ───────────────────────────────────────────────────────────────────
 
 (defwidget bar []
-  (centerbox :class "bar"
-             :orientation "h"
+  (box :class "bar-root"
+       :orientation "h"
+       :space-evenly false
+    ;; LEFT — opaque block
     (box :class "bar-left"
-         :halign "start"
+         :orientation "h"
          :space-evenly false
-         :spacing 6
-      (workspaces-widget))
+         :spacing 10
+         :hexpand false
+      (label :class "distro-icon" :text "")
+      (workspaces-widget)
+      (media-controls)
+      (active-window-widget))
+    ;; CENTER — transparent, expands to fill space
     (box :class "bar-center"
+         :hexpand true
          :halign "center"
-         :space-evenly false
-         :spacing 6
-      (clock-widget)
-      (weather-widget))
+      (center-widget))
+    ;; RIGHT — opaque block
     (box :class "bar-right"
-         :halign "end"
+         :orientation "h"
          :space-evenly false
-         :spacing 6
-      (sysmon-widget)
-      (network-widget)
-      (volume-widget)
-      (brightness-widget)
-      (battery-widget)
-      (notifications-widget)
-      (session-widget))))
+         :hexpand false
+      (right-stats))))
 
-;;;; ─── Window ─────────────────────────────────────────────────────────────────
+;;;; ─── Window ────────────────────────────────────────────────────────────────
 
 (defwindow bar
   :monitor 0
-  :geometry (geometry
+  :geometry (geometryJgmenu
     :x "0px"
-    :y "4px"
-    :width "calc(100% - 100px)"
-    :height "34px"
+    :y "0px"
+    :width "100%"
+    :height "36px"
     :anchor "top center")
   :exclusive true
   :layer "top"
