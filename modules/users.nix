@@ -2,7 +2,6 @@
 
   flake.nixosModules.users = { pkgs, lib, ... }: {
 
-    # Define user account
     users.users.samantha = {
       isNormalUser = true;
       description = "samantha";

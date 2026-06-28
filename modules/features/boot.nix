@@ -1,11 +1,23 @@
 { self, inputs, ... }: {
 
-  flake.nixosModules.boot = { pkgs, lib, ... }: {
+  flake.nixosModules.boot = { pkgs, lib, config, ... }: {
     
     networking.networkmanager.enable = true;
     
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    boot = {
+      loader = {
+        systemd-boot.enable = true;
+        efi.canTouchEfiVariables = true;
+        # grub = {
+        #   enable = true;
+        #   device = "nodev";
+        #   efiSupport = true;
+        # };
+        # initrd.luks.devices.cryptroot.device = config.fileSystems."/".device;
+      };
+    };
+
+    
     systemd.services.nix-daemon.serviceConfig = {
       Slice = "background.slice";
       CPUSchedulingPolicy = pkgs.lib.mkForce "idle";

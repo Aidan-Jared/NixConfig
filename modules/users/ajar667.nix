@@ -8,7 +8,7 @@
             home.homeDirectory = "/home/ajar667";
           }
         ];
-        # nixpkgs.config.allowUnfree = true;
+        nixpkgs.config.allowUnfree = true;
   };
 
   
