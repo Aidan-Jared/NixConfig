@@ -7,7 +7,7 @@
       defaultEditor = true;
 
       settings = {
-        theme = "github_dark_dimmed";
+        # theme = "github_dark_dimmed";
 
         editor = {
           clipboard-provider = "wayland";

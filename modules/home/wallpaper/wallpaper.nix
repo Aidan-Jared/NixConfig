@@ -1,3 +1,3 @@
 {
-  flake.wallpaper = ./wallpaper.webp;
+  flake.wallpaper = ./wallpaper.jpg;
 }

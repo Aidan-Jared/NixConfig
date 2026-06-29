@@ -1,20 +1,23 @@
 ;;;; ─── Variables & Listeners ────────────────────────────────────────────────
 
-(deflisten workspaces
-  :initial "[]"
-  "eww-niri-workspaces")
+; (deflisten workspaces
+;   :initial "[]"
+;   "bash -c 'niri msg --json event-stream 2>/dev/null | stdbuf -oL jq --unbuffered -c \"select(.WorkspacesChanged or .WindowsChanged or .WorkspaceActivated)\" | while read -r line; do niri msg --json workspaces 2>/dev/null; done'")
 
 (deflisten active-window
-  :initial "{}"
-  `bash -c "niri msg --json event-stream 2>/dev/null | stdbuf -oL grep -o '\"WindowFocusChanged\":{[^}]*}' | stdbuf -oL sed 's/.*\"title\":\"\([^\"]*\)\".*/\1/'"`)
+  :initial "Desktop"
+  "bash -c 'niri msg --json event-stream 2>/dev/null | stdbuf -oL jq --unbuffered -c \"select(.WindowFocusChanged or .WindowsChanged or .WorkspaceActivated)\" | while read -r line; do app_id=$(niri msg --json windows 2>/dev/null | jq -r \".[] | select(.is_focused == true) | .app_id\"); if [ -z \"$app_id\" ]; then echo \"Desktop\"; else echo \"$app_id\"; fi; done'")
+
+(deflisten niri_ribbon_map "./niri-workspaces.sh")
 
 (defpoll clock-time
   :interval "1s"
-  "date '+%I:%M %p'")
+  "date '+%H:%m:%S'")
 
 (defpoll temperature
   :interval "10s"
-  `bash -c "sensors 2>/dev/null | awk '/^(CPU Temp|Tctl|Core 0|Package)/{gsub(/[+°C]/,\"\",$2); printf \"%.0f\", $2; exit}' || cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1 | awk '{printf \"%.0f\", $1/1000}' || echo '0'"`)
+  :initial "0"
+  `bash -c 'sensors 2>/dev/null | awk "/^(CPU Temp|Tctl|Core 0|Package)/{gsub(/[+°C]/,\"\",\\\$2); printf \"%.0f\", \\\$2; exit}" || cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1 | awk "{printf \"%.0f\", \\\$1/1000}" || echo "0"'`)
 
 (defpoll volume
   :interval "2s"
@@ -52,21 +55,37 @@
     fi
   "`)
 
-(defpoll cpu
-  :interval "3s"
-  "top -bn1 | grep 'Cpu(s)' | awk '{print int($2)}'")
+; (defpoll cpu
+;   :interval "1s"
+;   "top -bn1 | grep 'Cpu(s)' | awk '{print int($2)}'")
 
-(defpoll ram
-  :interval "3s"
-  "free -h | awk '/^Mem:/{print $3}'")
+; (defpoll ram
+;   :interval "1s"
+;   "free -h | awk '/^Mem:/{print $3}'")
 
 (defpoll disk
   :interval "30s"
+  :initial 0
   "df -h / | awk 'NR==2{print $3}'")
 
-(defpoll updates
-  :interval "5m"
-  "checkupdates 2>/dev/null | wc -l || echo '0'")
+;; GPU Polls
+;; GPU Load with explicit initial token structure
+(defpoll gpu-load 
+  :interval "1s" 
+  :initial "0"
+  `bash -c "cat /sys/class/drm/card0/device/gpu_busy_percent 2>/dev/null || echo 0"`)
+
+;; VRAM Usage calculation with initial token structure
+(defpoll vram-perc 
+  :interval "2s" 
+  :initial "0"
+  `bash -c "vram_used=\$(cat /sys/class/drm/card0/device/mem_info_vram_used 2>/dev/null || echo 0); vram_total=\$(cat /sys/class/drm/card0/device/mem_info_vram_total 2>/dev/null || echo 1); echo \\\$(( (vram_used * 100) / vram_total )) 2>/dev/null || echo 0"`)
+
+;; Network Byte Stream Parse with initial token structure
+(defpoll net-raw 
+  :interval "1s" 
+  :initial "0"
+  `bash -c "iface=\$(ip route get 1.1.1.1 2>/dev/null | awk '{print \$5; exit}'); [ -n \"\$iface\" ] && cat /sys/class/net/\$iface/statistics/rx_bytes 2>/dev/null || echo 0"`)
 
 (defpoll mpris-playing
   :interval "2s"
@@ -79,17 +98,9 @@
 ;;;; ─── Workspaces ─────────────────────────────────────────────────────────────
 
 (defwidget workspaces-widget []
-  (box :class "workspaces"
-       :orientation "h"
-       :space-evenly false
-       :spacing 4
-    (for wsp in workspaces
-      (eventbox
-        :cursor "pointer"
-        :onclick "niri msg action focus-workspace ${wsp.index}"
-        (label
-          :class "ws-dot ${wsp.is_active ? 'ws-active' : ''} ${arraylength(wsp.columns) == 0 ? 'ws-empty' : 'ws-occupied'} ws-color-${wsp.index}"
-          :text {arraylength(wsp.columns) == 0 ? "󰧞" : "󰧟"})))))
+  (box :class "workspaces-widget"
+       :halign "center"
+    (literal :content niri_ribbon_map)))
 
 ;;;; ─── Media Controls ────────────────────────────────────────────────────────
 
@@ -132,6 +143,54 @@
 
 ;;;; ─── Right stats ────────────────────────────────────────────────────────────
 
+(defwidget advanced-monitor []
+  (box :class "monitor-dashboard" 
+       :orientation "h" 
+       :space-evenly false 
+       :spacing 15
+    
+    ;; ─── THE RINGS (RAM, Temp, VRAM) ───
+    (box :class "rings-container" :orientation "h" :space-evenly true
+      ;; RAM Ring
+      (box :orientation "v" :space-evenly false
+        (circular-progress :value {EWW_RAM.used_mem_perc} :thickness 6 :start-at 75 :class "ring-ram"
+          (label :text "󰘚" :class "ring-icon"))
+        (label :text "RAM" :class "ring-label"))
+
+      ; (box :orientation "v" :space-evenly false
+      ;   (circular-progress :value {disk} :thickness 6 :start-at 75 :class "ring-ram"
+      ;     (label :text "󰘚" :class "ring-icon"))
+      ;   (label :text "RAM" :class "ring-label"))
+
+      ;; Temperature Ring
+      (box :orientation "v" :space-evenly false
+        (circular-progress :value temperature :thickness 6 :start-at 75 :class "ring-temp"
+          (label :text "󱃃" :class "ring-icon"))
+        (label :text "TEMP" :class "ring-label"))
+
+      ;; VRAM Ring
+      (box :orientation "v" :space-evenly false
+        (circular-progress :value vram-perc :thickness 6 :start-at 75 :class "ring-vram"
+          (label :text "󰢮" :class "ring-icon"))
+        (label :text "VRAM" :class "ring-label")))
+
+    ;; ─── THE WAVE GRAPHS (CPU, GPU, Network) ───
+    (box :class "graphs-container" :orientation "h" :space-evenly false :spacing 10
+      ;; CPU Graph
+      (box :orientation "v" :space-evenly false :spacing 8
+        (label :text "CPU" :class "graph-title-side")
+        (graph :value {EWW_CPU.avg} :time-range "30s" :min 0 :max 100 :thickness 2 :line-style "round" :class "graph-cpu" :hexpand true))
+
+      ;; GPU Graph
+      (box :orientation "v" :space-evenly false :spacing 8
+        (label :text "GPU" :class "graph-title-side")
+        (graph :value gpu-load :time-range "30s" :min 0 :max 100 :thickness 2 :line-style "round" :class "graph-gpu" :hexpand true))
+
+      ;; Network Graph
+      (box :orientation "v" :space-evenly false :spacing 8
+        (label :text "NET" :class "graph-title-side")
+        (graph :value net-raw :time-range "30s" :thickness 2 :line-style "round" :class "graph-net" :hexpand true)))))
+
 (defwidget stat [icon value class]
   (box :class "stat-item"
        :orientation "h"
@@ -145,65 +204,149 @@
        :orientation "h"
        :space-evenly false
        :spacing 10
-    (stat :icon "" :value "${updates}"     :class "icon-updates")
-    (stat :icon "󰝚" :value ""             :class "icon-music")
-    (stat :icon "" :value "${cpu}%"        :class "icon-cpu")
-    (stat :icon "󰍛" :value "${ram}"        :class "icon-ram")
-    (stat :icon "󰋊" :value "${disk}"       :class "icon-disk")
-    (stat :icon "󰤨" :value "${network-speed}" :class "icon-net")
+    (advanced-monitor)
     (eventbox :cursor "pointer"
               :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       (stat :icon {volume-muted == "true" ? "󰝟" : "󰕾"}
             :value "${volume}"
             :class {volume-muted == "true" ? "icon-muted" : "icon-vol"}))
-    (when {battery-level != ""}
+            
+    ;; REPLACED (when) with a standard box using the :visible property
+    (box :visible {battery-level != ""}
       (stat :icon {battery-charging == "true" ? "󰂄" :
-                   battery-level > "90" ? "󰁹" :
-                   battery-level > "50" ? "󰁾" :
-                   battery-level > "20" ? "󰁼" : "󰂃"}
-            :value "${battery-level}"
-            :class {battery-level < "20" ? "icon-bat-low" : "icon-bat"}))
-    (eventbox :cursor "pointer" :onclick "wlogout"
+                   battery-level == "" ? "󰂃" :
+                   battery-level > 90 ? "󰁹" :
+                   battery-level > 50 ? "󰁾" :
+                   battery-level > 20 ? "󰁼" : "󰂃"}
+            :value "${battery-level}%"
+            :class {battery-level != "" && battery-level < 20 ? "icon-bat-low" : "icon-bat"}))
+    (eventbox :cursor "pointer" :onclick "bash -c 'eww open notifications --toggle &'"
+      (label :class "stat-icon icon-notif" :text "󰵅"))
+    (eventbox :cursor "pointer" :onclick "bash -c 'eww open sysmenu --toggle &'"
       (label :class "stat-icon icon-power" :text "󰐥"))))
-
 ;;;; ─── Bar ───────────────────────────────────────────────────────────────────
 
-(defwidget bar []
-  (box :class "bar-root"
-       :orientation "h"
-       :space-evenly false
-    ;; LEFT — opaque block
-    (box :class "bar-left"
-         :orientation "h"
-         :space-evenly false
-         :spacing 10
-         :hexpand false
-      (label :class "distro-icon" :text "")
-      (workspaces-widget)
-      (media-controls)
-      (active-window-widget))
-    ;; CENTER — transparent, expands to fill space
-    (box :class "bar-center"
-         :hexpand true
-         :halign "center"
-      (center-widget))
-    ;; RIGHT — opaque block
-    (box :class "bar-right"
-         :orientation "h"
-         :space-evenly false
-         :hexpand false
-      (right-stats))))
+(defwidget bar [output]
+  (centerbox :class "bar-root"
+             :orientation "h"
+    ;; LEFT — opaque block (holds left-aligned content)
+    (box :halign "start"
+      (box :class "bar-left"
+           :orientation "h"
+           :space-evenly false
+           :spacing 10
+        (eventbox :cursor "pointer" :onclick "bash -c 'eww open dashboard --toggle &'"
+          (label :class "distro-icon" :text ""))
+        (workspaces-widget)
+        (media-controls)
+        (active-window-widget)))
+      
+    ;; CENTER — strictly anchored to the absolute midpoint of the monitor
+    (box :halign "center"
+      (box :class "bar-center"
+        (center-widget)))
+      
+    ;; RIGHT — opaque block (holds right-aligned content)
+    (box :halign "end"
+      (box :class "bar-right"
+           :orientation "h"
+           :space-evenly false
+        (right-stats)))))
 
 ;;;; ─── Window ────────────────────────────────────────────────────────────────
 
 (defwindow bar
-  :monitor 0
-  :geometry (geometryJgmenu
+  :monitor "eDP-1"
+  :geometry (geometry
     :x "0px"
     :y "0px"
     :width "100%"
     :height "36px"
     :anchor "top center")
   :exclusive true
-  :layer "top"
-  (bar))
+  :stacking "fg"  ;; Note: Eww uses :stacking "fg" or "bg" instead of :layer "top"
+  (bar :output "eDP-1"))
+
+;; ─── DASHBOARD WINDOW ────────────────────────────────────────────────────────
+(defwindow dashboard
+  :monitor "eDP-1"
+  :geometry (geometry :x "15px"
+                      :y "50px"
+                      :width "380px"
+                      :height "680px"
+                      :anchor "top left")
+  :stacking "fg"
+  (dashboard-layout))
+
+;; ─── NOTIFICATION CENTER WINDOW ──────────────────────────────────────────────
+(defwindow notifications
+  :monitor "eDP-1"
+  :geometry (geometry :x "15px"
+                      :y "50px"
+                      :width "360px"
+                      :height "55px"
+                      :anchor "top right")
+  :stacking "fg"
+  (notification-layout))
+
+;; ─── SYSTEM MENU DROP-DOWN ───────────────────────────────────────────────────
+(defwindow sysmenu
+  :monitor "eDP-1"
+  :geometry (geometry :x "80px"
+                      :y "50px"
+                      :width "320px"
+                      :height "240px"
+                      :anchor "top right")
+  :stacking "fg"
+  (sysmenu-layout))
+
+;; ─── Dashboard Component Block ───
+;; ─── Dashboard Component Block ───
+(defwidget dashboard-layout []
+  (eventbox :onhoverlost "eww close dashboard"
+    (box :class "dashboard-panel" :orientation "v" :space-evenly false :spacing 15
+      ;; Top Header Profile info
+      (box :class "profile-box" :orientation "h" :space-evenly false :spacing 15
+        (box :class "profile-img" :width 70 :height 70)
+        (box :orientation "v" :valign "center" :space-evenly false
+          (label :text "Welcome back," :class "profile-greeting" :halign "start")
+          (label :text "Samantha" :class "profile-name" :halign "start")))
+      
+      ;; Hardware Rings Section (RAM, Temp, VRAM)
+      (box :class "rings-row" :orientation "h" :space-evenly true
+        (circular-progress :value {EWW_RAM.used_mem_perc} :thickness 6 :start-at 75 :class "ring-ram" (label :text "󰘚"))
+        (circular-progress :value temperature :thickness 6 :start-at 75 :class "ring-temp" (label :text "󱃃"))
+        (circular-progress :value vram-perc :thickness 6 :start-at 75 :class "ring-vram" (label :text "󰢮")))
+
+      ;; Calendar Layer
+      (box :class "dash-cal" (calendar)))))
+
+;; ─── Notification Center Component Block ───
+(defwidget notification-layout []
+  (eventbox :onhoverlost "eww close notifications"
+    (box :class "notification-panel" :orientation "v" :space-evenly false :spacing 10
+      (box :orientation "h" :space-evenly false
+        (label :text "Notifications" :class "panel-title" :hexpand true :halign "start")
+        (button :class "clear-btn" :onclick "dunstctl clear" "󰎟"))
+      ;; Simple Dunst/Mako message hook container
+      (box :class "notif-scroll" :height 450
+        (label :text "No new notifications" :class "empty-notif-text" :valign "center")))))
+
+;; ─── System Menu Component Block ───
+(defwidget sysmenu-layout []
+  (eventbox :onhoverlost "eww close sysmenu"
+    (box :class "sysmenu-panel" :orientation "v" :space-evenly false :spacing 15
+      ;; Hardware Waves section
+      (box :class "sysmenu-graphs" :orientation "v" :spacing 8
+        (graph :value {EWW_CPU.avg} :time-range "30s" :thickness 2 :line-style "round" :class "graph-cpu")
+        (graph :value gpu-load :time-range "30s" :thickness 2 :line-style "round" :class "graph-gpu"))
+      
+      ;; System Quick Toggles
+      (box :class "toggles-row" :orientation "h" :space-evenly true :spacing 10
+        (button :class "toggle-btn" :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" "󰕾")
+        (button :class "toggle-btn" :onclick "bash -c 'if nmcli radio wifi | grep -q enabled; then nmcli radio wifi off; else nmcli radio wifi on; fi'" "󰤨")
+        (button :class "toggle-btn" :onclick "bash -c 'if bluetoothctl show | grep -q \"Powered: yes\"; then bluetoothctl power off; else bluetoothctl power on; fi'" "󰂯"))
+
+      ;; Quick Power Options
+      (box :class "power-row" :orientation "h" :space-evenly true :spacing 10
+        (button :class "power-btn shutdown" :onclick "bash -c 'wlogout &'" "󰐥")))))

@@ -8,7 +8,6 @@ $bar-bg:      rgba(15, 15, 20, 0.88);
 $text:        #cdd6f4;
 $text-dim:    rgba(205, 214, 244, 0.5);
 $bar-height:  36px;
-$skew:        16px;   // width of the angled cut on each side
 
 // Per-icon accent colors (Marisol palette)
 $col-ws-1:    #f38ba8;   // red
@@ -47,96 +46,112 @@ $col-power:   #f38ba8;   // red
 
 // ─── Bar root ─────────────────────────────────────────────────────────────────
 
+window {
+  background-color: transparent;
+  background: transparent;
+}
+
 .bar-root {
   background: transparent;
+  background-color: transparent;
   min-height: $bar-height;
 }
 
 // ─── Left block ───────────────────────────────────────────────────────────────
-// Opaque background with an angled right edge via clip-path
 
 .bar-left {
-  background: $bar-bg;
-  padding:    0 #{$skew + 8px} 0 12px;
-  // angled cut on the right side: top-right cuts in by $skew
-  clip-path: polygon(0 0, calc(100% - #{$skew}) 0, 100% 100%, 0 100%);
+  background-color: $bar-bg;
+  padding: 0 24px 0 12px;
   min-height: $bar-height;
+  
+  // Native GTK Slanted Edge Simulation (Replaces broken clip-path)
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 0px 12px 12px 0px; 
 }
 
 // ─── Center block ─────────────────────────────────────────────────────────────
-// Fully transparent — content floats over wallpaper
 
 .bar-center {
-  background: transparent;
-  padding:    0 8px;
+  background-color: transparent;
+  padding: 0 8px;
   min-height: $bar-height;
 }
 
 // ─── Right block ──────────────────────────────────────────────────────────────
-// Opaque background with an angled left edge
 
 .bar-right {
-  background: $bar-bg;
-  padding:    0 12px 0 #{$skew + 8px};
-  // angled cut on the left side: top-left cuts out by $skew
-  clip-path: polygon(#{$skew} 0, 100% 0, 100% 100%, 0 100%);
+  background-color: $bar-bg;
+  padding: 0 12px 0 24px;
   min-height: $bar-height;
+  
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 12px 0px 0px 12px;
 }
 
 // ─── Distro icon ──────────────────────────────────────────────────────────────
 
 .distro-icon {
-  font-size: 18px;
+  font-size: 20px;
   color:     #89b4fa;
   padding:   0 4px;
 }
 
 // ─── Workspaces ───────────────────────────────────────────────────────────────
 
-.workspaces { padding: 0 2px; }
-
-.ws-dot {
-  font-size: 14px;
-  color:     $text-dim;
-  padding:   0 1px;
-  transition: color 100ms ease;
+.workspaces-container {
+  padding: 0 4px;
 }
 
-.ws-empty   { color: $text-dim; font-size: 10px; }
-.ws-active  { font-size: 16px; }
+// Workspace frame cards
+.ws-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin: 2px 0;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
 
-// Per-workspace colors on active/occupied
-.ws-color-1.ws-occupied  { color: $col-ws-1; }
-.ws-color-2.ws-occupied  { color: $col-ws-2; }
-.ws-color-3.ws-occupied  { color: $col-ws-3; }
-.ws-color-4.ws-occupied  { color: $col-ws-4; }
-.ws-color-5.ws-occupied  { color: $col-ws-5; }
-.ws-color-6.ws-occupied  { color: $col-ws-6; }
-.ws-color-7.ws-occupied  { color: $col-ws-7; }
-.ws-color-8.ws-occupied  { color: $col-ws-8; }
-.ws-color-9.ws-occupied  { color: $col-ws-9; }
-.ws-color-10.ws-occupied { color: $col-ws-10; }
+// Active workspace card focus state
+.ws-active {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+}
 
-.ws-color-1.ws-active  { color: $col-ws-1; }
-.ws-color-2.ws-active  { color: $col-ws-2; }
-.ws-color-3.ws-active  { color: $col-ws-3; }
-.ws-color-4.ws-active  { color: $col-ws-4; }
-.ws-color-5.ws-active  { color: $col-ws-5; }
-.ws-color-6.ws-active  { color: $col-ws-6; }
-.ws-color-7.ws-active  { color: $col-ws-7; }
-.ws-color-8.ws-active  { color: $col-ws-8; }
-.ws-color-9.ws-active  { color: $col-ws-9; }
-.ws-color-10.ws-active { color: $col-ws-10; }
+// Individual layout columns (Fixed width/height properties)
+.niri-col {
+  min-width: 8px;
+  min-height: 14px;
+  border-radius: 3px;
+  margin: 0 2px;
+  transition: all 0.2s ease;
+}
 
-// ─── Media controls ───────────────────────────────────────────────────────────
+// The active column you are presently typing in
+.col-focused {
+  background-color: #a6e3a1;
+  min-width: 14px; // Changed to min-width
+}
+
+// Unfocused columns containing windows
+.col-unfocused {
+  background-color: rgba(205, 214, 244, 0.4);
+}
+
+// Safe fallback dot state if the workspace is blank
+.col-empty {
+  background-color: rgba(205, 214, 244, 0.15);
+  min-width: 6px; // Changed to min-width
+
+}// ─── Media controls ───────────────────────────────────────────────────────────
 
 .media-controls { padding: 0 4px; }
 
 .media-btn {
   font-size: 13px;
   color:     $text-dim;
-  transition: color 100ms ease;
-  &:hover  { color: $text; }
 }
 
 .media-btn.playing { color: #a6e3a1; }
@@ -179,8 +194,6 @@ $col-power:   #f38ba8;   // red
 
 .right-stats { padding: 0 4px; }
 
-.stat-item { }
-
 .stat-icon {
   font-size: 14px;
 }
@@ -190,18 +203,119 @@ $col-power:   #f38ba8;   // red
   color:     $text;
 }
 
-.icon-updates { color: $col-updates; }
-.icon-music   { color: $col-music; }
-.icon-cpu     { color: $col-cpu; }
-.icon-ram     { color: $col-ram; }
-.icon-disk    { color: $col-disk; }
-.icon-net     { color: $col-net; }
-.icon-vol     { color: $col-vol; }
-.icon-muted   { color: $text-dim; }
-.icon-bat     { color: $col-bat; }
-.icon-bat-low { color: $col-bat-low; }
-.icon-power   {
-  color:     $col-power;
-  font-size: 14px;
-  &:hover { color: lighten($col-power, 15%); }
+.monitor-dashboard {
+  background-color: #292a37; // $mantle
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+// ─── Rings Styling ───
+.rings-container {
+  padding-bottom: 5px;
+}
+
+.ring-icon {
+  font-size: 1.4rem;
+  color: #d9e0ee;
+}
+
+.ring-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #9699b7;
+  margin-top: 4px;
+}
+
+// Set track colors
+.ring-ram      { color: #efb993; background-color: #44465c; }
+.ring-temp     { color: #ec6a88; background-color: #44465c; }
+.ring-vram     { color: #b072d1; background-color: #44465c; }
+
+// ─── Graphs Waves Styling ───
+.graph-title-side {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #9699b7;
+  min-width: 35px;
+}
+
+// Set up the graph canvases
+graph {
+  background-color: #2e303e; // $crust base grid backing
+  border-radius: 6px;
+  min-height: 40px;          // Gives waves breathing room to scroll vertically
+}
+
+// Individual vector stroke color assignments
+.graph-cpu { color: #3fc6de; }  // Cyan wave
+.graph-gpu { color: #3fdaa4; }  // Green wave
+.graph-net { color: #b072d1; }  // Mauve wave
+
+// Base shared panel style container
+.dashboard-panel, .notification-panel, .sysmenu-panel {
+  background-color: #292a37; // $mantle
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 1.2rem;
+  color: #d9e0ee;
+}
+
+// Profile styling components
+.profile-box {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 10px;
+}
+.profile-img {
+  background-color: #b072d1;
+  border-radius: 50px;
+}
+.profile-greeting { font-size: 0.85rem; color: #9699b7; }
+.profile-name { font-size: 1.2rem; font-weight: bold; }
+
+// Toggle utilities layout rules
+.toggle-btn, .power-btn {
+  background-color: #2e303e;
+  font-size: 1.4rem;
+  padding: 12px;
+  border-radius: 8px;
+  color: #3fc6de;
+  &:hover { background-color: #44465c; }
+}
+
+.power-btn.shutdown {
+  color: #ec6a88;
+}
+
+// Graphs styling inside menus
+.sysmenu-graphs graph {
+  background-color: #2e303e;
+  border-radius: 6px;
+  min-height: 40px;
+}
+
+.graph-cpu { color: #3fc6de; }
+.graph-gpu { color: #3fdaa4; }
+
+.icon-notif {
+  color: #b072d1; // Mauve/Purple icon color
+  font-size: 1.3rem;
+  padding: 0 4px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #3fc6de; // Glows blue on hover
+  }
+}
+
+// Make sure your distro icon behaves like a clickable element too
+.distro-icon {
+  font-size: 1.3rem;
+  padding: 0 6px;
+  color: #3fc6de;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
 }

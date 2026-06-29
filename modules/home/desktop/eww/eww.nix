@@ -12,6 +12,8 @@
     home.file = {
       ".config/eww/eww.yuck".source = ./eww.yuck;
       ".config/eww/eww.scss".source = ./eww.scss;
+      ".config/eww/niri-workspaces.sh".source = ./niri-workspaces.sh;
+      ".config/eww/sys-info.sh".source = ./sys-info.sh;
     };
 
     home.packages = [

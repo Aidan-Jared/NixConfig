@@ -197,6 +197,8 @@
          (lib.getExe inputs.system76-scheduler-niri.packages.${pkgs.stdenv.hostPlatform.system}.default)
         # "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae"        
         # (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.pandora)
+        "${pkgs.eww}/bin/eww" "daemon"
+        "${pkgs.eww}/bin/eww" "open" "bar"
          (lib.getExe (
              pkgs.writeShellScriptBin "wallpaper"
              "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -242,7 +244,7 @@
           owner = "druskus20";
           repo  = "eww-niri-workspaces";
           rev   = "master";
-          hash  = "sha256-135hmlggrp2dw5xy8z3dx0fzf2bj61zxrxkkldp4w3gyc9cpr8cf=";
+          hash = "sha256-jqF8WWL+DU5uo3P23H8wcgn3HehtfOR74U3c/B6tsIw=";
         };
         commonArgs = { inherit src; };
         cargoArtifacts = craneLib.buildDepsOnly commonArgs;
