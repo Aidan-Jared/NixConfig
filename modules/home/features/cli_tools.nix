@@ -13,6 +13,7 @@
       eza          
       xcp
       zoxide       
+      zathura
       gitui        
       ripgrep-all      
       ripgrep

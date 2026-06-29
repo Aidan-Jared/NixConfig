@@ -11,6 +11,22 @@
     };
   };
 
+  flake.nixosModules.qtGreeter = { pkgs, lib, ... }: {
+    environment.systemPackages = [
+      pkgs.qtgreet
+      pkgs.greetd.greetd
+    ];
+    services.greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+        command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet --time --remember --cmd ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session";
+        user = "greeter";
+        };
+      };
+    };
+  };
+
   flake.nixosModules.cosmicGreeter = { pkgs, lib, ... }: {
     services.displayManager.cosmic-greeter.enable = true;
   };

@@ -34,6 +34,7 @@
       self.homeModules.zed
       self.homeModules.noctalia
       self.homeModules.ewwBar
+      self.homeModules.vicinae
     ];
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

@@ -95,8 +95,8 @@
           "Mod+Shift+9".move-column-to-workspace = 9;
           "Mod+Shift+0".move-column-to-workspace = 10;
 
-          # "Mod+Space".spawn = [ "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae" "toggle" ];
-          "Mod+Space".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "launcher" ];
+          "Mod+Space".spawn = [ "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae" "toggle" ];
+          # "Mod+Space".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "launcher" ];
 
           "Mod+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "control-center" ];
           "Mod+Shift+S".spawn = [ "${noctaliaExe}" "msg" "panel-toggle" "settings-toggle" ];

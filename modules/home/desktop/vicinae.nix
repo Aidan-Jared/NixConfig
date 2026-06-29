@@ -27,18 +27,18 @@
             family = "Fira Code";
           };
         };
-        theme = {
-          light = {
-            name = "vicinae-light";
-            icon_theme = "default";
-          };
-          dark = {
-            name = "vicinae-dark";
-            icon_theme = "default";
-          };
-        };
+        # theme = {
+        #   light = {
+        #     name = "vicinae-light";
+        #     icon_theme = "default";
+        #   };
+        #   dark = {
+        #     name = "vicinae-dark";
+        #     icon_theme = "default";
+        #   };
+        # };
         launcher_window = {
-          opacity = 0.98;
+          # opacity = 0.98;
         };
       };
       extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
