@@ -61,4 +61,17 @@
       };
     };
   };
+
+  flake.homeModules.jj = { pkgs,... }: {
+    home.packages = [
+      pkgs.jujutsu
+    ];
+    programs.jujutsu = {
+      enable = true;
+      settings = {
+        user.name = "Aidan-Jared";
+        user.email = "AidanJared42@gmail.com";
+      };
+    };
+  };
 }

@@ -5,7 +5,6 @@
     stylix = {
       enable = true;
       polarity = "dark";
-      # image = self.wallpaper;
 
       image = pkgs.runCommand "wallpaper.png" {
         nativeBuildInputs = [ pkgs.imagemagick ];

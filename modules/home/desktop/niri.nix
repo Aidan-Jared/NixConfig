@@ -135,15 +135,17 @@
         };
 
         cursor = {
-          xcursor-size = 10;
+          xcursor-size = 14;
         };
 
         layout = {
           gaps = 5;
           focus-ring.width = 2;
+          background-color = "transparent";
         };
 
-        window-rule = {
+        window-rule = [
+          {
             geometry-corner-radius = 10;
             clip-to-geometry = true;
             opacity = 0.85;
@@ -152,10 +154,16 @@
               blur = true;
               xray = true;
             };
-            match = _: { props = { app-id = "dev.noctalia.Noctalia.Settings"; }; };            open-floating = true;
-            default-column-width = { fixed = 1080; };
-            default-window-height = { fixed = 920; };
-          };
+          }
+          {
+            match = _: { is-active = true; };
+            opacity = 0.85;
+          }
+          {
+            match = _: { is-active = false; };
+            opacity = 0.85;
+          }
+        ];
 
         blur = {
           passes = 2;
@@ -165,15 +173,22 @@
         };
 
         layer-rule = 
-          {
-            match = _: {
+          [
+            {
+              match = _: {
                            props = { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; };
-            };            
-            background-effect = {
-              xray = false;
-              # blur = false;  # uncomment to disable blur on noctalia surfaces
-            };
-          };
+              };            
+              place-within-backdrop = true;
+              background-effect = {
+                xray = false;
+                # blur = false;  # uncomment to disable blur on noctalia surfaces
+              };
+            }
+            {
+              match = _: { namespace = "^awww$|^wpaperd$|^hyprpaper$|^swaybag$|^pandora$"; };
+              place-within-backdrop = true;
+            }
+          ];
           # {
           #   matches = [
           #     {
@@ -210,17 +225,6 @@
 
   perSystem = { pkgs, ... }: {
 
-    # packages.nirimap = let
-    #   craneLib = inputs.crane.mkLib pkgs;
-    # commonArgs = {
-    #   src = inputs.nirimap;
-    #   nativeBuildInputs = [ pkgs.pkg-config ];
-    #   buildInputs = [ pkgs.gtk4 pkgs.gtk4-layer-shell ];
-    # };
-    # cargoArtifacts = craneLib.buildDepsOnly commonArgs;
-    # in craneLib.buildPackage ( commonArgs // {
-    #   inherit cargoArtifacts;
-    # } );
     # packages.pandora = let
     # craneLib = inputs.crane.mkLib pkgs;
     # commonArgs = {

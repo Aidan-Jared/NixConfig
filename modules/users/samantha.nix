@@ -18,6 +18,7 @@
       self.homeModules.cliTools
       self.homeModules.helix
       self.homeModules.zellij
+      self.homeModules.herdr
       self.homeModules.yazi
       self.homeModules.zen
       self.homeModules.stylix
@@ -26,6 +27,7 @@
       self.homeModules.atuin
       self.homeModules.ghostty
       self.homeModules.git
+      self.homeModules.jj
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python

@@ -1,4 +1,3 @@
-
 { inputs, self, ... }: {
 
   flake.nixosModules.sops = { pkgs, ... }: {
