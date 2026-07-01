@@ -1,4 +1,3 @@
-
 {self, inputs, ...}:
 {
   flake.homeModules.vicinae = {pkgs, lib, ...}: {
