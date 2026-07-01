@@ -33,7 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # niri = {'github:jj-vcs/jj'
+    # niri = {
     #   url = "github:sodiboo/niri-flake";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
@@ -88,10 +88,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # zed = {
-    #   url = "github:zed-industries/zed";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    zed = {
+      url = "github:zed-industries/zed";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let

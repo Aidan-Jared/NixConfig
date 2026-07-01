@@ -28,6 +28,7 @@
       
       p7zip
 
+      zathura
       # file transfer
       croc
 

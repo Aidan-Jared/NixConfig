@@ -2,8 +2,8 @@
   flake.homeModules.zed = { pkgs, lib, ... }: {
 
     home.packages = [
-      # inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default
-      pkgs.zed-editor
+      inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # pkgs.zed-editor
     ];
     
     programs.zed-editor = {
