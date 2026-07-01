@@ -2,6 +2,10 @@
 {
   flake.homeModules.helix = { pkgs, lib, ... }: {
 
+    home.packages = [
+      pkgs.steel
+    ];
+
     programs.helix = {
       enable = true;
       package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
