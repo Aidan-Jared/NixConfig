@@ -25,6 +25,7 @@
       self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.ghostty
+      self.homeModules.profile
       self.homeModules.git
       self.homeModules.jj
       self.homeModules.lsp
