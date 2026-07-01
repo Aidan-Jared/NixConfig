@@ -23,8 +23,8 @@
       url = "github:ipetkov/crane";
     };
 
-    herdr = {
-      url = "github:ogulcancelik/herdr/v0.x.y";
+    helix = {
+      url = "github:mattwparas/helix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
