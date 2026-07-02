@@ -46,7 +46,7 @@
             bind = {
               _args = ["Alt g"];
               _children = [{
-                Run._args = ["gitui"];
+                Run._args = ["blazingjj"];
                 Run._children = [{ floating = true; close_on_exit = true; }];
               }];
             };

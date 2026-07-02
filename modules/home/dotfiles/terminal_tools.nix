@@ -71,6 +71,7 @@
       settings = {
         user.name = "Aidan-Jared";
         user.email = "AidanJared42@gmail.com";
+        ui.editor = "hx";
       };
     };
   };
