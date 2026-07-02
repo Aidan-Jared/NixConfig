@@ -1,7 +1,7 @@
 { self, inputs, ... }: {
   flake.homeModules.starship = { pkgs, ... }: {
-    home.packages = [ pkgs.starship ];
-   
+   home.packages = [ pkgs.starship pkgs.starship-jj ];   
+
     programs.starship = {
       enable = true;
       settings = {# Get editor completions based on the config schema
@@ -136,6 +136,49 @@
          	behind = "⇣$(count)";
        	};
 
+        custom = {
+          jj = {
+            command = "prompt";
+            format = "\\[[ $output]($style)\\]";
+            ignore_timeout = true;
+            shell = [ "starship-jj" "--ignore-working-copy" "starship" ];
+            style = "#94e2d5";
+            use_stdin = false;
+            when = true;
+          };
+
+          git_branch = {
+            when = "! jj --ignore-working-copy root";
+            require_repo = true;
+            command = "starship module git_branch";
+            style = "";
+            description = "Only show git_branch if we're not in a jj repo";
+          };
+
+          git_commit = {
+            when = "! jj --ignore-working-copy root";
+            require_repo = true;
+            command = "starship module git_commit";
+            style = "";
+            description = "Only show git_commit if we're not in a jj repo";
+          };
+
+          git_metrics = {
+            when = "! jj --ignore-working-copy root";
+            require_repo = true;
+            command = "starship module git_metrics";
+            style = "";
+            description = "Only show git_metrics if we're not in a jj repo";
+          };
+
+          git_status = {
+            when = "! jj --ignore-working-copy root";
+            require_repo = true;
+            command = "starship module git_status";
+            style = "";
+            description = "Only show git_status if we're not in a jj repo";
+          };
+        };
 
         golang = {
          	symbol = " ";
