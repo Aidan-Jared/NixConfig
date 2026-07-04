@@ -10,11 +10,10 @@
 
     home.file = {
       ".config/eww" = {
-        source = ./config.;
+        source = ./. + "/config";
         recursive = true;
       };
     };
-
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.eww-niri-workspaces
       pkgs.swaynotificationcenter
