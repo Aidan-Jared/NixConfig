@@ -28,17 +28,17 @@
           enabled = true;
           autostart = true;
         };
-        stats = {
-          common_subcommands = [
-            "cargo"
-            "uv"
-            "nix"
-            "nixos"
-            "zellij"
-            "hx"
-            "git"
-          ];
-        };
+        # stats = {
+        #   common_subcommands = [
+        #     "cargo"
+        #     "uv"
+        #     "nix"
+        #     "nixos"
+        #     "zellij"
+        #     "hx"
+        #     "git"
+        #   ];
+        # };
       };
     };
   };

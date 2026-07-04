@@ -11,7 +11,7 @@
     home.file = {
       ".config/eww" = {
         source = ./. + "/config";
-        recursive = true;
+        # recursive = true;
       };
     };
     home.packages = [

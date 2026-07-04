@@ -5,7 +5,7 @@ if [[ $1 == "--image" ]]; then
     if [[ -f "$FILE" ]]; then
         echo "../../.face"
     else
-        echo "Main/images/profile.png"
+        echo "Main/images/profile.jpg"
     fi
 fi
 

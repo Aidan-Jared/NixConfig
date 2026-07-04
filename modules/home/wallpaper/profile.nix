@@ -1,0 +1,3 @@
+{
+  flake.profile = ./profile.jpg;
+}
