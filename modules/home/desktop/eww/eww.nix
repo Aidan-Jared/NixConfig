@@ -10,13 +10,10 @@
 
     # Plain files symlinked — no Nix string escaping issues with eww's ${} syntax
     home.file = {
-      ".config/eww/eww.yuck".source = ./eww.yuck;
-      ".config/eww/eww.scss".source = ./eww.scss;
-      ".config/eww/Main".source = ./Main;
-      ".config/eww/Misc".source = ./Misc;
-      ".config/eww/Bar".source = ./Bar;
-      ".config/eww/Player".source = ./Player;
-      ".config/eww/System-Menu".source = ./System-Menu;
+      ".config/eww" = {
+        source = ./.;
+        recursive = true;
+      };
     };
 
     home.packages = [
