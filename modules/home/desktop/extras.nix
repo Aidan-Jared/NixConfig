@@ -3,7 +3,7 @@
   flake.homeModules.stasis = {pkgs, lib, ...}: {
   
     imports = [
-     	inputs.stasis.homeManagerModules.default
+     	inputs.stasis.homeModules.default
     ];
   };
 

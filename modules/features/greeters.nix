@@ -11,14 +11,14 @@
     };
   };
 
-  flake.nixosModules.gtkGreeter = { pkgs, lib, self, ... }: {
+  flake.nixosModules.gtkGreeter = { pkgs, lib, ... }: {
     environment.systemPackages = [
-      pkgs.greetd.gtkgreet
-      pkgs.greetd.greetd
+      pkgs.gtkgreet
+      pkgs.greetd
     ];
 
     environment.etc."greetd/niri-greeter.kdl".text = ''
-      spawn-sh-at-startup "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l -c ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session; niri msg action quit --skip-confirmation"
+      spawn-sh-at-startup "${pkgs.gtkgreet}/bin/gtkgreet -l -c ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session; niri msg action quit --skip-confirmation"
     '';
 
     services.greetd = {

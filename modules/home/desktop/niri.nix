@@ -148,21 +148,21 @@
           {
             geometry-corner-radius = 10;
             clip-to-geometry = true;
-            opacity = 0.85;
+            # opacity = 0.85;
 
             background-effect = {
               blur = true;
               xray = true;
             };
           }
-          {
-            match = _: { is-active = true; };
-            opacity = 0.85;
-          }
-          {
-            match = _: { is-active = false; };
-            opacity = 0.85;
-          }
+          # {
+          #   match = _: { is-active = true; };
+          #   opacity = 0.85;
+          # }
+          # {
+          #   match = _: { is-active = false; };
+          #   opacity = 0.85;
+          # }
         ];
 
         blur = {
@@ -178,15 +178,12 @@
               match = _: {
                            props = { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; };
               };            
+              # match = _: { namespace = "^awww$|^wpaperd$|^hyprpaper$|^swaybag$|^pandora$"; };
               place-within-backdrop = true;
               background-effect = {
                 xray = false;
                 # blur = false;  # uncomment to disable blur on noctalia surfaces
               };
-            }
-            {
-              match = _: { namespace = "^awww$|^wpaperd$|^hyprpaper$|^swaybag$|^pandora$"; };
-              place-within-backdrop = true;
             }
           ];
           # {
