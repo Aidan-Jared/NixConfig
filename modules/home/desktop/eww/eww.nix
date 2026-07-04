@@ -8,10 +8,9 @@
       systemd.enable = true;
     };
 
-    # Plain files symlinked — no Nix string escaping issues with eww's ${} syntax
     home.file = {
       ".config/eww" = {
-        source = ./.;
+        source = ./config.;
         recursive = true;
       };
     };
