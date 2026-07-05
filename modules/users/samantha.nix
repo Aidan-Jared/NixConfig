@@ -29,6 +29,7 @@
       self.homeModules.profile
       self.homeModules.git
       self.homeModules.jj
+      self.homeModules.blazingjj
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python

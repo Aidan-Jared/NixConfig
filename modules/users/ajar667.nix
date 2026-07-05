@@ -18,11 +18,13 @@
       self.homeModules.cliTools
       self.homeModules.helix
       self.homeModules.zellij
+      self.homeModules.herdr
       self.homeModules.starship
       self.homeModules.atuin
       self.homeModules.devenv
       self.homeModules.btop
       self.homeModules.jj
+      self.homeModules.blazingjj
     ];
 
     
