@@ -27,7 +27,10 @@
       nix-search-cli
       nixpkgs-fmt
       nil
+
+      # clipboard
       wl-clipboard
+      slurp
       grim
     ];
 
