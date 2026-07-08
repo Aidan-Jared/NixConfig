@@ -1,6 +1,11 @@
 { self, inputs, ... }: {
 
   flake.nixosModules.nixSettings = { pkgs, lib, ... }: {
+    
+    environment.systemPackages = [
+      self.packages.nh
+    ];
+    
     system.autoUpgrade = {
       enable = true;
       flake = ".#baseMachine";
@@ -51,12 +56,7 @@
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       ];
-
-      programs.nh = {
-        enable = true;
-        clean.enable = true;
-      };
-      
+     
     };  
   };
 }

@@ -1,16 +1,22 @@
-{ inputs, self, ... }: {
+{ inputs, self, pkgs, lib, ... }: {
 
   flake.nixosModules.mango = { pkgs, ... }: {
     programs.mango = {
       enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.mango;
     };
   };
 
-  flake.wrappersModules.mango = { config, lib, pkgs, ... }: {
+  flake.wrappersModules.mango = let
+        noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      in { config, lib, pkgs, ... }: {
     
     autostart_sh = ''
-      
+     noctaliaExe 
+     (lib.getExe (
+         pkgs.writeShellScriptBin "wallpaper"
+         "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
+       ))
     '';
 
     options.terminal = lib.mkOption {
@@ -28,12 +34,13 @@
         num_passes = 2;
       };
       border_radius = 6;
-      focused_opacity = 1.0;
+      focused_opacity = 0.9;
+      unfocused_opacity = 0.6;
 
       # Animations - use underscores for multi-part keys
       animations = 1;
-      animation_type_open = "slide";
-      animation_type_close = "slide";
+      animation_type_open = "fade";
+      animation_type_close = "fade";
       animation_duration_open = 400;
       animation_duration_close = 800;
       gappih=0;
@@ -61,7 +68,10 @@
       # Use lists for duplicate keys like bind and tagrule
       bind = [
         "SUPER,t,spawn,${config.terminal}"
-        "SUPER,space,spawn,rofi -shown drun"
+
+        "SUPER,space,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
+
+        "Mod+Escape,${noctaliaExe},msg,session,lock"
 
         "SUPER,1,comboview,1"
         "SUPER,2,comboview,2"
@@ -135,11 +145,9 @@
         "none,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         "none,XF86MonBrightnessUp,spawn,brightnessctl set 5%+"
         "none,XF86MonBrightnessDown,spawn,brightnessctl set 5%-"
+        "none,XF86Sleep,${noctaliaExe},msg,session,lock-and-suspend"
+        "none,XF86Standby,${noctaliaExe},msg,session,lock-and-suspend"
 
-        # Session lock / sleep
-        "SUPER,Escape,spawn,noctalia-shell ipc call session lock"
-        "none,XF86Sleep,spawn,noctalia-shell ipc call session lock-and-suspend"
-        "none,XF86Standby,spawn,noctalia-shell ipc call session lock-and-suspend"
 
         # Screenshots
         "SUPER+CTRL,s,spawn,grim -l 0 - | wl-copy"
@@ -193,11 +201,10 @@
     };
   };
 
-  perSystem = { pkgs, ... }: {
-
-
-    packages.niri = inputs.wrapper-modules.wrappers.mangowc.wrap {
+  perSystem = { lib, pkgs, ... }: {
+    packages.mangowc = inputs.wrapper-modules.wrappers.mangowc.wrap {
       inherit pkgs;
+      package = lib.mkForce self.mangowm.nixosModules.mango;
       imports = [
         self.wrappersModules.mango 
       ];

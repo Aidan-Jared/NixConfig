@@ -4,7 +4,7 @@
   flake.homeModules.btop = { pkgs, ... }: {
     home.packages = [ pkgs.btop-cuda ];
     programs.btop = {
-      # enable = true;
+      enable = true;
       settings = {
         vim_keys = true;
         gpu_mirror_graph = true;
@@ -64,15 +64,8 @@
 
   flake.homeModules.jj = { pkgs,... }: {
     home.packages = [
-      pkgs.jujutsu
+      self.packages.jujutsu
+      self.packages.blazingjj
     ];
-    programs.jujutsu = {
-      enable = true;
-      settings = {
-        user.name = "Aidan-Jared";
-        user.email = "AidanJared42@gmail.com";
-        ui.editor = "hx";
-      };
-    };
   };
 }

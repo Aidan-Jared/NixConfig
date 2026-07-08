@@ -209,8 +209,8 @@
          (lib.getExe inputs.system76-scheduler-niri.packages.${pkgs.stdenv.hostPlatform.system}.default)
         # "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae"        
         # (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.pandora)
-        "${pkgs.eww}/bin/eww" "daemon"
-        "${pkgs.eww}/bin/eww" "open" "bar"
+        # "${pkgs.eww}/bin/eww" "daemon"
+        # "${pkgs.eww}/bin/eww" "open" "bar"
          (lib.getExe (
              pkgs.writeShellScriptBin "wallpaper"
              "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -221,24 +221,6 @@
   };
 
   perSystem = { pkgs, ... }: {
-
-    # packages.pandora = let
-    # craneLib = inputs.crane.mkLib pkgs;
-    # commonArgs = {
-    #   src = inputs.pandora;
-    #   nativeBuildInputs = [ pkgs.pkg-config ];
-    #   buildInputs = [
-    #       pkgs.wayland
-    #       pkgs.wayland-protocols
-    #       pkgs.libxkbcommon
-    #       pkgs.mesa 
-    #     ];
-    #   };
-    # cargoArtifacts = craneLib.buildDepsOnly commonArgs;
-    # in craneLib.buildPackage ( commonArgs // {
-    #   inherit cargoArtifacts;
-    # } );
-
     packages.eww-niri-workspaces = let
         craneLib = inputs.crane.mkLib pkgs;
         src = pkgs.fetchFromGitHub {

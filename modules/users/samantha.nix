@@ -29,7 +29,6 @@
       self.homeModules.profile
       self.homeModules.git
       self.homeModules.jj
-      self.homeModules.blazingjj
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python
@@ -37,9 +36,9 @@
       self.homeModules.comunication
       self.homeModules.zed
       self.homeModules.noctalia
-      self.homeModules.ewwBar
-      self.homeModules.vicinae
-      self.homeModules.stasis
+      # self.homeModules.ewwBar
+      # self.homeModules.vicinae
+      # self.homeModules.stasis
     ];
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

@@ -41,7 +41,7 @@
 
     greeterConf = pkgs.writeText "greeter.conf" ''
       # Session to pre-select (overridden by --session on the CLI, which we also pass)
-      default_session = niri
+      default_session = mango
 
       # Use the palette synced from Noctalia (appears after first sync or wallpaper symlink)
       scheme = Synced

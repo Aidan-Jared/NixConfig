@@ -37,7 +37,7 @@
             capsule_padding = 6.0;
             center = [ "date" "clock" "spacer_3" "weather" ];
             contact_shadow = false;
-            enabled = false;
+            enabled = true;
             end = [ "clipboard" "network" "bluetooth" "notifications" "battery" "session" ];
             font_weight = 500;
             layer = "top";

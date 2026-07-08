@@ -24,7 +24,6 @@
       self.homeModules.devenv
       self.homeModules.btop
       self.homeModules.jj
-      self.homeModules.blazingjj
     ];
 
     
