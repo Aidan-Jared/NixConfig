@@ -1,22 +1,25 @@
 { inputs, self, pkgs, lib, ... }: {
 
   flake.nixosModules.mango = { pkgs, ... }: {
+    imports = [ inputs.mangowm.nixosModules.mango ];
     programs.mango = {
       enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.mango;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.mangowc;
     };
   };
 
-  flake.wrappersModules.mango = let
+  flake.wrappersModules.mangowc = let
         noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
       in { config, lib, pkgs, ... }: {
     
+    config.package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
+     # ${lib.getExe inputs.vibepanel.packages.${pkgs.stdenv.hostPlatform.system}.default}
     autostart_sh = ''
-     noctaliaExe 
-     (lib.getExe (
+     ${noctaliaExe}
+     ${(lib.getExe (
          pkgs.writeShellScriptBin "wallpaper"
          "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
-       ))
+       ))}
     '';
 
     options.terminal = lib.mkOption {
@@ -88,10 +91,10 @@
         "SUPER,k,focusstack,prev"
 
         # DWM style binds
-        "SUPER,i,incnmaster,+1"
-        "SUPER,d,incnmaster,-1"
-        "SUPER,h,setmfact,-0.05"
-        "SUPER,l,setmfact,+0.05"
+        "ALT,i,incnmaster,+1"
+        "ALT,d,incnmaster,-1"
+        "ALT,h,setmfact,-0.05"
+        "ALT,l,setmfact,+0.05"
         "SUPER,Return,zoom"
         "SUPER,code:60,focusmon,right"
         "SUPER+shift,code:60,tagmon,right,0"
@@ -126,7 +129,7 @@
         "SUPER,z,toggle_scratchpad"
 
         # Layouts
-        "SUPER,t,setlayout,tile"
+        "SUPER,g,setlayout,tile"
         "SUPER,v,setlayout,vertical_grid"
         "SUPER,c,setlayout,spiral"
         "SUPER,n,setlayout,switch_layout"
@@ -152,7 +155,8 @@
         # Screenshots
         "SUPER+CTRL,s,spawn,grim -l 0 - | wl-copy"
         "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
-        "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy""SUPER,o,toggleoverview"
+        "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
+        "SUPER,o,toggleoverview"
       ];
 
       mousebind = [
@@ -204,9 +208,8 @@
   perSystem = { lib, pkgs, ... }: {
     packages.mangowc = inputs.wrapper-modules.wrappers.mangowc.wrap {
       inherit pkgs;
-      package = lib.mkForce self.mangowm.nixosModules.mango;
       imports = [
-        self.wrappersModules.mango 
+        self.wrappersModules.mangowc 
       ];
     };
   };

@@ -25,6 +25,11 @@
       rip2
       bat
       dust
+      just
+      cargo-generate
+
+      docker
+      podman
       
       p7zip
 
@@ -32,16 +37,15 @@
       # file transfer
       croc
 
+      texlive.combined.scheme-full
+
       # Desktop Apps
       ffmpegthumbnailer 
       unar         
       glow  
       poppler
       imagemagick
-      swaybg
    	];
-
-   
   };
 	
 }

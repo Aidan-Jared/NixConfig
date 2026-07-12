@@ -1,5 +1,14 @@
 {self, inputs, ...}:
 {
+      
+
+  flake.homeModules.swaybag = {pkgs, lib, ...}: {
+  
+    home.packages = [
+      pkgs.swaybg
+    ];
+  };
+
   flake.homeModules.stasis = {pkgs, lib, ...}: {
   
     imports = [

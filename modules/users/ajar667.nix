@@ -24,14 +24,8 @@
       self.homeModules.devenv
       self.homeModules.btop
       self.homeModules.jj
+      self.homeModules.remote
     ];
-
-    
-    home.packages = [
-      pkgs.croc
-      pkgs.tailscale
-    ];
-
     
     home.stateVersion = "25.05";
     programs.home-manager.enable = true;

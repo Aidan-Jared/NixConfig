@@ -6,6 +6,11 @@
       enable = true;
       polarity = "dark";
 
+      opacity = {
+        terminal = 0.9;
+        applications = 0.9;
+      };
+
       image = pkgs.runCommand "wallpaper.png" {
         nativeBuildInputs = [ pkgs.imagemagick ];
       } ''
@@ -37,6 +42,9 @@
           name = "Noto Color Emoji";
         };
        };
+
+      base16Scheme = "$(pkgs.base-16-schemes)/share/themes/rose-pine-moon.yaml";
+      
       override = {
         base08 = "ff4444";  # red — errors
         base09 = "ff8800";  # orange — warnings

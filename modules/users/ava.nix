@@ -1,17 +1,17 @@
 { self, inputs, ... }: {
-  flake.homeConfigurations.samantha = inputs.home-manager.lib.homeManagerConfiguration {
+  flake.homeConfigurations.ava = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
         modules = [
-          self.homeModules.samanthaHome
+          self.homeModules.avaHome
           {
-            home.username = "samantha";
-            home.homeDirectory = "/home/samantha";
+            home.username = "ava";
+            home.homeDirectory = "/home/ava";
           }
         ];
   };
 
   
-  flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
+  flake.homeModules.avaHome = { pkgs, lib, ... }: {
     imports = [
       inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
