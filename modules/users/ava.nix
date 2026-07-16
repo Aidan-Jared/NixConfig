@@ -20,29 +20,36 @@
       self.homeModules.zellij
       self.homeModules.herdr
       self.homeModules.yazi
-      self.homeModules.zen
       self.homeModules.stylix
       self.homeModules.btop
       self.homeModules.starship
       self.homeModules.atuin
+
+      # browswer
+      self.homeModules.zen
+
       self.homeModules.extraTools
+
+      # coding
       self.homeModules.git
       self.homeModules.jj
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python
+      self.homeModules.rLang
       self.homeModules.devenv
       self.homeModules.comunication
       self.homeModules.zed
-      self.homeModules.noctalia
+      self.homeModules.vscode
+
+      # extra
       self.homeModules.remote
       self.homeModules.gaming
-      self.homeModules.rLang
     ];
 
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.nh;
-    ]
+    ];
     
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

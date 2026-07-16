@@ -36,6 +36,7 @@
       self.homeModules.devenv
       self.homeModules.comunication
       self.homeModules.zed
+      self.homeModules.vscode
       self.homeModules.noctalia
       self.homeModules.remote
       # self.homeModules.ewwBar
