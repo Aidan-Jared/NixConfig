@@ -5,7 +5,7 @@
     lib,
     ...
   }: {
-    environment.systemPackages = with pkgs; [
+    home.packages = with pkgs; [
       lutris
       steam-run
       dxvk

@@ -11,10 +11,6 @@
     
    	services.tailscale.enable = true;
 
-    services.openssh = {
-      enable = true;
-      openFirewall = true;
-    };
 
     programs.mosh.enable = true;
   };

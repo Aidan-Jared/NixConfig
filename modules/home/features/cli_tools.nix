@@ -26,7 +26,6 @@
       bat
       dust
       just
-      cargo-generate
 
       docker
       podman
@@ -36,8 +35,6 @@
       zathura
       # file transfer
       croc
-
-      texlive.combined.scheme-full
 
       # Desktop Apps
       ffmpegthumbnailer 

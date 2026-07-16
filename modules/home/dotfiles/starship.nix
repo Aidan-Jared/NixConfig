@@ -9,7 +9,7 @@
 
         character = {
          	disabled = false;
-         	success_symbol = "[=>](#e040c0)";
+         	success_symbol = "[=>](green)";
          	error_symbol = "[=>](red)";
          	vimcmd_symbol = "[<-](#30e890)";
         };

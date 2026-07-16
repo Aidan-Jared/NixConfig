@@ -21,6 +21,7 @@
       lldb
       mold
       sccache
+      cargo-generate
     ];
     home.sessionVariables.RUSTC_WRAPPER = "sccache";
   };
@@ -32,6 +33,17 @@
       kdlfmt
       markdown-oxide
       tinymist
+      texlive.combined.scheme-full
+   	  typst
+   	  taplo
+    ];
+  };
+
+  flake.homeModules.rLang = { pkgs, ... }: {
+    home.packages = with pkgs; [
+      R
+      rPackages.littler
+      rPackages.tidyverse
     ];
   };
 

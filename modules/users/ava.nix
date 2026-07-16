@@ -25,8 +25,6 @@
       self.homeModules.btop
       self.homeModules.starship
       self.homeModules.atuin
-      self.homeModules.ghostty
-      self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.git
       self.homeModules.jj
@@ -39,10 +37,13 @@
       self.homeModules.noctalia
       self.homeModules.remote
       self.homeModules.gaming
-      # self.homeModules.ewwBar
-      # self.homeModules.vicinae
-      # self.homeModules.stasis
+      self.homeModules.rLang
     ];
+
+    home.packages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.nh;
+    ]
+    
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;
     xdg.configFile."mimeapps.list".force = true;

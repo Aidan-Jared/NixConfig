@@ -2,7 +2,7 @@
 {
 
   flake.homeModules.helix = { pkgs, lib, ... }: {
-
+    
     programs.helix = {
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.helix;
@@ -26,10 +26,10 @@
         auto-format = true;
         gutters = [ "diff" "diagnostics" "line-numbers" "spacer" ];
 
-        terminal = {
-          command = "zellij";
-          args = [ "run" "--direction" "down" "--" "bash" "-c" ];
-        };
+        # terminal = {
+        #   command = "zellij";
+        #   args = [ "run" "--direction" "down" "--" "bash" "-c" ];
+        # };
 
         statusline.right = [ "diagnostics" "selections" "position" "file-encoding" ];
 
