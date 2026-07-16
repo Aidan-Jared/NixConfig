@@ -38,7 +38,8 @@
       self.homeModules.python
       self.homeModules.rLang
       self.homeModules.devenv
-      self.homeModules.comunication
+      self.homeModules.matrix
+      self.homeModules.discord
       self.homeModules.zed
       self.homeModules.vscode
 

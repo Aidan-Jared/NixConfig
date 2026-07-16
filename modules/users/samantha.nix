@@ -34,7 +34,7 @@
       self.homeModules.rust
       self.homeModules.python
       self.homeModules.devenv
-      self.homeModules.comunication
+      self.homeModules.matrix
       self.homeModules.zed
       self.homeModules.vscode
       self.homeModules.noctalia
