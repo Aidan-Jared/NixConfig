@@ -38,6 +38,7 @@
       self.homeModules.zed
       self.homeModules.noctalia
       self.homeModules.remote
+      self.homeModules.gaming
       # self.homeModules.ewwBar
       # self.homeModules.vicinae
       # self.homeModules.stasis

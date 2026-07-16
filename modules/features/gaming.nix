@@ -30,31 +30,6 @@
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      lutris
-      steam-run
-      dxvk
-      # parsec-bin
-
-      gamescope
-
-      mangohud
-
-      r2modman
-
-      heroic
-
-      er-patcher
-      bottles
-
-      steamtinkerlaunch
-
-      prismlauncher
-
-      lsfg-vk
-      lsfg-vk-ui
-    ];
-
     nix.settings = {
       substituters = ["https://nix-gaming.cachix.org"];
       trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
