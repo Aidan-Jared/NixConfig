@@ -39,6 +39,8 @@
           { "zellij:link" = {}; }
         ];
 
+        ui.pane_frames.rounded_corners = true;
+        
         keybinds._props.clear-defaults = false;
 
         keybinds.normal._children = [
@@ -64,6 +66,13 @@
         ];
         keybinds.locked._children = [
           { bind = { _args = ["Ctrl g"]; SwitchToMode._args = ["normal"]; }; }
+          { bind = {
+            _args = ["Alt g"];
+            _children = [{
+              Run._args = ["blazingjj"];
+              Run._children = [{ floating = true; close_on_exit = true; }];
+            }];
+          }; }
         ];
 
         keybinds.pane._children = [
