@@ -19,6 +19,7 @@
     home.packages = [ pkgs.atuin ];
     programs.atuin = {
       enable = true;
+      flags = [ "--disable-ctrl-r" ];
       enableBashIntegration = true;
       settings = {
         enter_accept = true;
@@ -64,8 +65,8 @@
 
   flake.homeModules.jj = { pkgs,... }: {
     home.packages = [
-      self.packages.jujutsu
-      self.packages.blazingjj
+      self.packages.${pkgs.stdenv.hostPlatform.system}.jujutsu
+      self.packages.${pkgs.stdenv.hostPlatform.system}.blazingjj
     ];
   };
 }

@@ -8,7 +8,7 @@
    	   obsidian
    	   zotero
 
-   	   transmission 
+   	   transmission_4 
    	];
   };
 	

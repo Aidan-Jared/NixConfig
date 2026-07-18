@@ -49,7 +49,7 @@
     ];
 
     home.packages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.nh;
+      self.packages.${pkgs.stdenv.hostPlatform.system}.nh
     ];
     
     home.stateVersion = "26.05";

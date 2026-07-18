@@ -16,11 +16,11 @@
       } ''
         convert ${self.wallpaper} $out
       '';
-        cursor = {
-        name = "DMZ-Black";
-        size = 24;
-        package = pkgs.vanilla-dmz;
-      };
+      #   cursor = {
+      #   name = "DMZ-Black";
+      #   size = 24;
+      #   package = pkgs.vanilla-dmz;
+      # };
       fonts = {
         serif = {
           package = pkgs.fira;
@@ -43,7 +43,7 @@
         };
        };
 
-      base16Scheme = "$(pkgs.base-16-schemes)/share/themes/rose-pine-moon.yaml";
+      # base16Scheme = "$(pkgs.base-16-schemes)/share/themes/rose-pine-moon.yaml";
       
       override = {
         base08 = "ff4444";  # red — errors

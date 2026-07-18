@@ -27,13 +27,13 @@
           order = [ "default" ];
           default = {
             auto_hide = false;
-            background_opacity = 0.0;
+          #   background_opacity = 0.0;
             border = "outline";
             border_width = 0.0;
             capsule = true;
             capsule_fill = "outline";
             capsule_group = [];
-            capsule_opacity = 0.5;
+          #   capsule_opacity = 0.5;
             capsule_padding = 6.0;
             center = [ "date" "clock" "spacer_3" "weather" ];
             contact_shadow = false;
@@ -177,7 +177,7 @@
               rotation = 0.0;
               type = "sysmon";
               settings = {
-                background_opacity = 0.68000000000000005;
+          #       background_opacity = 0.68000000000000005;
                 stat = "gpu_usage";
                 stat2 = "gpu_temp";
               };
@@ -195,7 +195,7 @@
               settings = {
                 background = true;
                 background_color = "surface";
-                background_opacity = 0.67000000000000004;
+          #       background_opacity = 0.67000000000000004;
                 stat2 = "cpu_temp";
               };
             };
@@ -240,14 +240,14 @@
 
         dock = {
           active_monitor_only = false;
-          active_opacity = 1.0;
+          # active_opacity = 1.0;
           active_scale = 1.0;
           auto_hide = false;
-          background_opacity = 0.87999999523162842;
+          # # background_opacity = 0.87999999523162842;
           cross_axis_padding = 8;
           enabled = false;
           icon_size = 48;
-          inactive_opacity = 0.85000002384185791;
+          # inactive_opacity = 0.85000002384185791;
           inactive_scale = 0.85000002384185791;
           item_spacing = 6;
           launcher_icon = "grid-dots";
@@ -378,9 +378,9 @@
               type = "login_box";
               settings = {
                 background_color = "surface_variant";
-                background_opacity = 0.88;
+          #       background_opacity = 0.88;
                 background_radius = 12.0;
-                input_opacity = 1.0;
+          #       input_opacity = 1.0;
                 input_radius = 6.0;
                 show_login_button = true;
               };
@@ -451,7 +451,7 @@
               rotation = 0.0;
               type = "sysmon";
               settings = {
-                background_opacity = 0.68000000000000005;
+          #       background_opacity = 0.68000000000000005;
                 stat = "gpu_usage";
                 stat2 = "gpu_temp";
               };
@@ -468,7 +468,7 @@
               settings = {
                 background = true;
                 background_color = "surface";
-                background_opacity = 0.67000000000000004;
+          #       background_opacity = 0.67000000000000004;
                 stat2 = "cpu_temp";
               };
             };
@@ -518,11 +518,11 @@
 
         notification = {
           allowed_urgencies = [];
-          background_opacity = 0.97000002861022949;
+          # background_opacity = 0.97000002861022949;
           blacklist = [];
           blacklist_allow_critical = true;
           collapse_on_dismiss = true;
-          enable_daemon = false;
+          enable_daemon = true;
           layer = "top";
           monitors = [];
           offset_x = 20;
@@ -534,7 +534,7 @@
         };
 
         osd = {
-          background_opacity = 0.97000002861022949;
+          # background_opacity = 0.97000002861022949;
           monitors = [];
           offset_x = 20;
           offset_y = 8;
@@ -587,7 +587,7 @@
           corner_radius_scale = 2.0;
           date_format = "%A, %x";
           disable_mipmaps = false;
-          font_family = "FiraCode Nerd Font Mono";
+          # font_family = "FiraCode Nerd Font Mono";
           lang = "en";
           launch_apps_as_systemd_services = false;
           middle_click_opens_widget_settings = true;
@@ -730,10 +730,10 @@
         theme = {
           builtin = "Noctalia";
           community_palette = "Oxocarbon";
-          custom_palette = "";
+          # custom_palette = "";
           mode = "dark";
-          source = "wallpaper";
-          wallpaper_scheme = "m3-content";
+          # source = "wallpaper";
+          # wallpaper_scheme = "m3-content";
           templates = {
             builtin_ids = [];
             community_ids = [];
@@ -790,7 +790,7 @@
           anchor = true;
           capsule = true;
           capsule_fill = "outline";
-          capsule_opacity = 0.5;
+          # capsule_opacity = 0.5;
           format = "{:%H:%M:%S}";
           type = "clock";
         };
@@ -798,7 +798,7 @@
         "widget.control-center" = {
           capsule = true;
           capsule_fill = "outline";
-          capsule_opacity = 0.5;
+          # capsule_opacity = 0.5;
           glyph = "brand-snowflake";
           type = "control-center";
         };
@@ -882,14 +882,14 @@
         "widget.weather" = {
           capsule = true;
           capsule_fill = "outline";
-          capsule_opacity = 0.5;
+          # capsule_opacity = 0.5;
           type = "weather";
         };
 
         "widget.workspaces" = {
           capsule = true;
           capsule_fill = "outline";
-          capsule_opacity = 0.5;
+          # capsule_opacity = 0.5;
           labels_only_when_occupied = true;
           type = "workspaces";
         };

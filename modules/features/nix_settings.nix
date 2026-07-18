@@ -2,13 +2,13 @@
 
   flake.nixosModules.nixSettings = { pkgs, lib, ... }: {
     
-    environment.systemPackages = [
-      self.packages.nh
-    ];
+    # environment.systemPackages = [
+    #   self.packages.nh
+    # ];
     
     system.autoUpgrade = {
       enable = true;
-      flake = ".#baseMachine";
+      flake = ".#cudaMachine";
       flags = [ "--update-input" "nixpkgs" ];    
       dates = "weekly";
     };

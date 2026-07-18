@@ -13,6 +13,7 @@
         window-padding-y = 8;
         cursor-style = "bar";
         shell-integration = "bash";
+        window-decoration = "none";
       };
     };
   };

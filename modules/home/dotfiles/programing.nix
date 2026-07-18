@@ -33,7 +33,7 @@
       kdlfmt
       markdown-oxide
       tinymist
-      texlive.combined.scheme-full
+      # texlive.combined.scheme-small
    	  typst
    	  taplo
     ];
