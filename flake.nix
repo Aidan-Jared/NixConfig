@@ -14,6 +14,10 @@
       url = "github:BirdeeHub/nix-wrapper-modules";
     };
 
+    wrappers = {
+      url = "github:Lassulus/wrappers";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,10 +42,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stasis = {
-      url = "github:saltnpepper97/stasis";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # stasis = {
+    #   url = "github:saltnpepper97/stasis";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # niri = {
     #   url = "github:sodiboo/niri-flake";
@@ -53,10 +57,10 @@
     #   flake = false;
     # };
     
-    system76-scheduler-niri = {
-      url = "github:Kirottu/system76-scheduler-niri";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # system76-scheduler-niri = {
+    #   url = "github:Kirottu/system76-scheduler-niri";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # sops-nix = {
     #   url = "github:Mic92/sops-nix";

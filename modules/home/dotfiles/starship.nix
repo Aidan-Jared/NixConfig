@@ -1,10 +1,13 @@
 { self, inputs, ... }: {
-  flake.homeModules.starship = { pkgs, ... }: {
-   home.packages = [ pkgs.starship pkgs.starship-jj ];   
+  flake.wrappersModules.starship = { config, wlib, lib, pkgs, ... }: {
+    imports = [ wlib.modules.default ];
+    config.packages = pkgs.starship;
+    config.extraPckages = [ pkgs.starship-jj ];
 
-    programs.starship = {
-      enable = true;
-      settings = {# Get editor completions based on the config schema
+    config.constructFiles."starship.toml" = {
+      relPath = "etc/starship.toml";
+      content = lib.generators.toToml {  } {
+        # Get editor completions based on the config schema
         add_newline = true;
 
         character = {
@@ -376,10 +379,20 @@
          	format = "[[$time]($style)]";
          	disabled = false;
          	style = "#4a5068";
+
         };
 
         line_break.disabled = false;
       };
     };
+
+    config.env.STARSHIP_CONFIG = config.constructFiles."starship.toml".path;
   };
+
+  perSystem = { pkgs, ... }: {
+    packages.starship = inputs.wrapper-modules.lib.wrapPackage {
+      inherit pkgs;
+      imports = [ self.wrappersModules.starship ];
+    };
+  };  
 }

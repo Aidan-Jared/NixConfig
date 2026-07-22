@@ -3,7 +3,7 @@
   flake.nixosModules.nixSettings = { pkgs, lib, ... }: {
     
     # environment.systemPackages = [
-    #   self.packages.nh
+    #   
     # ];
     
     system.autoUpgrade = {

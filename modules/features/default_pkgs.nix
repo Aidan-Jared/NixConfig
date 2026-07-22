@@ -2,6 +2,7 @@
 
   flake.nixosModules.defaultPkgs = { pkgs, lib, ... }: {
     environment.systemPackages = with pkgs; [
+      self.packages.nh
       lvm2
       git
       curl

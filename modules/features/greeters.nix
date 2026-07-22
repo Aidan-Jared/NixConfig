@@ -30,9 +30,6 @@
     };
   };
 
-  flake.nixosModules.cosmicGreeter = { pkgs, lib, ... }: {
-    services.displayManager.cosmic-greeter.enable = true;
-  };
 
   flake.nixosModules.noctaliaGreeter = { pkgs, lib, config, ... }:
   let
