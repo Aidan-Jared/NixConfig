@@ -1,47 +1,58 @@
 { self, inputs, ... }:
 {
   flake.homeModules.cliTools = { pkgs, lib, ... }: {
-   	home.packages = with pkgs; [
-      xdg-utils
-   	  fzf
+   	home.packages = [
+      pkgs.xdg-utils
+   	  pkgs.fzf
 
    	  #backup
-   	  borgbackup
+   	  pkgs.borgbackup
 
       # Modern Rust CLI Tools
-      caligula
-      eza          
-      xcp
-      zoxide       
-      zathura
-      gitui        
-      ripgrep-all      
-      ripgrep
-      fd        
-      jq
-      jnv          
-      jless
+      pkgs.caligula
+      pkgs.eza          
+      pkgs.xcp
+      pkgs.zoxide       
+      pkgs.zathura
+      pkgs.gitui        
+      pkgs.ripgrep-all      
+      pkgs.ripgrep
+      pkgs.fd        
+      pkgs.jq
+      pkgs.jnv          
+      pkgs.jless
       # yazi
-      rip2
-      bat
-      dust
-      just
+      pkgs.rip2
+      pkgs.bat
+      pkgs.dust
+      pkgs.just
 
-      docker
-      podman
+      pkgs.docker
+      pkgs.podman
+      pkgs.p7zip
+
+      pkgs.zathura
       
-      p7zip
-
-      zathura
       # file transfer
-      croc
+      pkgs.croc
 
       # Desktop Apps
-      ffmpegthumbnailer 
-      unar         
-      glow  
-      poppler
-      imagemagick
+      pkgs.ffmpegthumbnailer 
+      pkgs.unar         
+      pkgs.glow  
+      pkgs.poppler
+      pkgs.imagemagick
+
+      # wrapped
+      self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
+
+      self.packages.${pkgs.stdenv.hostPlatform.system}.btop
+      self.packages.${pkgs.stdenv.hostPlatform.system}.starship
+      self.packages.${pkgs.stdenv.hostPlatform.system}.atuin
+      self.packages.${pkgs.stdenv.hostPlatform.system}.git
+      self.packages.${pkgs.stdenv.hostPlatform.system}.gh
+      self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
+      
    	];
   };
 	

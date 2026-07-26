@@ -19,12 +19,9 @@
       self.homeModules.helix
       self.homeModules.zellij
       self.homeModules.herdr
-      self.homeModules.starship
-      self.homeModules.atuin
       self.homeModules.devenv
       self.homeModules.btop
       self.homeModules.jj
-      self.homeModules.remote
     ];
     
     home.stateVersion = "25.05";

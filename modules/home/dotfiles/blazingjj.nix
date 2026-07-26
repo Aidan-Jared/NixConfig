@@ -1,4 +1,5 @@
 {
+  self,
   inputs,
   ...
 }: let
@@ -72,5 +73,15 @@ in {
           ui.editor = "hx";
         };
       });
+  };
+
+  flake.homeModules.jj = { pkgs, lib, ... }: {
+    home.packages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.blazingjj
+    ];
+    programs.jujutsu = {
+      enable = true;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.jujutsu;
+    };
   };
 }

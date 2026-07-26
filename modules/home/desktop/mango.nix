@@ -62,7 +62,7 @@ let
         bind = [
           "SUPER,t,spawn,${config.terminal}"
           "SUPER,space,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
-          "Mod+Escape,${noctaliaExe},msg,session,lock"
+          "SUPER,Escape,spawn,${noctaliaExe} msg session lock"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
           "SUPER,3,comboview,3"
@@ -106,14 +106,14 @@ let
           "SUPER+SHIFT,s,setlayout,vertical_scroller"
           "SUPER+CTRL,e,spawn,pcmanfm"
           "SUPER,e,spawn,ghostty -e yazi"
-          "none,XF86AudioRaiseVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
-          "none,XF86AudioLowerVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
-          "none,XF86AudioMute,spawn,wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ toggle"
-          "none,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          "none,XF86MonBrightnessUp,spawn,brightnessctl set 5%+"
-          "none,XF86MonBrightnessDown,spawn,brightnessctl set 5%-"
-          "none,XF86Sleep,${noctaliaExe},msg,session,lock-and-suspend"
-          "none,XF86Standby,${noctaliaExe},msg,session,lock-and-suspend"
+          "NONE,XF86AudioRaiseVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
+          "NONE,XF86AudioLowerVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
+          "NONE,XF86AudioMute,spawn,wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ toggle"
+          "NONE,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+          "NONE,XF86MonBrightnessUp,spawn,brightnessctl set 5%+"
+          "NONE,XF86MonBrightnessDown,spawn,brightnessctl set 5%-"
+          "NONE,XF86Sleep,spawn,${noctaliaExe} msg session lock-and-suspend"
+          "NONE,XF86Standby,spawn,${noctaliaExe} msg session lock-and-suspend"
           "SUPER+CTRL,s,spawn,grim -l 0 - | wl-copy"
           "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
           "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
@@ -123,8 +123,8 @@ let
         mousebind = [
           "SUPER,btn_left,moveresize,curmove"
           "SUPER,btn_right,moveresize,curresize"
-          "NONE,btn_left,toggleoverview,-1"
-          "NONE,btn_right,killclient,0"  
+          # "NONE,btn_left,toggleoverview,-1"
+          # "NONE,btn_right,killclient,0"  
         ];
 
         gesturebind = [

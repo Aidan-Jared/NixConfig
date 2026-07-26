@@ -18,12 +18,8 @@
       self.homeModules.cliTools
       self.homeModules.helix
       self.homeModules.zellij
-      self.homeModules.herdr
       self.homeModules.yazi
       self.homeModules.stylix
-      self.homeModules.btop
-      self.homeModules.starship
-      self.homeModules.atuin
 
       # browswer
       self.homeModules.zen

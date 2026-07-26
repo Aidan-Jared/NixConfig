@@ -1,4 +1,11 @@
 { self, inputs, ... }: {
+  flake.homeModules.starship = { pkgs, lib, ... }: {
+    programs.starship = {
+      enable = true;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.starship;
+    };
+  };
+  
   flake.wrappersModules.starship = { config, wlib, lib, pkgs, ... }: {
     imports = [ wlib.modules.default ];
     config.packages = pkgs.starship;
