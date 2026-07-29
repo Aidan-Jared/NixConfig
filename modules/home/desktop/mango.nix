@@ -12,7 +12,7 @@ let
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
       autostart_sh = ''
-        ${noctaliaExe}
+        ${lib.getExe pkgs.wayle}
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
            "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"

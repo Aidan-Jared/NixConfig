@@ -129,17 +129,17 @@
 
         git_metrics = {
           added_style = "bold blue";
-         	format = "[+$added]($added_style)][[-$deleted]($deleted_style)";
+         	format = "[+$added]($added_style)[-$deleted]($deleted_style)";
         };
 
         git_status = {
-          format = "([[$all_status ] [$ahead_behind];]($style))";
+          format = "([$all_status ] [$ahead_behind];]($style))";
           stashed = "[📦](orange)";
           staged = "[++($count)](green)";
           up_to_date = "[✓](#30e890)";
-          modified = "[changed(#40e8ff)";
-          conflicted = "[conflicted(red)";
-          untracked = "[untracked(#4a5068)";
+          modified = "[changed] (#40e8ff)";
+          conflicted = "[conflicted] (red)";
+          untracked = "[untracked] (#4a5068)";
          	# deleted = "🗑";
          	ahead = "⇡\$(count)";
          	diverged = "⇕⇡$(ahead_count)⇣$(behind_count)";
@@ -202,7 +202,7 @@
 
         hostname = {
          	ssh_symbol = " ";
-         	format = "[$ssh_symbol($hostname)]($style)] ";
+         	format = "[$ssh_symbol($hostname)]($style) ";
        	};
 
         java = {
@@ -317,7 +317,7 @@
          	symbol = " ";
          	format = "[\${symbol}\${pyenv_prefix}(\${version})({\$virtualenv})](\$style)";
          	pyenv_version_name = true;
-         	python_binary = [[ "uv" "run" "--no-python-downloads" "--no-project" "python" ]];
+         	python_binary = [ "uv" "run" "--no-python-downloads" "--no-project" "python" ];
          	style = "#40e8ff";
         };
 
