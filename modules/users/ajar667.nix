@@ -17,13 +17,16 @@
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      self.homeModules.zellij
-      self.homeModules.herdr
+      # self.homeModules.zellij
       self.homeModules.devenv
-      self.homeModules.btop
+      # self.homeModules.btop
       self.homeModules.jj
     ];
     
+    home.packages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.nh
+    ];
+
     home.stateVersion = "25.05";
     programs.home-manager.enable = true;
     # xdg.configFile."mimeapps.list".force = true;

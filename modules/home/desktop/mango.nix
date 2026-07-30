@@ -1,7 +1,8 @@
 { inputs, self, ... }: 
 let
   mangowcModule = { config, lib, pkgs, ... }: let
-    noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    wayleExe = lib.getExe pkgs.wayle;
+    # noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
   in {
     options.terminal = lib.mkOption {
       type = lib.types.str;
@@ -12,7 +13,7 @@ let
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
       autostart_sh = ''
-        ${lib.getExe pkgs.wayle}
+        ${wayleExe} panel start
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
            "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -62,7 +63,7 @@ let
         bind = [
           "SUPER,t,spawn,${config.terminal}"
           "SUPER,space,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
-          "SUPER,Escape,spawn,${noctaliaExe} msg session lock"
+          "SUPER,Escape,spawn,loginctl lock-session"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
           "SUPER,3,comboview,3"
@@ -112,8 +113,8 @@ let
           "NONE,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
           "NONE,XF86MonBrightnessUp,spawn,brightnessctl set 5%+"
           "NONE,XF86MonBrightnessDown,spawn,brightnessctl set 5%-"
-          "NONE,XF86Sleep,spawn,${noctaliaExe} msg session lock-and-suspend"
-          "NONE,XF86Standby,spawn,${noctaliaExe} msg session lock-and-suspend"
+          "NONE,XF86Sleep,spawn,loginctl lock-session; systemctl suspend"
+          "NONE,XF86Standby,spawn,loginctl lock-session; systemctl suspend"
           "SUPER+CTRL,s,spawn,grim -l 0 - | wl-copy"
           "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
           "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
@@ -164,6 +165,9 @@ let
 in {
   flake.nixosModules.mango = { pkgs, ... }: {
     imports = [ inputs.mangowm.nixosModules.mango ];
+    environment.systemPackages = [
+     self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
+    ];
     programs.mango = {
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.mangowc;

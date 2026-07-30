@@ -1,30 +1,22 @@
 { self, inputs, ... }: {
 
   flake.wrappersModules.btop = { config, wlib, lib, pkgs, ... }: {
-    imports = [ wlib.modules.default ];
+    imports = [ inputs.wrapper-modules.wrapperModules.btop ];
     config.package = pkgs.btop-cuda;
 
-    config.constructFiles."btop.conf" = {
-      relPath = "etc/btop.conf";
-      content = ''
-        vim_keys = true
-        gpu_mirror_graph = true
-        show_gpu_info = "Auto"
-        shown_boxes = "cpu gpu0 mem"
-        graph_symbol = "block"
-      '';
-    };
-
-    config.addFlag = [ [ "--config" config.constructFiles."btop.conf".path ] ];
+    config.settings = {
+        vim_keys = true;
+        gpu_mirror_graph = true;
+        show_gpu_info = "Auto";
+        shown_boxes = "cpu gpu0 mem";
+        graph_symbol = "block";
+      };
   };
 
   flake.wrappersModules.atuin = { config, wlib, lib, pkgs, ... }: {
-    imports = [ wlib.modules.default ];
+    imports = [ inputs.wrapper-modules.wrapperModules.atuin ];
     config.package = pkgs.atuin;
-
-    config.constructFiles."config.toml" = {
-      relPath = "etc/atuin/config.toml";
-      content = lib.generators.toTOML { } {
+    config.settings = {
         enter_accept = true;
         search_mode = "fuzzy";
         sync.records = true;
@@ -33,48 +25,22 @@
           autostart = true;
         };
       };
-    };
-
-    config.env.ATUIN_CONFIG_DIR = builtins.dirOf config.constructFiles."config.toml".path;
   };
 
   flake.wrappersModules.git = { config, wlib, lib, pkgs, ... }: {
-    imports = [ wlib.modules.default ];
+    imports = [ inputs.wrapper-modules.wrapperModules.git ];
     config.package = pkgs.git;
-
-    config.constructFiles.gitconfig = {
-      relPath = "etc/gitconfig";
-      content = lib.generators.toINI { } {
+    config.settings = {
         init.defaultBranch = "main";
         user = {
           name = "Aidan-Jared";
           email = "AidanJared42@gmail.com";
         };
       };
-    };
-
-    config.env.GIT_CONFIG_GLOBAL = config.constructFiles.gitconfig.path;
   };
 
-  flake.wrappersModules.gh = { config, wlib, lib, pkgs, ... }: {
-    imports = [ wlib.modules.default ];
-    config.package = pkgs.gh;
 
-    config.constructFiles."config.yml" = {
-      relPath = "etc/gh/config.yml";
-      content = lib.generators.toYAML { } {
-        git_protocol = "https";
-        prompt = "enabled";
-        aliases.co = "pr checkout";
-      };
-    };
-
-    config.env.GH_CONFIG_DIR = builtins.dirOf config.constructFiles."config.yml".path;
-  };
-
-  perSystem = { pkgs, ... }: let
-    system = pkgs.stdenv.hostPlatform.system;
-  in {
+  perSystem = { pkgs, ... }: {
     packages.btop = inputs.wrapper-modules.lib.wrapPackage {
       inherit pkgs;
       imports = [ self.wrappersModules.btop ];
@@ -86,10 +52,6 @@
     packages.git = inputs.wrapper-modules.lib.wrapPackage {
       inherit pkgs;
       imports = [ self.wrappersModules.git ];
-    };
-    packages.gh = inputs.wrapper-modules.lib.wrapPackage {
-      inherit pkgs;
-      imports = [ self.wrappersModules.gh ];
     };
   };
 }

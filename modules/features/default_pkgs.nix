@@ -2,9 +2,8 @@
 
   flake.nixosModules.defaultPkgs = { pkgs, lib, ... }: {
     environment.systemPackages = with pkgs; [
-      self.packages.nh
+      self.packages.${pkgs.stdenv.hostPlatform.system}.nh
       lvm2
-      git
       curl
       wget
       rsync

@@ -17,11 +17,11 @@
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      self.homeModules.zellij
+      # self.homeModules.zellij
       self.homeModules.yazi
       self.homeModules.zen
       self.homeModules.stylix
-      self.homeModules.ghostty
+#      self.homeModules.ghostty
       self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp
@@ -32,7 +32,8 @@
       self.homeModules.zed
       self.homeModules.jj
       self.homeModules.vscode
-      self.homeModules.noctalia
+      self.homeModules.wayle
+      # self.homeModules.noctalia
       # self.homeModules.ewwBar
       self.homeModules.vicinae
       # self.homeModules.stasis

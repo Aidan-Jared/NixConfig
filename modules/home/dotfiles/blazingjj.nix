@@ -32,7 +32,7 @@
           commonArgs = { inherit src; };
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
         in 
-          craneLib.buildPackage (commonArgs // { inherit cargoArtifacts; });
+          craneLib.buildPackage (commonArgs // { inherit cargoArtifacts;  doCheck = false; });
 
         # Bind the generated configuration into the environment variable blazingjj looks for
         env = {

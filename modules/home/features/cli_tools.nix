@@ -30,6 +30,7 @@
       pkgs.docker
       pkgs.podman
       pkgs.p7zip
+      pkgs.gh
 
       pkgs.zathura
       
@@ -50,10 +51,17 @@
       self.packages.${pkgs.stdenv.hostPlatform.system}.starship
       self.packages.${pkgs.stdenv.hostPlatform.system}.atuin
       self.packages.${pkgs.stdenv.hostPlatform.system}.git
-      self.packages.${pkgs.stdenv.hostPlatform.system}.gh
       self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
       
    	];
+   programs.gh = {
+      enable = true;
+      settings = {
+         git_protocol = "https";
+         prompt = "enabled";
+         aliases.co = "pr checkout";
+         };
+   };
   };
 	
 }

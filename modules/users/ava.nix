@@ -17,9 +17,8 @@
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      self.homeModules.zellij
+      # self.homeModules.zellij
       self.homeModules.yazi
-      self.homeModules.stylix
 
       # browswer
       self.homeModules.zen
@@ -27,7 +26,6 @@
       self.homeModules.extraTools
 
       # coding
-      self.homeModules.git
       self.homeModules.jj
       self.homeModules.lsp
       self.homeModules.rust
