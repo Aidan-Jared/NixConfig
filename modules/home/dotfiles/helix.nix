@@ -18,7 +18,7 @@
     config.binName = "hx";
 
     config.settings = {
-      # theme = "github_dark_dimmed";
+      theme = "eldritch_transparent";
 
       editor = {
         clipboard-provider = "wayland";

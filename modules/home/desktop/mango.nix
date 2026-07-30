@@ -14,6 +14,7 @@ let
       
       autostart_sh = ''
         ${wayleExe} panel start
+        ${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default} server
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
            "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -60,9 +61,14 @@ let
         enable_floating_snap = 0;
         snap_distance = 30;
 
+        bindr = [
+          "SUPER,Super_L,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
+          
+        ];
+        
         bind = [
           "SUPER,t,spawn,${config.terminal}"
-          "SUPER,space,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
+          # "SUPER,,spawn_shell,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
           "SUPER,Escape,spawn,loginctl lock-session"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"

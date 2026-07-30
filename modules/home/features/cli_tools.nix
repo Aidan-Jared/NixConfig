@@ -48,8 +48,6 @@
       self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
 
       self.packages.${pkgs.stdenv.hostPlatform.system}.btop
-      self.packages.${pkgs.stdenv.hostPlatform.system}.starship
-      self.packages.${pkgs.stdenv.hostPlatform.system}.atuin
       self.packages.${pkgs.stdenv.hostPlatform.system}.git
       self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
       

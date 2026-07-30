@@ -4,7 +4,7 @@
       enable = true;
       settings = {
         default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd mango";
         user = "greeter";
         };
       };
@@ -24,7 +24,7 @@
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = "${pkgs.gtkgreet}/bin/gtkgreet --cmd mango";
+        command = "${pkgs.gtkgreet}/bin/gtkgreet --config mango";
         user = "greeter";
       };
     };

@@ -31,19 +31,16 @@
       };
 
       programs.zoxide.enable = true;
-      # programs.starship.enable = true;
+      programs.starship= {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.starship;
+      };
       programs.fzf.enable = true;
 
-      # programs.atuin = {
-      #   enable = true;
-      #   enableBashIntegration = true;
-      #   settings = {
-      #     auto_sync = true;
-      #     sync_frequency = "5m";
-      #     sync_address = "https://api.atuin.sh";
-      #     search_mode = "fuzzy";
-      #   };
-      # };
+      programs.atuin = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.atuin;
+      };
 
       programs.direnv = {
         enable = true;

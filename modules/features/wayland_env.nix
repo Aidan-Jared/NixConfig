@@ -36,7 +36,7 @@
       # XDG_CURRENT_DESKTOP = "Hyprland";
       # XDG_SESSION_TYPE = "wayland";
       # XDG_SESSION_DESKTOP = "Hyprland";
-      XDG_SESSION_DESKTOP = "niri";
+      XDG_SESSION_DESKTOP = "mango";
 
       # Nvidia-specific
       LIBVA_DRIVER_NAME = "nvidia";

@@ -27,8 +27,8 @@
       
       self.nixosModules.nvidia
       # self.nixosModules.tuiGreeter
-      self.nixosModules.noctaliaGreeter
-      self.nixosModules.niri
+      # self.nixosModules.noctaliaGreeter
+      # self.nixosModules.niri
     ];
 
     # nixpkgs.overlays = [
