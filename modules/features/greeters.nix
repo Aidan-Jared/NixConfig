@@ -17,14 +17,14 @@
       pkgs.greetd
     ];
 
-    environment.etc."greetd/niri-greeter.kdl".text = ''
-      spawn-sh-at-startup "${pkgs.gtkgreet}/bin/gtkgreet -l -c ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session; niri msg action quit --skip-confirmation"
-    '';
+    # environment.etc."greetd/niri-greeter.kdl".text = ''
+    #   spawn-sh-at-startup "${pkgs.gtkgreet}/bin/gtkgreet -l -c ${self.packages.${pkgs.stdenv.hostPlatform.system}.niri}/bin/niri-session; niri msg action quit --skip-confirmation"
+    # '';
 
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = "niri --config /etc/greetd/niri-greeter.kdl";
+        command = "${pkgs.gtkgreet}/bin/gtkgreet --cmd mango";
         user = "greeter";
       };
     };
