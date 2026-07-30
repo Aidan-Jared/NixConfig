@@ -12,8 +12,9 @@
 
   
   flake.homeModules.avaHome = { pkgs, lib, ... }: {
+    nixpkgs.config.allowUnfree = true;
     imports = [
-      inputs.stylix.homeModules.stylix
+      # inputs.stylix.homeModules.stylix
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
@@ -39,7 +40,7 @@
 
       # extra
       self.homeModules.remote
-      self.homeModules.gaming
+      # self.homeModules.gaming
     ];
 
     home.packages = [
