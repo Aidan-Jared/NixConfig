@@ -5,7 +5,7 @@
     users.users.samantha = {
       isNormalUser = true;
       description = "samantha";
-      extraGroups = [ "networkmanager" "wheel" "docker" "kvm" "video" "audio" ];
+      extraGroups = [ "networkmanager" "wheel" "docker" "kvm" "video" "audio" "libvirtd" ];
       shell = pkgs.bash;
     };
 
