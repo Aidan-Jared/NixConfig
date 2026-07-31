@@ -5,7 +5,7 @@
       pkgs.zellij 
     ];
 
-    home.file.".config/zellij/plugins/zjstatus.wasm".source = pkgs.zellijPlugins.zjstatus;
+    # home.file.".config/zellij/plugins/zjstatus.wasm".source = pkgs.zellijPlugins.zjstatus;
 
     programs.zellij = {
       enable = true;
@@ -37,7 +37,7 @@
             location = "zellij:session-manager";
             welcome_screen = false;
           };
-          zjstatus.location = "file:~/.config/zellij/plugins/zjstatus.wasm";
+          # zjstatus.location = "file:~/.config/zellij/plugins/zjstatus.wasm";
         };
 
         load_plugins._children = [
@@ -318,7 +318,7 @@
                 size = 1;
                 borderless = true;
                 plugin = {
-                  location = "file:~/.config/zellij/plugins/zjstatus.wasm";
+                  location = "zellij:compact-bar";
                   format_left  = "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}";
                   # format_right = "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}";
                   mode_normal  = "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL ";
@@ -353,7 +353,7 @@
                 size = 1;
                 borderless = true;
                 plugin = {
-                  location = "file:~/.config/zellij/plugins/zjstatus.wasm";
+                  location = "zellij:compact-bar";
                   format_left  = "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}";
                   # format_right = "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}";
                   mode_normal  = "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL ";  
