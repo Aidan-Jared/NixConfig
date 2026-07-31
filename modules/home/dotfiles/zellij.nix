@@ -1,7 +1,10 @@
 { self, inputs, ... }:
 {
   flake.homeModules.zellij = { pkgs, lib, ... }: {
-    home.packages = [ pkgs.zellij ];
+    home.packages = [
+      pkgs.zellij 
+      pkgs.zellijPlugins.zjstatus
+    ];
 
     programs.zellij = {
       enable = true;
@@ -32,7 +35,7 @@
             location = "zellij:session-manager";
             welcome_screen = false;
           };
-          zjstatus.location = "file:~/.config/zellij/plugins/zjstatus.wasm";
+          zjstatus.location = "file:${pkgs.zellijPlugins.zjstatus}/bin/zjstatus.wasm";
         };
 
         load_plugins._children = [
