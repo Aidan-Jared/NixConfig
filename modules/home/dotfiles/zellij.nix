@@ -3,7 +3,6 @@
   flake.homeModules.zellij = { pkgs, lib, ... }: {
     home.packages = [
       pkgs.zellij 
-      pkgs.zellijPlugins.zjstatus
     ];
 
     programs.zellij = {
