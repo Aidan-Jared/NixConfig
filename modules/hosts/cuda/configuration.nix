@@ -22,7 +22,7 @@
       self.nixosModules.cudaHardware
       self.nixosModules.users
       self.nixosModules.remote
-      self.nixosModules.vm
+      self.nixosModules.VM
       # self.nixosModules.noctalia
       self.nixosModules.waylandEnv
       

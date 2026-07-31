@@ -72,20 +72,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia";
+    # noctalia = {
+    #   url = "github:noctalia-dev/noctalia";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # noctalia-greeter = {
+    #   url = "github:noctalia-dev/noctalia-greeter";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    waybar = {
+      url = "github:Alexays/Waybar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia-greeter = {
-      url = "github:noctalia-dev/noctalia-greeter";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    vibepanel = {
-      url = "github:prankstr/vibepanel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # vibepanel = {
+    #   url = "github:prankstr/vibepanel";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     vicinae = {
       url = "github:vicinaehq/vicinae";
