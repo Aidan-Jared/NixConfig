@@ -22,7 +22,6 @@
       self.homeModules.zen
       self.homeModules.stylix
 #      self.homeModules.ghostty
-      self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp
       self.homeModules.rust
@@ -35,8 +34,7 @@
       self.homeModules.wayle
       # self.homeModules.noctalia
       # self.homeModules.ewwBar
-      self.homeModules.vicinae
-      # self.homeModules.stasis
+      # self.homeModules.vicinae
     ];
 
     home.packages = [

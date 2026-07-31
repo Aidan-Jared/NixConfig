@@ -2,7 +2,10 @@
 let
   mangowcModule = { config, lib, pkgs, ... }: let
     wayleExe = lib.getExe pkgs.wayle;
-    # noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
+    fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
+    fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
+    # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
       type = lib.types.str;
@@ -12,13 +15,16 @@ let
     config = {
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
+        # ${wayleExe} panel start
       autostart_sh = ''
-        ${wayleExe} panel start
-        ${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default} server
+        waybar &
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
            "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
-         ))}
+         ))} &
+        wl-paste --watch ${lib.getExe pkgs.cliphist} store &
+
+        swayosd-server
       '';
 
       settings = {
@@ -164,14 +170,14 @@ let
         overlaycolor = "0x14a57cff";
 
         bindr = [
-          "SUPER,Super_L,spawn,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
+          "SUPER,Super_L,spawn,${fuzzelExe}"
           
         ];
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
-          # "SUPER,,spawn_shell,${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae toggle"
-          "SUPER,Escape,spawn,loginctl lock-session"
+          "SUPER,Super_L,spawn,${fuzzelExe}"
+          "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
           "SUPER,3,comboview,3"
@@ -215,18 +221,39 @@ let
           "SUPER+SHIFT,s,setlayout,vertical_scroller"
           "SUPER+CTRL,e,spawn,pcmanfm"
           "SUPER,e,spawn,ghostty -e yazi"
-          "NONE,XF86AudioRaiseVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
-          "NONE,XF86AudioLowerVolume,spawn,wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
-          "NONE,XF86AudioMute,spawn,wpctl set-mute -l 1.4 @DEFAULT_AUDIO_SINK@ toggle"
-          "NONE,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          "NONE,XF86MonBrightnessUp,spawn,brightnessctl set 5%+"
-          "NONE,XF86MonBrightnessDown,spawn,brightnessctl set 5%-"
-          "NONE,XF86Sleep,spawn,loginctl lock-session; systemctl suspend"
-          "NONE,XF86Standby,spawn,loginctl lock-session; systemctl suspend"
+          "NONE,XF86AudioRaiseVolume,spawn,swayosd-client --output-volume +5"
+          "NONE,XF86AudioLowerVolume,spawn,swayosd-client --output-volume -5"
+          "NONE,XF86AudioMute,spawn,swayosd-client --output-volume mute-toggle"
+          "NONE,XF86AudioMicMute,spawn,swayosd-client --input-volume mute-toggle"
+          "NONE,XF86MonBrightnessUp,spawn,swayosd-client --brightness +5"
+          "NONE,XF86MonBrightnessDown,spawn,swayosd-client --brightness -5"
+          "NONE,Caps_Lock,spawn,swayosd-client --caps-lock"
+          "NONE,Num_Lock,spawn,swayosd-client --num-lock"
+          "NONE,XF86Sleep,spawn,${swaylock}; systemctl suspend"
+          "NONE,XF86Standby,spawn,${swaylock}; systemctl suspend"
           "SUPER+CTRL,s,spawn,grim -l 0 - | wl-copy"
           "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
           "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
           "SUPER,o,toggleoverview"
+          "SUPER+SHIFT,v,spawn,${lib.getExe (pkgs.writeShellScriptBin "fuzzel-clipboard" ''
+            set -euo pipefail
+            sel=$(${lib.getExe pkgs.cliphist} list | ${fuzzelDmenu "clip> "})
+            [ -z "$sel" ] && exit 0
+            ${lib.getExe pkgs.cliphist} decode <<< "$sel" | ${lib.getExe pkgs.wl-clipboard} wl-copy
+          '')}"
+
+        "SUPER+SHIFT,Escape,spawn,${lib.getExe (pkgs.writeShellScriptBin "power-menu" ''
+            set -euo pipefail
+            chosen=$(printf "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" | ${fuzzelDmenu "power> "})
+            case "$chosen" in
+              Lock)      loginctl lock-session ;;
+              Logout)    loginctl terminate-user "$USER" ;;
+              Suspend)   systemctl suspend ;;
+              Hibernate) systemctl hibernate ;;
+              Reboot)    systemctl reboot ;;
+              Shutdown)  systemctl poweroff ;;
+            esac
+          '')}"
         ];
 
         mousebind = [
@@ -245,8 +272,8 @@ let
 
         # From mango.conf: no layerrule existed in the nix config yet
         layerrule = [
-          "animation_type_open:zoom,layer_name:rofi"
-          "animation_type_close:zoom,layer_name:rofi"
+          "animation_type_open:zoom,layer_name:fuzzel"
+          "animation_type_close:zoom,layer_name:fuzzel"
         ];
 
         gesturebind = [
@@ -288,11 +315,16 @@ in {
     imports = [ inputs.mangowm.nixosModules.mango ];
     environment.systemPackages = [
      self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
+     self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock
+     self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
+     self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
+     pkgs.swayosd
     ];
     programs.mango = {
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.mangowc;
     };
+    security.pam.services.swaylock = {};
   };
 
   perSystem = { pkgs, ... }: {

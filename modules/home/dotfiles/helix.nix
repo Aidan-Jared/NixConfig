@@ -10,6 +10,7 @@
     home.sessionVariables = {
       EDITOR = "hx";
       VISUAL = "hx";
+      BROWSER = "xdg-open";
     };
   };
 
@@ -156,11 +157,11 @@
         markdown-oxide.command = "markdown-oxide";
         r-languageserver = { command = "R"; args = [ "--slave" "-e" "languageserver::run()" ]; };
         ruff = { command = "ruff"; args = [ "server" ]; };
-        tinymist = {
-          command = "tinymist";
-          config.preview.background.enabled = true;
-          config.preview.background.args = [ "--data-plane-host=127.0.0.1:0" "--invert-colors=never" "--open" ];
-        };
+        # tinymist = {
+        #   command = "tinymist";
+        #   config.preview.background.enabled = true;
+        #   config.preview.background.args = [ "--data-plane-host=127.0.0.1:0" "--invert-colors=never" "--open" ];
+        # };
         ty = { command = "ty"; args = [ "server" ]; };
         mojo-lsp-server = { command = "pixi"; args = [ "run" "mojo-lsp-server" ]; };
         taplo = { command = "taplo"; args = [ "lsp" "stdio" ]; config = {}; };

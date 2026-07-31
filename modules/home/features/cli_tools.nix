@@ -49,7 +49,7 @@
 
       self.packages.${pkgs.stdenv.hostPlatform.system}.btop
       self.packages.${pkgs.stdenv.hostPlatform.system}.git
-      # self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
+      self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
       
    	];
    programs.gh = {
@@ -58,7 +58,7 @@
          git_protocol = "https";
          prompt = "enabled";
          aliases.co = "pr checkout";
-         };
+      };
    };
   };
 	

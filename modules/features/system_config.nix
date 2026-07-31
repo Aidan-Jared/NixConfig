@@ -17,7 +17,7 @@
       LC_TIME = "en_NZ.UTF-8";
     };
 
-    environment.systemPackages = [ pkgs.polkit_gnome ];
+    environment.systemPackages = [ pkgs.polkit_gnome  pkgs.wlopm ];
 
     security.polkit.enable = true;
     services.upower.enable = true;
@@ -26,7 +26,7 @@
     xdg.portal = {
      enable = true;
      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-     config.niri.default = lib.mkForce [ "gtk" ];
+     config.mangowc.default = lib.mkForce [ "gtk" ];
     };
 
     programs.dconf.enable = true;

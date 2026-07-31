@@ -8,8 +8,8 @@
         vim_keys = true;
         gpu_mirror_graph = true;
         show_gpu_info = "Auto";
-        shown_boxes = "cpu gpu0 mem";
-        graph_symbol = "block";
+        shown_boxes = "cpu gpu0 mem proc";
+        graph_symbol = "braille";
       };
   };
 

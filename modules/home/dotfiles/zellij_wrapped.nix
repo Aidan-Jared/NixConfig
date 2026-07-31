@@ -3,7 +3,7 @@
   flake.wrappersModules.zellij = { config, wlib, lib, pkgs, ... }: let
     # TODO: replace these with your actual zjstatus / room plugin derivations
     # (e.g. inputs.zjstatus.packages.${pkgs.stdenv.hostPlatform.system}.default)
-    zjstatusWasm = "file:~/.config/zellij/plugins/zjstatus.wasm";
+    # zjstatusWasm = "file:~/.config/zellij/plugins/zjstatus.wasm";
     roomWasm = "file:~/.config/zellij/plugins/room.wasm";
   in {
     imports = [ wlib.modules.default ];
@@ -16,6 +16,7 @@
         default_layout "default"
         scrollback_editor "hx"
         on_force_close "detach"
+        theme "cyber-noir-m"
 
         web_client {
             font "monospace"
@@ -36,7 +37,7 @@
             welcome-screen location="zellij:session-manager" {
                 welcome_screen false
             }
-            zjstatus location="file:${zjstatusWasm}"
+            zjstatus location="file:${pkgs.zellijPlugins.zjstatus}"
         }
 
         load_plugins {
@@ -296,7 +297,7 @@
       content = ''
         layout {
             pane size=1 borderless=true {
-                plugin location="file:${zjstatusWasm}" {
+                plugin location="file:${pkgs.zellijPlugins.zjstatus}" {
                     format_left "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}"
                     mode_normal "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL "
                     mode_locked "#[bg=#f38ba8,fg=#1e1e2e,bold] LOCKED "
@@ -328,7 +329,7 @@
       content = ''
         layout {
             pane size=1 borderless=true {
-                plugin location="file:${zjstatusWasm}" {
+                plugin location="file:${pkgs.zellijPlugins.zjstatus}" {
                     format_left "{mode}#[fg=#cba6f7] {session} #[fg=#6c7086]|#[fg=#a6e3a1] {tabs}"
                     format_right "#[fg=#6c7086]| #[fg=#cba6f7]{git_branch} {git_ahead_behind} #[fg=#6c7086]| #[fg=#89b4fa]{datetime}"
                     mode_normal "#[bg=#a6e3a1,fg=#1e1e2e,bold] NORMAL "
@@ -363,9 +364,136 @@
       '';
     };
 
+    config.constructFiles."themes/cyber-noir-m.kdl" = {
+      relPath = "etc/zellij/themes/cyber-noir-m.kdl";
+      content = ''
+
+        themes {
+            cyber-noir-m {
+                text_unselected {
+                    base 229 233 240
+                    background 59 66 82
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                text_selected {
+                    base 229 233 240
+                    background 59 66 82
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                ribbon_selected {
+                    base 59 66 82
+                    background 163 190 140
+                    emphasis_0 191 97 106
+                    emphasis_1 208 135 112
+                    emphasis_2 180 142 173
+                    emphasis_3 129 161 193
+                }
+                ribbon_unselected {
+                    base 59 66 82
+                    background 216 222 233
+                    emphasis_0 191 97 106
+                    emphasis_1 229 233 240
+                    emphasis_2 129 161 193
+                    emphasis_3 180 142 173
+                }
+                table_title {
+                    base 163 190 140
+                    background 0
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                table_cell_selected {
+                    base 229 233 240
+                    background 46 52 64
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                table_cell_unselected {
+                    base 229 233 240
+                    background 59 66 82
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                list_selected {
+                    base 229 233 240
+                    background 46 52 64
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                list_unselected {
+                    base 229 233 240
+                    background 59 66 82
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 163 190 140
+                    emphasis_3 180 142 173
+                }
+                frame_selected {
+                    base 196 167 231
+                    background 0
+                    emphasis_0 208 135 112
+                    emphasis_1 136 192 208
+                    emphasis_2 180 142 173
+                    emphasis_3 0
+                }
+                frame_highlight {
+                    base 196 167 231
+                    background 0
+                    emphasis_0 180 142 173
+                    emphasis_1 208 135 112
+                    emphasis_2 208 135 112
+                    emphasis_3 208 135 112
+                }
+                exit_code_success {
+                    base 163 190 140
+                    background 0
+                    emphasis_0 136 192 208
+                    emphasis_1 59 66 82
+                    emphasis_2 180 142 173
+                    emphasis_3 129 161 193
+                }
+                exit_code_error {
+                    base 191 97 106
+                    background 0
+                    emphasis_0 235 203 139
+                    emphasis_1 0
+                    emphasis_2 0
+                    emphasis_3 0
+                }
+                multiplayer_user_colors {
+                    player_1 180 142 173
+                    player_2 129 161 193
+                    player_3 0
+                    player_4 235 203 139
+                    player_5 136 192 208
+                    player_6 0
+                    player_7 191 97 106
+                    player_8 0
+                    player_9 0
+                    player_10 0
+                }
+            }
+        }
+      '';
+    };
+
     config.env.ZELLIJ_CONFIG_FILE = config.constructFiles."config.kdl".path;
     config.env.ZELLIJ_CONFIG_DIR =
-      builtins.dirOf (builtins.dirOf config.constructFiles."layouts/default.kdl".path);
+      builtins.dirOf (builtins.dirOf config.constructFiles."config.kdl".path);
   };
 
   perSystem = { pkgs, ... }: {
