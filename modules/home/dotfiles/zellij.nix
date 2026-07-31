@@ -5,6 +5,8 @@
       pkgs.zellij 
     ];
 
+    home.file.".config/zellij/plugins/zjstatus.wasm".source = pkgs.zellijPlugins.zjstatus;
+
     programs.zellij = {
       enable = true;
 
@@ -34,7 +36,7 @@
             location = "zellij:session-manager";
             welcome_screen = false;
           };
-          zjstatus.location = "file:${pkgs.zellijPlugins.zjstatus}";
+          zjstatus.location = "file:~/.config/zellij/plugins/zjstatus.wasm";
         };
 
         load_plugins._children = [
