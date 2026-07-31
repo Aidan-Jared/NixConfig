@@ -35,7 +35,7 @@
             location = "zellij:session-manager";
             welcome_screen = false;
           };
-          zjstatus.location = "file:${pkgs.zellijPlugins.zjstatus}/bin/zjstatus.wasm";
+          zjstatus.location = "file:${pkgs.zellijPlugins.zjstatus}";
         };
 
         load_plugins._children = [
