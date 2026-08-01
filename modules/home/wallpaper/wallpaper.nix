@@ -1,3 +1,4 @@
 {
-  flake.wallpaper = ./wallpaper.jpg;
+  flake.wallpaper = ./rxgSyU.jpg;
+  flake.wallpaperDir = ./.;
 }

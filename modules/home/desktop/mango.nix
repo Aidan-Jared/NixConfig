@@ -173,7 +173,7 @@ let
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
-          "SUPER,Super_L,spawn,${fuzzelExe}"
+          "SUPER,Space,spawn,${fuzzelExe}"
           "SUPER,Super_L,spawn,${fuzzelExe}"
           "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"

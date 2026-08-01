@@ -1,8 +1,8 @@
 { inputs, ... }: {
   flake.homeModules.vibepanel = { pkgs, lib, ... }: {
-    home.packages = [
-      inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
+    # home.packages = [
+    #   inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # ];
 
     programs.waybar = {
       enable = true;
@@ -47,7 +47,7 @@
 
         "group/right" = {
           orientation = "horizontal";
-          modules = [ "mango/keymode" "pulseaudio" "network" "tray" ];
+          modules = [ "pulseaudio" "network" "tray" ];
         };
 
         "group/right-hidden" = {
@@ -69,6 +69,15 @@
         "mango/workspaces" = {
           format = "{icon}";
           format-icons = {
+            "1" = "1";
+            "2" = "2";
+            "3" = "3";
+            "4" = "4";
+            "5" = "5";
+            "6" = "6";
+            "7" = "7";
+            "8" = "8";
+            "9" = "9";
             active = "";
             default = "";
             urgent = "";
@@ -84,22 +93,22 @@
         "mango/layout" = {
           format = "[] {symbol}";
 
-          format-tile = "▦ {symbol}";
-          format-scroller = "⇄ {symbol}";
-          format-monocle = "◻ {symbol}";
-          format-grid = "⊞ {symbol}";
+          format-T = "▦ {symbol}";
+          format-S = "⇄ {symbol}";
+          format-M = "◻ {symbol}";
+          format-G = "⊞ {symbol}";
           format-deck = "▤ {symbol}";
-          format-center_tile = "◈ {symbol}";
+          format-DT = "◈ {symbol}";
           format-dwindle = "🌀 {symbol}";
-          format-fair = "⚖ {symbol}";
+          format-F = "⚖ {symbol}";
 
           # vertical-oriented variants of the above, marked with ↕
-          format-vertical_tile = "▦↕ {symbol}";
-          format-right_tile = "▦→ {symbol}";
-          format-vertical_scroller = "⇅ {symbol}";
-          format-vertical_grid = "⊞↕ {symbol}";
-          format-vertical_deck = "▤↕ {symbol}";
-          format-vertical_fair = "⚖↕ {symbol}";
+          format-VT = "▦↕ {symbol}";
+          format-RT = "▦→ {symbol}";
+          format-VS = "⇅ {symbol}";
+          format-VG = "⊞↕ {symbol}";
+          format-VD = "▤↕ {symbol}";
+          format-VF = "⚖↕ {symbol}";
         };
 
         "mango/window" = {
@@ -110,11 +119,6 @@
           "max-length" = 45;
         };
 
-        # hidden automatically when no non-default keymode is active
-        "mango/keymode" = {
-          format = "[{mode}]";
-          format-resize = " Resizing";
-        };
 
         clock = {
           format = "{:%H:%M}";
@@ -286,9 +290,6 @@
         #window.empty { padding: 0; min-width: 0; }
         #window.solo { font-weight: bold; }
 
-        /* ---------------- mango/keymode ---------------- */
-        #keymode { padding: 0 10px; border-radius: 4px; }
-        #keymode.resize { background: @red; color: @bg; }
 
         /* ---------------- everything else ---------------- */
         #tray { padding: 1px 6px; }
