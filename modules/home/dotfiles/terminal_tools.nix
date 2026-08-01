@@ -36,6 +36,20 @@
           name = "Aidan-Jared";
           email = "AidanJared42@gmail.com";
         };
+        credential = {
+          "https://github.com" = {
+            helper = [
+              ""
+              "!${lib.getExe pkgs.gh} auth git-credential"
+            ];
+          };
+          "https://gist.github.com" = {
+            helper = [
+              ""
+              "!${lib.getExe pkgs.gh} auth git-credential"
+            ];
+          };
+        };
       };
   };
 
