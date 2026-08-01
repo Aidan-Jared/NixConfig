@@ -1,7 +1,7 @@
 { inputs, self, ... }: 
 let
   mangowcModule = { config, lib, pkgs, ... }: let
-    wayleExe = lib.getExe pkgs.wayle;
+    # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
     fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
     fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";

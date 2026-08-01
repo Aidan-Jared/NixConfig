@@ -33,7 +33,7 @@
       self.homeModules.zed
       self.homeModules.jj
       self.homeModules.vscode
-      self.homeModules.wayle
+      # self.homeModules.wayle
       # self.homeModules.noctalia
       # self.homeModules.ewwBar
       # self.homeModules.vicinae

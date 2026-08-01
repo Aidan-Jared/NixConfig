@@ -10,7 +10,11 @@
       # layout, keymode) are documented at
       # https://github.com/Alexays/Waybar/wiki/Module:-Mango
       # and may not have landed in nixpkgs' waybar yet.
-      package = inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      package =
+        (inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default).overrideAttrs
+          (old: {
+            mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dmango=true" ];
+          });
       systemd.enable = false;
 
       settings.mainBar = {

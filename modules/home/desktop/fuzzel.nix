@@ -17,7 +17,7 @@
         use-bold="no";
         # message=;
         message-mode="wrap";
-        prompt="> ";
+        prompt="󰍉 ";
         # placeholder=;
         icon-theme="default";
         icons-enabled="yes";
@@ -35,7 +35,7 @@
         # launch-prefix=<not set>
         list-executables-in-path="no";
 
-        anchor="center";
+        anchor="top";
         x-margin="0";
         y-margin="0";
         lines="15";
@@ -69,18 +69,18 @@
 
       # [colors]
       colors = {
-        background="fdf6e3ff";
-        text="657b83ff";
+        background="1e2225cc";
+        text="B1B6B9ff";
+        selection="1C4C82ff";
+        selection-text="D2D4D5ff";
+        border="343F46ff";
+        match="4D8FDBff";
+        selection-match="B2D0EBff";
         message="657b83ff";
         prompt="586e75ff";
         placeholder="93a1a1ff";
         input="657b83ff";
-        match="cb4b16ff";
-        selection="eee8d5ff";
-        selection-text="586e75ff";
-        selection-match="cb4b16ff";
         counter="93a1a1ff";
-        border="002b36ff";
       };
 
       # [border]
