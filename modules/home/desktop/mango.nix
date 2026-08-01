@@ -169,13 +169,11 @@ let
         globalcolor = "0xb153a7ff";
         overlaycolor = "0x14a57cff";
 
-        bindr = [
-          "SUPER,Super_L,spawn,${fuzzelExe}"
-          
-        ];
+        circle_layout="fair,vertical_fair,tile,center_tile,right_tile,left_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck, dwindle";
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
+          "SUPER,Super_L,spawn,${fuzzelExe}"
           "SUPER,Super_L,spawn,${fuzzelExe}"
           "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"
@@ -212,9 +210,10 @@ let
           "SUPER,i,minimized"
           "SUPER+SHIFT,i,restore_minimized"
           "SUPER,z,toggle_scratchpad"
-          "SUPER,g,setlayout,tile"
-          "SUPER,v,setlayout,vertical_grid"
-          "SUPER,c,setlayout,spiral"
+          "SUPER,g,setlayout,grid"
+          "SUPER+SHIFT,g,setlayout,vertical_grid"
+          "SUPER,d,setlayout,fair"
+          "SUPER,c,setlayout,center_tile"
           "SUPER,n,setlayout,switch_layout"
           "SUPER,m,setlayout,monocle"
           "SUPER,s,setlayout,scroller"

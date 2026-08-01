@@ -10,60 +10,62 @@
 
   flake.wrappersModules.fuzzel = { config, lib, pkgs, ... }: {
     settings = {
-      # output=<not set>
-      font="monospace";
-      dpi-aware="auto";
-      use-bold="no";
-      # message=;
-      message-mode="wrap";
-      prompt="> ";
-      # placeholder=;
-      icon-theme="default";
-      icons-enabled="yes";
-      hide-before-typing="no";
-      fields="filename,name,generic";
-      password-character="*";
-      filter-desktop="no";
-      match-mode="fzf";
-      sort-result="yes";
-      match-counter="no";
-      delayed-filter-ms="300";
-      delayed-filter-limit="20000";
-      show-actions="no";
-      terminal="${self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty}/bin/ghostty -e";  # Note: you cannot actually use environment variables here;,
-      # launch-prefix=<not set>
-      list-executables-in-path="no";
+      main = {
+        # output=<not set>
+        font="monospace";
+        # dpi-aware="auto";
+        use-bold="no";
+        # message=;
+        message-mode="wrap";
+        prompt="> ";
+        # placeholder=;
+        icon-theme="default";
+        icons-enabled="yes";
+        hide-before-typing="no";
+        fields="filename,name,generic";
+        password-character="*";
+        filter-desktop="no";
+        match-mode="fzf";
+        sort-result="yes";
+        match-counter="no";
+        delayed-filter-ms=300;
+        delayed-filter-limit=20000;
+        show-actions="no";
+        terminal="${self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty}/bin/ghostty -e";  # Note: you cannot actually use environment variables here;,
+        # launch-prefix=<not set>
+        list-executables-in-path="no";
 
-      anchor="top";
-      x-margin="0";
-      y-margin="0";
-      lines="15";
-      minimal-lines="no";
-      width="30";
-      tabs="8";
-      horizontal-pad="40";
-      vertical-pad="8";
-      inner-pad="0";
+        anchor="center";
+        x-margin="0";
+        y-margin="0";
+        lines="15";
+        minimal-lines="no";
+        width="30";
+        tabs="8";
+        horizontal-pad="40";
+        vertical-pad="8";
+        inner-pad="0";
 
-      scaling-filter="box";
-      image-size-ratio="0.5";
+        scaling-filter="box";
+        image-size-ratio="0.5";
 
-      gamma-correct-blending="no";
-      # line-height=<use font metrics>
-      letter-spacing="0";
+        gamma-correct-blending="no";
+        # line-height=<use font metrics>
+        letter-spacing="0";
 
-      layer="overlay";
-      keyboard-focus="exclusive";
-      exit-on-keyboard-focus-loss="yes";
+        layer="overlay";
+        keyboard-focus="exclusive";
+        exit-on-keyboard-focus-loss="yes";
 
-      # cache=<not set>
+        # cache=<not set>
 
-      # render-workers=<number of logical CPUs>
-      # match-workers=<number of logical CPUs>
+        # render-workers=<number of logical CPUs>
+        # match-workers=<number of logical CPUs>
 
-      auto-select="no";
+        auto-select="no";
 
-      enable-mouse="yes";
+        enable-mouse="yes";
+      };
 
       # [colors]
       colors = {

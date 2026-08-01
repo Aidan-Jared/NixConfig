@@ -13,7 +13,6 @@
   };
 
   flake.wrappersModules.swayidle = { config, lib, pkgs, ... }: {
-    settings = {
       timeouts = [
         {
           timeout = 300; # 5 min
@@ -35,7 +34,6 @@
         before-sleep = "swaylock";
         lock = "swaylock";
       };
-    };
   };
 
   perSystem = { pkgs, ... }: {

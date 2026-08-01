@@ -15,7 +15,7 @@
         height = 34;
         spacing = 4;
 
-        modules-left = [ "mango/workspaces" "mango/window" ];
+        modules-left = [ "mango/workspaces" "mango/layout" "mango/window" ];
         modules-center = [ "clock" ];
         modules-right = [
           "tray"

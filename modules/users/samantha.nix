@@ -22,6 +22,8 @@
       self.homeModules.zen
       self.homeModules.stylix
 #      self.homeModules.ghostty
+      self.homeModules.vibepanel
+      # self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp
       self.homeModules.rust
