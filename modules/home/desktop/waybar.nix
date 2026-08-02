@@ -1,357 +1,535 @@
-{ inputs, ... }: {
-  flake.homeModules.vibepanel = { pkgs, lib, ... }: {
-    # home.packages = [
-    #   inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
-    # ];
-
-    programs.waybar = {
-      enable = true;
-      # Alexays/Waybar master - the mango/* modules (workspaces, window,
-      # layout, keymode) are documented at
-      # https://github.com/Alexays/Waybar/wiki/Module:-Mango
-      # and may not have landed in nixpkgs' waybar yet.
-      package =
-        (inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default).overrideAttrs
-          (old: {
-            mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dmango=true" ];
-          });
-      systemd.enable = false;
-
-      settings.mainBar = {
-        layer = "top";
-        position = "top";
-        height = 25;
-        margin = "5 0";
-
-        # ---- groups: each one renders as its own rounded pill (#id in css) ----
-
-        "group/left" = {
-          orientation = "horizontal";
-          modules = [ "mango/workspaces" "mango/layout" ];
+  { inputs, ... }: {
+    flake.homeModules.waybar = { pkgs, lib, ... }: {
+      # home.packages = [
+      #   inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # ];
+      programs.swaync = {
+        enable = true;
+        settings = {
+          positionX = "right";
+          positionY = "top";
+          layer = "overlay";
+          control-center-layer = "top";
+          layer-shell = true;
+          cssPriority = "application";
+          control-center-margin-top = 0;
+          control-center-margin-bottom = 0;
+          control-center-margin-right = 0;
+          control-center-margin-left = 0;
+          notification-2fa-action = true;
+          notification-inline-replies = false;
+          notification-icon-size = 64;
+          notification-body-image-height = 100;
+          notification-body-image-width = 200;
         };
-
-        "group/left-hidden" = {
-          orientation = "horizontal";
-          drawer = {
-            "transition-duration" = 500;
-            "transition-left-to-right" = false;
-            "click-to-reveal" = true;
-          };
-          modules = [ "custom/arrow-right" "battery" "cpu_graph" "memory" ];
-        };
-
-        "group/left-hidden-top" = {
-          orientation = "horizontal";
-          modules = [ "custom/arrow-left" "group/left-hidden" ];
-        };
-
-        "group/right" = {
-          orientation = "horizontal";
-          modules = [ "pulseaudio" "network" "tray" ];
-        };
-
-        "group/right-hidden" = {
-          orientation = "horizontal";
-          drawer = {
-            "transition-duration" = 500;
-            "transition-left-to-right" = true;
-            "click-to-reveal" = true;
-          };
-          modules = [ "custom/arrow-left-2" "custom/nvidia" ];
-        };
-
-        modules-left = [ "group/left-hidden-top" "group/left" "mango/window" ];
-        modules-center = [ "clock" ];
-        modules-right = [ "group/right" "group/right-hidden" ];
-
-        # ---- module configs ----
-
-        "mango/workspaces" = {
-          format = "{icon}";
-          format-icons = {
-            "1" = "1";
-            "2" = "2";
-            "3" = "3";
-            "4" = "4";
-            "5" = "5";
-            "6" = "6";
-            "7" = "7";
-            "8" = "8";
-            "9" = "9";
-            active = "";
-            default = "";
-            urgent = "";
-            empty = "";
-          };
-          hide-empty = false;
-          "on-click" = "activate";
-          "on-click-middle" = "toggle";
-          "on-click-right" = "toggle";
-          overview-label = "";
-        };
-
-        "mango/layout" = {
-          format = "[] {symbol}";
-
-          format-T = "▦ {symbol}";
-          format-S = "⇄ {symbol}";
-          format-M = "◻ {symbol}";
-          format-G = "⊞ {symbol}";
-          format-deck = "▤ {symbol}";
-          format-DT = "◈ {symbol}";
-          format-dwindle = "🌀 {symbol}";
-          format-F = "⚖ {symbol}";
-
-          # vertical-oriented variants of the above, marked with ↕
-          format-VT = "▦↕ {symbol}";
-          format-RT = "▦→ {symbol}";
-          format-VS = "⇅ {symbol}";
-          format-VG = "⊞↕ {symbol}";
-          format-VD = "▤↕ {symbol}";
-          format-VF = "⚖↕ {symbol}";
-        };
-
-        "mango/window" = {
-          format = "{title}";
-          icon = true;
-          icon-size = 18;
-          expand = true;
-          "max-length" = 45;
-        };
-
-
-        clock = {
-          format = "{:%H:%M}";
-          format-alt = "{:%A, %d %B %Y}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-        };
-
-        tray = {
-          icon-size = 13;
-          spacing = 12;
-        };
-
-        pulseaudio = {
-          format = "{icon} {volume}%";
-          format-muted = " muted";
-          format-icons = {
-            default = [ "" "" "" ];
-          };
-          "on-click" = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-          "on-click-right" = "pavucontrol";
-        };
-
-        network = {
-          format-wifi = " {essid} ({signalStrength}%)";
-          format-ethernet = " {ipaddr}";
-          format-disconnected = "󱛅 disconnected";
-          tooltip-format = "{ifname}: {ipaddr}/{cidr}";
-        };
-
-        cpu_graph = {
-          format = " {usage}%";
-          graph_type = "line";
-          width = 10;
-          interval = 2;
-        };
-
-        memory = {
-          format = " {used:0.1f}G/{total:0.1f}G";
-          interval = 5;
-        };
-
-        battery = {
-          states = { warning = 30; critical = 15; };
-          format = "{icon} {capacity}%";
-          format-charging = " {capacity}%";
-          format-icons = [ "" "" "" "" "" ];
-        };
-
-        "custom/nvidia" = {
-          exec = "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu,utilization.memory --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g \\3% '";
-          format = "{} ";
-          interval = 2;
-        };
-
-        # drawer toggle glyphs, matching cebem1nt's arrow modules
-        "custom/arrow-left" = { format = ""; tooltip = false; };
-        "custom/arrow-right" = { format = ""; tooltip = false; };
-        "custom/arrow-left-2" = { format = ""; tooltip = false; };
       };
 
-      style = ''
-        @define-color bg            rgba(24, 24, 24, 0.85);
-        @define-color module-bg     rgba(40, 40, 40, 0.85);
-        @define-color tooltip-bg    @module-bg;
-        @define-color inactive      #6e6e6e;
-        @define-color fg            #e0e0e0;
-        @define-color workspace-fg  @fg;
-        @define-color highlight     @inactive;
-        @define-color accent        #ddca9e;
+      programs.waybar = {
+        enable = true;
+        # Alexays/Waybar master - the mango/* modules (workspaces, window,
+        # layout, keymode) are documented at
+        # https://github.com/Alexays/Waybar/wiki/Module:-Mango
+        # and may not have landed in nixpkgs' waybar yet.
+        package =
+          (inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default).overrideAttrs
+            (old: {
+              mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dmango=true" ];
+            });
+        systemd.enable = false;
 
-        @define-color red           #ef5e5e;
-        @define-color blue          #89b4fa;
-        @define-color yellow        #f9c74f;
-        @define-color green         #a6e3a1;
+          settings.mainBar = {
+            layer= "top";
+            position= "top";
+            height= 28;
+            spacing= 0;
 
-        * {
-          font-family: "Fira Code", "JetBrainsMono Nerd Font";
-          border: none;
-          border-radius: 0;
-          min-height: 0;
-          margin: 0;
-          padding: 0;
-          text-shadow: none;
+            modules-left= [
+                "mango/workspaces"
+                "mango/layout"
+                "custom/sep"
+                "pulseaudio#mic"
+                "pulseaudio#audio"
+                "custom/sep"
+            ];
+
+            "modules-center"= [
+                "tray"
+            ];
+            "modules-right"= [
+                "clock"
+                "custom/sep"
+                "network"
+                "temperature"
+                "mpris"
+                "cpu"
+                "memory"
+                "custom/power"
+            ];
+
+            "mango/workspaces"= {
+                format = "{index}";
+                on-click = "activate";
+                on-click-right = "toggle";
+                hide-empty = false;
+                current-only = false;
+                overview-label = "OVERVIEW";
+            };
+
+            tray= {
+                spacing= 10;
+            };
+
+            clock= {
+              format= "󰥔 {:%H:%M:%S}";
+              format-alt= "󰃭 {:%d/%m/%Y}";
+              interval= 1;
+              tooltip= false;
+              # on-click-right= "~/.config/mango/scripts/calendar.sh";
+            };
+            cpu= {
+              format= "󰍛 {usage}%";
+              tooltip= false;
+              interval= 2;
+            };
+
+            memory= {
+              format= "󰾅 {used:.1f}GB";
+              tooltip= false;
+              interval= 5;
+            };
+
+            temperature= {
+              hwmon-path= "/sys/class/hwmon/hwmon4/temp1_input";
+              interval= 5;
+              critical-threshold= 80;
+              format= "{icon} {temperatureC}°C";
+              format-icons= [ ""  ""  "" ];
+              tooltip= false;
+            };
+
+            battery= {
+              states= {
+                  good= 95;
+                  warning= 30;
+                  critical= 15;
+              };
+              format= "{icon} {capacity}%";
+              format-plugged= "󰂄 {capacity}%";
+              format-alt= "{icon} {time}";
+              format-time= "{H}h{M}m";
+              format-icons= [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+            };
+
+            network= {
+              format-wifi= "󰤨 {essid}";
+              format-ethernet= "󰈀 {ifname}";
+              format-disconnected= "󰤭 Offline";
+              tooltip-format= "{ipaddr} — {bandwidthUpBits} ↑ {bandwidthDownBits} ↓";
+              interval= 5;
+            };
+
+            "pulseaudio#audio" = {
+              format= "{icon} {volume}%";
+              tooltip= false;
+              format-muted= "󰝟 Muted";
+              on-click= "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+              on-scroll-up= "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 2%+";
+              on-scroll-down= "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 2%-";
+              on-click-right= "pavucontrol";
+              format-icons= {
+                  headphone= "󰋋";
+                  headset= "󰋎";
+                  default= [ "󰕿"  "󰖀"  "󰕾" ];
+              };
+            };
+
+            "pulseaudio#mic"= {
+              format= "{format_source}";
+              format-source= "󰍬 On";
+              format-source-muted= "󰍭 Off";
+              on-click= "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+              tooltip= false;
+            };
+
+            "custom/sep"= {
+              format= "";
+              interval= 0;
+              tooltip= false;
+            };
+    
+            "mango/window"= {
+              format= "{title}";
+              max-length= 30;
+              rewrite= {
+                  "^$"= "Desktop";
+              };
+            };
+
+            "custom/power"= {
+              format= "⏻";
+              tooltip= false;
+              on-click= "wlogout";
+              on-click-right= "systemctl poweroff";
+              on-click-middle= "systemctl reboot";
+            };
+          "mpris"= {
+            format= "{player_icon} {artist} - {title}";
+            format-paused= "{status_icon} {artist} - {title}";
+            on-click= "playerctl play-pause";
+            on-click-middle= "playerctl previous";
+            on-click-right= "playerctl next";
+            player-icons= {
+              default= "▶";
+              spotify= "󰓇";
+              firefox= "󰈹";
+              chromium= "";
+            };
+            "status-icons"= {
+              playing= "󰐊";
+              paused= "󰏤";
+              stopped= "󰓛";
+            };
+            max-length= 40;
+            tooltip-format= "{player} : {artist} - {title}";
+            };
+
+          disk = {
+              interval= 60;
+              path= "/";
+              format= "󰋊 {percentage_used}%";
+              tooltip-format= "{used} usados de {total}";
+          };
+        };
+
+          style = ''
+            @define-color white      	#F2F2F2;
+            @define-color black      	#000000;
+            @define-color text       	#FFFFFF;
+            @define-color lightgray  	#686868;
+            @define-color darkgray   	#353535;
+
+            @define-color transparent	rgba(1, 1, 1, 0.5);
+            @define-color teal-trans	rgba(1, 117, 84, 0.5);
+            @define-color cyan			rgba(53, 140, 169, 1);
+
+            @define-color background-module     @transparent;
+            @define-color border-color          #7F4EA2;
+            @define-color color13               #A0536C;
+
+            /* Catppuccin Latte accents (antes em latte.css) */
+            @define-color sapphire  #209fb5;
+            @define-color mauve     #8839ef;
+            @define-color rosewater #dc8a78;
+            @define-color sky       #04a5e5;
+            @define-color red       #d20f39;
+            @define-color yellow    #df8e1d;
+            @define-color teal      #179299;
+
+            * {
+                font-family: "Fira Code";
+                font-weight: bold;
+               	min-height: 0;  
+                /* set font-size to 100% if font scaling is set to 1.00 using nwg-look */
+                font-size: 97%;
+                  font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+              }
+
+              window#waybar {
+                  background: transparent;
+                  border-radius: 0px;
+                  color: #cba6f7;
+              }
+
+              window#waybar.hidden {
+                  opacity: 0;
+              }
+
+              tooltip {
+                  background: #1e1e2e;
+                  border-radius: 12px;
+                  border-width: 1px;
+                  border-style: solid;
+                  border-color: @border-color;
+                  color: #ffffff;
+              }
+
+              /*-----module groups----*/
+              .modules-left,
+              .modules-center,
+              .modules-right {
+                  background-color: @background-module;
+                  border-radius:15px;
+                  border-bottom:2px solid @border-color;
+             	padding-top: 2px;
+             	padding-bottom: 0px;
+             	padding-right: 4px;
+             	padding-left: 4px;
+              }
+
+              #workspaces {
+                  padding: 0px 1px;
+                  border-radius: 15px;
+                  font-weight: bold;
+                  font-style: normal;
+                  opacity:0.8;
+                  color:#FFFFFF;
+              }
+
+              #taskbar button {
+                  color: #6E6A86;
+                  box-shadow: none;
+             	text-shadow: none;
+                  border-radius: 30px;
+                  padding-left: 4px;
+                  padding-right: 4px;
+                  animation: gradient_f 20s ease-in infinite;
+                  transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
+              }
+
+              #taskbar button.active {
+                  color: #ffd700;
+                  border-radius: 50%;
+                  background-color: black;
+                  border-radius: 15px 15px 15px 15px;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  animation: gradient_f 20s ease-in infinite;
+                  transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+              }
+
+              #taskbar button:hover {
+                  color: #ffd700;
+                  border-radius: 10px;
+               	padding-left: 2px;
+                  padding-right: 2px;
+                  animation: gradient_f 20s ease-in infinite;
+                  transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+              }
+
+              #backlight,
+              #backlight-slider,
+              #battery,
+              #bluetooth,
+              #clock,
+              #cpu,
+              #temperature,
+              #idle_inhibitor,
+              #keyboard-state,
+              #memory,
+              #mode,
+              #mpris,
+              #network,
+              #power-profiles-daemon,
+              #pulseaudio,
+              #pulseaudio-slider,
+              #taskbar,
+              #temperature,
+              #tray,
+              #window,
+              #wireplumber,
+              #workspaces,
+              #custom-backlight,
+              #custom-browser,
+              #custom-cava_mviz,
+              #custom-cycle_wall,
+              #custom-dot_update,
+              #custom-file_manager,
+              #custom-keybinds,
+              #custom-keyboard,
+              #custom-light_dark,
+              #custom-lock,
+              #custom-hint,
+              #custom-hypridle,
+              #custom-menu,
+              #custom-playerctl,
+              #custom-power_vertical,
+              #custom-power,
+              #custom-quit,
+              #custom-reboot,
+              #custom-settings,
+              #custom-spotify,
+              #custom-swaync,
+              #custom-tty,
+              #custom-updater,
+              #custom-hyprpicker,
+              #custom-weather,
+              #custom-weather.clearNight,
+              #custom-weather.cloudyFoggyDay,
+              #custom-weather.cloudyFoggyNight,
+              #custom-weather.default, 
+              #custom-weather.rainyDay,
+              #custom-weather.rainyNight,
+              #custom-weather.severe,
+              #custom-weather.showyIcyDay,
+              #custom-weather.snowyIcyNight,
+              #custom-weather.sunnyDay {
+                color: #e5d9f5;
+               	padding-right: 6px;
+               	padding-left: 6px;;
+              }
+
+          #temperature.critical {
+              background-color: #ff0000;
+          }
+
+          @keyframes blink {
+              to {
+                  color: #000000;
+              }
+          }
+
+          #backlight-slider slider,
+          #pulseaudio-slider slider {
+              min-width: 0px;
+              min-height: 0px;
+              opacity: 0;
+              background-image: none;
+              border: none;
+              box-shadow: none;
+          }
+
+          #backlight-slider trough,
+          #pulseaudio-slider trough {
+              min-width: 80px;
+              min-height: 5px;
+              border-radius: 5px;
+              background-color: #22252a;
+          }
+
+          #backlight-slider highlight,
+          #pulseaudio-slider highlight {
+              min-height: 10px;
+              border-radius: 5px;
+              background-color: #ba5663;
+          }
+
+          #pulseaudio-slider,
+          #pulseaudio {
+         	color: @color13;
+          }
+
+          #pulseaudio.muted {
+              color: red;
+          }
+
+        #memory {
+         	color: @sapphire;
         }
 
-        window#waybar {
-          font-weight: 700;
-          font-size: 13px;
-          background: transparent;
-          color: @fg;
+        #cpu {
+         	color: @mauve;
         }
 
-        /* ---------------- pill groups ---------------- */
-        #left,
-        #right,
-        #left-hidden-top,
-        #right-hidden {
-          padding: 2px 10px;
-          border-radius: 15px;
-          background: @module-bg;
+        #temperature {
+         	color: @mauve;
         }
 
-        #left-hidden-top,
-        #right-hidden {
-          padding: 0 12px;
+        #battery {
+         	color: @rosewater;
         }
 
-        #left,
-        #right {
-          margin: 0 8px;
+        #disk {
+         	color: @sky;
+        }
+
+        #temperature.critical {
+            background-color: @red;
+        }
+
+        #battery.critical:not(.charging) {
+         	color: #f53c3c;
+         	animation-name: blink;
+         	animation-duration: 3.0s;
+         	animation-timing-function: steps(12);
+         	animation-iteration-count: infinite;
+         	animation-direction: alternate;
+        }
+
+        #custom-hypridle,
+        #custom-lock,
+        #idle_inhibitor {
+            color: @teal;
+        }
+
+        #clock#2 {
+            color: #efe8f7;
         }
 
         #clock {
-          background: @module-bg;
-          padding: 1px 18px;
-          border-radius: 15px;
+       	color: @sapphire;
+            border-radius: 15px;
+            border:2px solid @border-color;
         }
+        #custom-updates {
+            color: @yellow;
+        }
+        #swaync{
+            color: #ffd700;}
 
-        /* ---------------- mango/workspaces ---------------- */
+          /* Tags - ext/workspaces (mangowm) */
         #workspaces button {
-          color: @workspace-fg;
-          font-size: 14px;
-          border-radius: 100%;
-          padding: 0 2px;
-          margin: 0 3px;
+            padding: 0 7px;
+            color: #cba6f7;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 95%;
+            min-width: 22px;
+            border-bottom: 2px solid #cba6f7;
+            transition: all 0.2s ease;
         }
 
-        #workspaces button:hover { background: transparent; color: @yellow; }
-        #workspaces button.empty { color: @inactive; }
-
-        #workspaces button.active {
-          background-color: @accent;
-          color: @bg;
-          border-radius: 100%;
-        }
-
-        #workspaces button.urgent {
-          background-color: @red;
-          color: @bg;
-          border-radius: 100%;
-        }
-
-        #workspaces button.current_output { font-weight: bold; }
-        #workspaces button.overview { color: @yellow; }
-
-        /* ---------------- mango/layout ---------------- */
-        #layout { color: @fg; padding: 0 8px; }
-
-        #layout.tile         { color: @green; }
-        #layout.scroller     { color: @blue; }
-        #layout.monocle      { color: @yellow; }
-        #layout.grid         { color: @accent; }
-        #layout.deck         { color: @yellow; }
-        #layout.center_tile  { color: @green; }
-        #layout.dwindle      { color: @red; }
-        #layout.fair         { color: @blue; }
-
-        #layout.vertical_tile,
-        #layout.right_tile,
-        #layout.vertical_scroller,
-        #layout.vertical_grid,
-        #layout.vertical_deck,
-        #layout.vertical_fair {
-          color: @inactive;
-        }
-
-        /* ---------------- mango/window ---------------- */
-        #window { padding: 1px 7px; color: @fg; }
-        #window.empty { padding: 0; min-width: 0; }
-        #window.solo { font-weight: bold; }
-
-
-        /* ---------------- everything else ---------------- */
-        #tray { padding: 1px 6px; }
-        #pulseaudio { padding: 1px 8px 1px 4px; }
-        #cpu_graph, #memory, #custom-nvidia, #battery { padding: 1px 7px; }
-
-        #cpu_graph.warning,
-        #memory.warning,
-        #battery.warning {
-          color: @yellow;
-          background: unset;
-        }
-
-        #memory.critical,
-        #battery.critical {
-          color: @red;
-        }
-
-        #network.disconnected { color: @red; }
-
-        #custom-arrow-left,
-        #custom-arrow-right,
-        #custom-arrow-left-2 {
-          color: @blue;
-        }
-
-        /* ---------------- misc: tooltips/menus ---------------- */
-        tooltip {
-          border-radius: 15px;
-          background: @tooltip-bg;
-        }
-
-        tooltip label {
-          padding: 3px 10px;
-          color: @fg;
-          font-weight: 700;
-        }
-
-        menu {
+      #workspaces button.active {
+          color: #ffffff;
+          background-color: #cba6f7;
           border-radius: 10px;
-          font-weight: 700;
-          color: @fg;
-          background: @tooltip-bg;
-        }
+          padding: 0 10px;
+          font-weight: bold;
+          border-bottom: none;
+      }
 
-        menu > * { padding: 3px 0px; }
-        menu > *:hover { border-radius: 10px; background-color: @highlight; }
+      #workspaces button.empty:not(.active) {
+          color: #444459;
+          border-bottom: none;
+      }
 
-        slider { opacity: 0; box-shadow: none; }
-
-        trough {
-          min-width: 50px;
-          min-height: 5px;
+      #workspaces button.urgent {
+          color: #f38ba8;
+          background-color: rgba(243, 56, 56, 0.2);
           border-radius: 8px;
-          background: @inactive;
-        }
+          border-bottom: none;
+          animation-name: blink;
+          animation-duration: 1s;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+      }
 
-        trough highlight {
+      #workspaces button:hover {
+          color: #ffd700;
+          background-color: rgba(255, 215, 0, 0.15);
           border-radius: 8px;
-          background-color: @fg;
-        }
-      '';
+      }
+
+      #custom-sep {
+          color: #444459;
+          padding: 0 2px;
+          font-size: 90%;
+      }
+      #mpris.paused {
+          color: #6c7086;
+      }
+      #group-mpris-controls {
+          background-color: rgba(30, 30, 46, 0.6);
+          border-radius: 20px;
+          padding: 0 4px;
+          margin: 0 4px;
+      }
+
+      #custom-mpris-prev,
+      #custom-mpris-next {
+          color: #cdd6f4;
+          padding: 0 6px;
+      }
+    '';
     };
   };
 }

@@ -3,6 +3,7 @@ let
   mangowcModule = { config, lib, pkgs, ... }: let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
+    vicinaeExe = lib.getExe inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default;
     fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
     fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
     # swayosd = lib.getExe ;
@@ -15,15 +16,15 @@ let
     config = {
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
-        # ${wayleExe} panel start
       autostart_sh = ''
         waybar &
+        aww-daemon &
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
-           "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
+           "${lib.getExe pkgs.awww} image ${self.wallpaper}"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
-
+        vicinae server &
         swayosd-server
       '';
 
@@ -173,8 +174,8 @@ let
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
-          "SUPER,Space,spawn,${fuzzelExe}"
-          "SUPER,Super_L,spawn,${fuzzelExe}"
+          "SUPER,Space,spawn,${vicinaeExe}"
+          "SUPER,Super_L,spawn,${vicinaeExe}"
           "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
@@ -318,6 +319,7 @@ in {
      self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
      pkgs.swayosd
+     pkgs.awww
     ];
     programs.mango = {
       enable = true;

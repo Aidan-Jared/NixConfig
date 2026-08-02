@@ -22,7 +22,7 @@
       self.homeModules.zen
       self.homeModules.stylix
 #      self.homeModules.ghostty
-      self.homeModules.vibepanel
+      self.homeModules.waybar
       # self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp
