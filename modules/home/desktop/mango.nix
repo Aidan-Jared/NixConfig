@@ -18,10 +18,9 @@ let
       
       autostart_sh = ''
         waybar &
-        aww-daemon &
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
-           "${lib.getExe pkgs.awww} image ${self.wallpaper}"
+           "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
         vicinae server &
@@ -174,8 +173,8 @@ let
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
-          "SUPER,Space,spawn,${vicinaeExe}"
-          "SUPER,Super_L,spawn,${vicinaeExe}"
+          "SUPER,Space,spawn,${vicinaeExe} toggle"
+          "SUPER,Super_L,spawn,${vicinaeExe} toggle"
           "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
@@ -210,12 +209,12 @@ let
           "SUPER+SHIFT,l,exchange_client,right"
           "SUPER,i,minimized"
           "SUPER+SHIFT,i,restore_minimized"
+          "SUPER,n,switch_layout"
           "SUPER,z,toggle_scratchpad"
           "SUPER,g,setlayout,grid"
           "SUPER+SHIFT,g,setlayout,vertical_grid"
           "SUPER,d,setlayout,fair"
           "SUPER,c,setlayout,center_tile"
-          "SUPER,n,setlayout,switch_layout"
           "SUPER,m,setlayout,monocle"
           "SUPER,s,setlayout,scroller"
           "SUPER+SHIFT,s,setlayout,vertical_scroller"
@@ -319,7 +318,6 @@ in {
      self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
      pkgs.swayosd
-     pkgs.awww
     ];
     programs.mango = {
       enable = true;

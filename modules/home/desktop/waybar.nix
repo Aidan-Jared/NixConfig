@@ -3,7 +3,7 @@
       # home.packages = [
       #   inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
       # ];
-      programs.swaync = {
+      services.swaync = {
         enable = true;
         settings = {
           positionX = "right";
@@ -53,10 +53,9 @@
             ];
 
             "modules-center"= [
-                "tray"
+                "clock"
             ];
             "modules-right"= [
-                "clock"
                 "custom/sep"
                 "network"
                 "temperature"
@@ -75,9 +74,9 @@
                 overview-label = "OVERVIEW";
             };
 
-            tray= {
-                spacing= 10;
-            };
+            # tray= {
+            #     spacing= 10;
+            # };
 
             clock= {
               format= "󰥔 {:%H:%M:%S}";
@@ -324,7 +323,6 @@
               #pulseaudio-slider,
               #taskbar,
               #temperature,
-              #tray,
               #window,
               #wireplumber,
               #workspaces,
