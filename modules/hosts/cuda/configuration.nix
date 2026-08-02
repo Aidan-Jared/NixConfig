@@ -23,16 +23,14 @@
       self.nixosModules.users
       self.nixosModules.remote
       self.nixosModules.VM
-      # self.nixosModules.noctalia
       self.nixosModules.waylandEnv
       
       self.nixosModules.nvidia
       self.nixosModules.nvidiaCuda
       # self.nixosModules.gtkGreeter
-      self.nixosModules.tuiGreeter
-      # self.nixosModules.noctaliaGreeter
+      # self.nixosModules.tuiGreeter
+      self.nixosModules.noctaliaGreeter
       # self.nixosModules.cosmicGreeter
-      # self.nixosModules.gtlock
       # self.nixosModules.niri
       self.nixosModules.mango
     ];

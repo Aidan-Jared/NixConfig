@@ -3,8 +3,7 @@ let
   mangowcModule = { config, lib, pkgs, ... }: let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
-    vicinaeExe = lib.getExe inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia-shell;
+    noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -17,16 +16,14 @@ let
       
         # waybar &
       autostart_sh = ''
-        ${noctaliaExe}
-        awww-daemon
+        ${noctaliaExe} &
+        awww-daemon &
         
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
            "${lib.getExe pkgs.awww} img ${self.wallpaper}"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
-        vicinae server &
-        swayosd-server
       '';
 
       settings = {
@@ -174,9 +171,9 @@ let
         circle_layout="fair,vertical_fair,tile,center_tile,right_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck,dwindle";
         
         bind = [
-          "SUPER,t,spawn,${config.terminal}"
-          "SUPER,Space,spawn,${vicinaeExe} toggle"
-          "SUPER,Super_L,spawn,${vicinaeExe} toggle"
+          "SUPER,t,spawn,${config.terminal} panel-toggle launcher"
+          "SUPER,Space,spawn,${noctaliaExe} msg"
+          # "SUPER,Super_L,spawn,${vicinaeExe} toggle"
           "SUPER,Escape,spawn,${swaylock}"
           "SUPER,1,comboview,1"
           "SUPER,2,comboview,2"
@@ -222,12 +219,12 @@ let
           "SUPER+SHIFT,s,setlayout,vertical_scroller"
           "SUPER+CTRL,e,spawn,pcmanfm"
           "SUPER,e,spawn,ghostty -e yazi"
-          "NONE,XF86AudioRaiseVolume,spawn,swayosd-client --output-volume +5"
-          "NONE,XF86AudioLowerVolume,spawn,swayosd-client --output-volume -5"
-          "NONE,XF86AudioMute,spawn,swayosd-client --output-volume mute-toggle"
-          "NONE,XF86AudioMicMute,spawn,swayosd-client --input-volume mute-toggle"
-          "NONE,XF86MonBrightnessUp,spawn,swayosd-client --brightness +5"
-          "NONE,XF86MonBrightnessDown,spawn,swayosd-client --brightness -5"
+          "NONE,XF86AudioRaiseVolume,spawn,${noctaliaExe} msg volume-up"
+          "NONE,XF86AudioLowerVolume,spawn,${noctaliaExe} msg volume-down"
+          "NONE,XF86AudioMute,spawn,${noctaliaExe} msg volume-mute"
+          # "NONE,XF86AudioMicMute,spawn,swayosd-client --input-volume mute-toggle"
+          "NONE,XF86MonBrightnessUp,spawn,${noctaliaExe} msg brightness-up"
+          "NONE,XF86MonBrightnessDown,spawn,${noctaliaExe} msg brightness-down"
           "NONE,Caps_Lock,spawn,swayosd-client --caps-lock"
           "NONE,Num_Lock,spawn,swayosd-client --num-lock"
           "NONE,XF86Sleep,spawn,${swaylock}; systemctl suspend"
@@ -236,7 +233,7 @@ let
           "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
           "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
           "SUPER,o,toggleoverview"
-          "SUPER+SHIFT,v,spawn,vicinae vicinae://launch/clipboard/history"
+          # "SUPER+SHIFT,v,spawn,vicinae vicinae://launch/clipboard/history"
           "SUPER+SHIFT,Escape,spawn,wlogout"
         ];
 
@@ -305,9 +302,6 @@ in {
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
     ];
 
-    services.awww = {
-      enable = true;
-    };
     
     programs.mango = {
       enable = true;

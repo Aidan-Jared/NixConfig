@@ -21,9 +21,6 @@
       self.homeModules.yazi
       self.homeModules.zen
       self.homeModules.stylix
-#      self.homeModules.ghostty
-      # self.homeModules.waybar
-      # self.homeModules.wlogout
       # self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp
@@ -35,14 +32,18 @@
       self.homeModules.jj
       self.homeModules.vscode
       # self.homeModules.wayle
-      # self.homeModules.noctalia
+      self.homeModules.noctalia
       # self.homeModules.ewwBar
-      self.homeModules.vicinae
+      # self.homeModules.vicinae
     ];
 
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.nh
     ];
+
+    services.awww = {
+      enable = true;
+    };
 
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

@@ -11,6 +11,27 @@
     };
   };
 
+  flake.nixosModules.nocGreeter = { pkgs, lib, ... }: {
+    imports = [
+      inputs.noctalia-greeter.nixosModules.default
+    ];
+
+    programs.noctalia-greeter = {
+      enable = true;
+      session.default = "mango";
+      appearance = {
+        hide_logo = true;
+        theme_mode = "dark";
+        font_family = "Fira Code";
+        wallpaper = {
+          path = "${self.wallpaper}";
+          fill_mode = "fit";
+        };
+      };
+    };
+      
+  };
+
   flake.nixosModules.gtkGreeter = { pkgs, lib, ... }: {
     environment.systemPackages = [
       pkgs.gtkgreet
