@@ -13,7 +13,7 @@
        	}
        	{
    	     label = "logout";
-   	     action = "hyprctl dispatch exit";
+   	     action = "loginctl terminate-user \"$USER\"";
    	     text ="LOGOUT";
    	   	 keybind = "e";
        	}
@@ -44,60 +44,66 @@
       ];
 
       style = ''
+        @define-color void   #0a0a0c;
+        @define-color stone  #38383c;
+        @define-color bone   #d4d0c4;
+        @define-color sigil  #6a5a78;
+        @define-color color13 @sigil;
+
         * {
        	background-image: none;
        	box-shadow: none;
         }
 
         window {
-       	background-color: rgba(12, 12, 12, 0.9);
+       	background-color: rgba(10, 10, 12, 0.92);
         }
 
         button {
             background-repeat: no-repeat;
             background-position: center;
             background-size: 15%;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(212, 208, 196, 0.08);
             margin:5px;
-            animation: gradient_f 10s ease-in infinite;
             transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
-            border-radius: 80px;
-            border:30px;
+            border-radius: 4px;
+            border: 1px solid @stone;
             outline-style: none;
         }
 
         button:hover {
-       	background-color: transparent; 
+       	background-color: rgba(106, 90, 120, 0.15);
             color: @color13;
             background-size: 25%;
             margin: 15px;
-            border-radius: 80px;
+            border-radius: 4px;
+            border-color: @sigil;
             outline-style: none;
-            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(106, 90, 120, 0.25);
         }
 
         #lock {
-            background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
         }
 
         #logout {
-            background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
         }
 
         #suspend {
-            background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
         }
 
         #hibernate {
-            background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
         }
 
         #shutdown {
-            background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
         }
 
         #reboot {
-            background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+            background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
         }
       '';
     };

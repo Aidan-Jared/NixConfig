@@ -45,6 +45,7 @@
 
             modules-left= [
                 "mango/workspaces"
+                "mango/windows"
                 "mango/layout"
                 "custom/sep"
                 "pulseaudio#mic"
@@ -59,7 +60,7 @@
                 "custom/sep"
                 "network"
                 "temperature"
-                "mpris"
+                # "mpris"
                 "cpu"
                 "memory"
                 "custom/power"
@@ -171,26 +172,26 @@
               on-click-right= "systemctl poweroff";
               on-click-middle= "systemctl reboot";
             };
-          "mpris"= {
-            format= "{player_icon} {artist} - {title}";
-            format-paused= "{status_icon} {artist} - {title}";
-            on-click= "playerctl play-pause";
-            on-click-middle= "playerctl previous";
-            on-click-right= "playerctl next";
-            player-icons= {
-              default= "▶";
-              spotify= "󰓇";
-              firefox= "󰈹";
-              chromium= "";
-            };
-            "status-icons"= {
-              playing= "󰐊";
-              paused= "󰏤";
-              stopped= "󰓛";
-            };
-            max-length= 40;
-            tooltip-format= "{player} : {artist} - {title}";
-            };
+          # "mpris"= {
+          #   format= "{player_icon} {artist} - {title}";
+          #   format-paused= "{status_icon} {artist} - {title}";
+          #   on-click= "playerctl play-pause";
+          #   on-click-middle= "playerctl previous";
+          #   on-click-right= "playerctl next";
+          #   player-icons= {
+          #     default= "▶";
+          #     spotify= "󰓇";
+          #     firefox= "󰈹";
+          #     chromium= "";
+          #   };
+          #   "status-icons"= {
+          #     playing= "󰐊";
+          #     paused= "󰏤";
+          #     stopped= "󰓛";
+          #   };
+          #   max-length= 40;
+          #   tooltip-format= "{player} : {artist} - {title}";
+          #   };
 
           disk = {
               interval= 60;
@@ -201,28 +202,39 @@
         };
 
           style = ''
-            @define-color white      	#F2F2F2;
-            @define-color black      	#000000;
-            @define-color text       	#FFFFFF;
-            @define-color lightgray  	#686868;
-            @define-color darkgray   	#353535;
+            /* ---- eldritch greyscale palette ----
+               void/abyss/stone/ash/fog/bone/pale form the grey ramp.
+               sigil (desaturated violet) is the one "otherworldly" accent,
+               used only for hover/active states. blight (muted blood-red)
+               is used only for urgent/critical - nothing else is colored.
+            */
+            @define-color void        #0a0a0c;
+            @define-color abyss       #141416;
+            @define-color stone       #38383c;
+            @define-color ash         #58585c;
+            @define-color fog         #8a8a8e;
+            @define-color bone        #d4d0c4;
+            @define-color pale        #ece8da;
 
-            @define-color transparent	rgba(1, 1, 1, 0.5);
-            @define-color teal-trans	rgba(1, 117, 84, 0.5);
-            @define-color cyan			rgba(53, 140, 169, 1);
+            @define-color sigil       #6a5a78;
+            @define-color sigil-glow  rgba(106, 90, 120, 0.28);
+            @define-color blight      #6b3232;
+            @define-color blight-glow rgba(107, 50, 50, 0.28);
 
-            @define-color background-module     @transparent;
-            @define-color border-color          #7F4EA2;
-            @define-color color13               #A0536C;
+            @define-color transparent            rgba(10, 10, 12, 0.55);
+            @define-color background-module      @transparent;
+            @define-color border-color           @stone;
+            @define-color color13                @sigil;
 
-            /* Catppuccin Latte accents (antes em latte.css) */
-            @define-color sapphire  #209fb5;
-            @define-color mauve     #8839ef;
-            @define-color rosewater #dc8a78;
-            @define-color sky       #04a5e5;
-            @define-color red       #d20f39;
-            @define-color yellow    #df8e1d;
-            @define-color teal      #179299;
+            /* legacy Catppuccin-named vars, remapped onto the grey ramp
+               so the selectors further down don't all need touching */
+            @define-color sapphire  @fog;
+            @define-color mauve     @ash;
+            @define-color rosewater @bone;
+            @define-color sky       @fog;
+            @define-color red       @blight;
+            @define-color yellow    @sigil;
+            @define-color teal      @ash;
 
             * {
                 font-family: "Fira Code";
@@ -236,7 +248,7 @@
               window#waybar {
                   background: transparent;
                   border-radius: 0px;
-                  color: #cba6f7;
+                  color: @bone;
               }
 
               window#waybar.hidden {
@@ -244,12 +256,12 @@
               }
 
               tooltip {
-                  background: #1e1e2e;
+                  background: @abyss;
                   border-radius: 12px;
                   border-width: 1px;
                   border-style: solid;
                   border-color: @border-color;
-                  color: #ffffff;
+                  color: @bone;
               }
 
               /*-----module groups----*/
@@ -271,37 +283,34 @@
                   font-weight: bold;
                   font-style: normal;
                   opacity:0.8;
-                  color:#FFFFFF;
+                  color: @bone;
               }
 
               #taskbar button {
-                  color: #6E6A86;
+                  color: @fog;
                   box-shadow: none;
              	text-shadow: none;
                   border-radius: 30px;
                   padding-left: 4px;
                   padding-right: 4px;
-                  animation: gradient_f 20s ease-in infinite;
                   transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
               }
 
               #taskbar button.active {
-                  color: #ffd700;
+                  color: @pale;
                   border-radius: 50%;
-                  background-color: black;
+                  background-color: @void;
                   border-radius: 15px 15px 15px 15px;
                   padding-left: 8px;
                   padding-right: 8px;
-                  animation: gradient_f 20s ease-in infinite;
                   transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
               }
 
               #taskbar button:hover {
-                  color: #ffd700;
+                  color: @pale;
                   border-radius: 10px;
                	padding-left: 2px;
                   padding-right: 2px;
-                  animation: gradient_f 20s ease-in infinite;
                   transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
               }
 
@@ -361,18 +370,18 @@
               #custom-weather.showyIcyDay,
               #custom-weather.snowyIcyNight,
               #custom-weather.sunnyDay {
-                color: #e5d9f5;
+                color: @bone;
                	padding-right: 6px;
                	padding-left: 6px;;
               }
 
           #temperature.critical {
-              background-color: #ff0000;
+              background-color: @blight;
           }
 
           @keyframes blink {
               to {
-                  color: #000000;
+                  color: @void;
               }
           }
 
@@ -391,14 +400,14 @@
               min-width: 80px;
               min-height: 5px;
               border-radius: 5px;
-              background-color: #22252a;
+              background-color: @stone;
           }
 
           #backlight-slider highlight,
           #pulseaudio-slider highlight {
               min-height: 10px;
               border-radius: 5px;
-              background-color: #ba5663;
+              background-color: @sigil;
           }
 
           #pulseaudio-slider,
@@ -407,7 +416,7 @@
           }
 
           #pulseaudio.muted {
-              color: red;
+              color: @blight;
           }
 
         #memory {
@@ -435,7 +444,7 @@
         }
 
         #battery.critical:not(.charging) {
-         	color: #f53c3c;
+         	color: @blight;
          	animation-name: blink;
          	animation-duration: 3.0s;
          	animation-timing-function: steps(12);
@@ -450,7 +459,7 @@
         }
 
         #clock#2 {
-            color: #efe8f7;
+            color: @pale;
         }
 
         #clock {
@@ -462,23 +471,23 @@
             color: @yellow;
         }
         #swaync{
-            color: #ffd700;}
+            color: @sigil;}
 
           /* Tags - ext/workspaces (mangowm) */
         #workspaces button {
             padding: 0 7px;
-            color: #cba6f7;
+            color: @bone;
             background: transparent;
             border-radius: 8px;
             font-size: 95%;
             min-width: 22px;
-            border-bottom: 2px solid #cba6f7;
+            border-bottom: 2px solid @stone;
             transition: all 0.2s ease;
         }
 
       #workspaces button.active {
-          color: #ffffff;
-          background-color: #cba6f7;
+          color: @void;
+          background-color: @bone;
           border-radius: 10px;
           padding: 0 10px;
           font-weight: bold;
@@ -486,13 +495,13 @@
       }
 
       #workspaces button.empty:not(.active) {
-          color: #444459;
+          color: @stone;
           border-bottom: none;
       }
 
       #workspaces button.urgent {
-          color: #f38ba8;
-          background-color: rgba(243, 56, 56, 0.2);
+          color: @blight;
+          background-color: @blight-glow;
           border-radius: 8px;
           border-bottom: none;
           animation-name: blink;
@@ -502,21 +511,21 @@
       }
 
       #workspaces button:hover {
-          color: #ffd700;
-          background-color: rgba(255, 215, 0, 0.15);
+          color: @sigil;
+          background-color: @sigil-glow;
           border-radius: 8px;
       }
 
       #custom-sep {
-          color: #444459;
+          color: @stone;
           padding: 0 2px;
           font-size: 90%;
       }
       #mpris.paused {
-          color: #6c7086;
+          color: @fog;
       }
       #group-mpris-controls {
-          background-color: rgba(30, 30, 46, 0.6);
+          background-color: rgba(20, 20, 22, 0.6);
           border-radius: 20px;
           padding: 0 4px;
           margin: 0 4px;
@@ -524,7 +533,7 @@
 
       #custom-mpris-prev,
       #custom-mpris-next {
-          color: #cdd6f4;
+          color: @bone;
           padding: 0 6px;
       }
     '';
