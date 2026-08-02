@@ -29,7 +29,7 @@
       self.nixosModules.nvidiaCuda
       # self.nixosModules.gtkGreeter
       # self.nixosModules.tuiGreeter
-      self.nixosModules.noctaliaGreeter
+      self.nixosModules.nocGreeter
       # self.nixosModules.cosmicGreeter
       # self.nixosModules.niri
       self.nixosModules.mango

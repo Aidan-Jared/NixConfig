@@ -19,13 +19,15 @@
     programs.noctalia-greeter = {
       enable = true;
       session.default = "mango";
-      appearance = {
-        hide_logo = true;
-        theme_mode = "dark";
-        font_family = "Fira Code";
-        wallpaper = {
-          path = "${self.wallpaper}";
-          fill_mode = "fit";
+      settings = {
+         appearance = {
+          hide_logo = true;
+          theme_mode = "dark";
+          font_family = "Fira Code";
+          wallpaper = {
+            path = "${self.wallpaper}";
+            fill_mode = "fit";
+          };
         };
       };
     };
