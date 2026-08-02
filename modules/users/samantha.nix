@@ -22,8 +22,8 @@
       self.homeModules.zen
       self.homeModules.stylix
 #      self.homeModules.ghostty
-      self.homeModules.waybar
-      self.homeModules.wlogout
+      # self.homeModules.waybar
+      # self.homeModules.wlogout
       # self.homeModules.swaybag
       self.homeModules.extraTools
       self.homeModules.lsp

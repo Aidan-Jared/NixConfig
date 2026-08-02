@@ -4,8 +4,7 @@ let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
     vicinaeExe = lib.getExe inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
-    fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
+    noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.noctalia-shell;
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -16,11 +15,14 @@ let
     config = {
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
+        # waybar &
       autostart_sh = ''
-        waybar &
+        ${noctaliaExe}
+        awww-daemon
+        
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
-           "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
+           "${lib.getExe pkgs.awww} img ${self.wallpaper}"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
         vicinae server &
@@ -169,7 +171,7 @@ let
         globalcolor = "0xb153a7ff";
         overlaycolor = "0x14a57cff";
 
-        circle_layout="fair,vertical_fair,tile,center_tile,right_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck, dwindle";
+        circle_layout="fair,vertical_fair,tile,center_tile,right_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck,dwindle";
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"
@@ -195,8 +197,8 @@ let
           "SUPER,code:60,focusmon,right"
           "SUPER+shift,code:60,tagmon,right,0"
           "SUPER,q,killclient"
-          "SUPER+SHIFT,f,togglefullscreen,"
-          "SUPER,f,togglefloating,"
+          "ALT,g,togglefloating,"
+          "ALT,f,togglefullscreen,"
           "CTRL+SHIFT,k,smartmovewin,up"
           "CTRL+SHIFT,j,smartmovewin,down"
           "CTRL+SHIFT,h,smartmovewin,left"
@@ -234,25 +236,8 @@ let
           "SUPER+SHIFT,e,spawn,wl-paste | swappy -f -"
           "none,Print,spawn,grim -g \"$(slurp -w 0)\" - | wl-copy"
           "SUPER,o,toggleoverview"
-          "SUPER+SHIFT,v,spawn,${lib.getExe (pkgs.writeShellScriptBin "fuzzel-clipboard" ''
-            set -euo pipefail
-            sel=$(${lib.getExe pkgs.cliphist} list | ${fuzzelDmenu "clip> "})
-            [ -z "$sel" ] && exit 0
-            ${lib.getExe pkgs.cliphist} decode <<< "$sel" | ${lib.getExe pkgs.wl-clipboard} wl-copy
-          '')}"
-
-        "SUPER+SHIFT,Escape,spawn,${lib.getExe (pkgs.writeShellScriptBin "power-menu" ''
-            set -euo pipefail
-            chosen=$(printf "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" | ${fuzzelDmenu "power> "})
-            case "$chosen" in
-              Lock)      loginctl lock-session ;;
-              Logout)    loginctl terminate-user "$USER" ;;
-              Suspend)   systemctl suspend ;;
-              Hibernate) systemctl hibernate ;;
-              Reboot)    systemctl reboot ;;
-              Shutdown)  systemctl poweroff ;;
-            esac
-          '')}"
+          "SUPER+SHIFT,v,spawn,vicinae vicinae://launch/clipboard/history"
+          "SUPER+SHIFT,Escape,spawn,wlogout"
         ];
 
         mousebind = [
@@ -312,13 +297,18 @@ let
 in {
   flake.nixosModules.mango = { pkgs, ... }: {
     imports = [ inputs.mangowm.nixosModules.mango ];
+
     environment.systemPackages = [
      self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
      self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock
      self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
-     pkgs.swayosd
     ];
+
+    services.awww = {
+      enable = true;
+    };
+    
     programs.mango = {
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.mangowc;

@@ -41,11 +41,14 @@
         # };
       };
       extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
-       # bluetooth
+       awww-switcher
+       bluetooth
        nix
        power-profile
        ssh
        zed-recents
+       vscode-recents
+       wifi-commander
        zoxide-recent-directories
         # Extension names can be found in the link below, it's just the folder names
      ];

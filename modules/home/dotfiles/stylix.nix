@@ -43,7 +43,7 @@
         };
        };
 
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml";      
+      # base16Scheme = "${pkgs.base16-schemes}/share/themes/eldritch.yaml";      
       override = {
         base08 = "ff4444";  # red — errors
         base09 = "ff8800";  # orange — warnings
