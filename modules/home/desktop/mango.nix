@@ -169,7 +169,7 @@ let
         globalcolor = "0xb153a7ff";
         overlaycolor = "0x14a57cff";
 
-        circle_layout="fair,vertical_fair,tile,center_tile,right_tile,left_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck, dwindle";
+        circle_layout="fair,vertical_fair,tile,center_tile,right_tile,vertical_tile,scroller,vertical_scroller,monocle,grid,vertical_grid,deck,vertical_deck, dwindle";
         
         bind = [
           "SUPER,t,spawn,${config.terminal}"

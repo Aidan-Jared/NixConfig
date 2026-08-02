@@ -45,7 +45,6 @@
 
             modules-left= [
                 "mango/workspaces"
-                "mango/windows"
                 "mango/layout"
                 "custom/sep"
                 "pulseaudio#mic"
@@ -54,6 +53,7 @@
             ];
 
             "modules-center"= [
+                "mango/windows"
                 "clock"
             ];
             "modules-right"= [
@@ -70,7 +70,7 @@
                 format = "{index}";
                 on-click = "activate";
                 on-click-right = "toggle";
-                hide-empty = false;
+                hide-empty = true;
                 current-only = false;
                 overview-label = "OVERVIEW";
             };

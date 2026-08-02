@@ -37,7 +37,7 @@
       # self.homeModules.wayle
       # self.homeModules.noctalia
       # self.homeModules.ewwBar
-      # self.homeModules.vicinae
+      self.homeModules.vicinae
     ];
 
     home.packages = [
