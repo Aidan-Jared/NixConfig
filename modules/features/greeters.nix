@@ -18,8 +18,8 @@
 
     programs.noctalia-greeter = {
       enable = true;
-      session.default = "mango";
       settings = {
+        session.default = "mango";
          appearance = {
           hide_logo = true;
           theme_mode = "dark";

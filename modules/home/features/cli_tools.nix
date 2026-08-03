@@ -45,12 +45,9 @@
       pkgs.imagemagick
 
       # wrapped
-      self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
 
       self.packages.${pkgs.stdenv.hostPlatform.system}.btop
-      self.packages.${pkgs.stdenv.hostPlatform.system}.git
-      self.packages.${pkgs.stdenv.hostPlatform.system}.zellij
-      
+      self.packages.${pkgs.stdenv.hostPlatform.system}.git    
    	];
    programs.gh = {
       enable = true;

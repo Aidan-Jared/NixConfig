@@ -18,7 +18,7 @@
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      # self.homeModules.zellij
+      self.homeModules.zellij
       self.homeModules.yazi
 
       # browswer
