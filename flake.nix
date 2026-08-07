@@ -32,6 +32,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    bacon= {
+      url = "github:Canop/bacon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    bacon-ls= {
+      url = "github:crisidev/bacon-ls";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # herdr = {
     #   url = "github:ogulcancelik/herdr/v0.x.y";
     #   inputs.nixpkgs.follows = "nixpkgs";

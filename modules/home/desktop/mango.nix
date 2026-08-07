@@ -4,6 +4,7 @@ let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
     noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    quickshellExe = lib.getExe inputs.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -15,8 +16,9 @@ let
       package = inputs.mangowm.packages.${pkgs.stdenv.hostPlatform.system}.mango;
       
         # waybar &
+        # ${noctaliaExe} &
       autostart_sh = ''
-        ${noctaliaExe} &
+        ${quickshellExe} &
         awww-daemon &
         
         ${(lib.getExe (
@@ -27,10 +29,10 @@ let
       '';
 
       settings = {
-     	blur = 1;
-     	blur_layer = 1;
-     	blur_optimized=1;
-     	blur_params = {
+       	blur = 1;
+       	blur_layer = 1;
+       	blur_optimized=1;
+       	blur_params = {
       		num_passes = 2;
       		radius = 5;
       		noise = 0.02;

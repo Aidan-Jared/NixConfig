@@ -31,7 +31,7 @@
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python
-      self.homeModules.rLang
+      # self.homeModules.rLang
       self.homeModules.devenv
       # code editors
       self.homeModules.zed

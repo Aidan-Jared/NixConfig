@@ -9,10 +9,12 @@
     ];
   };
   
-  flake.homeModules.rust = { pkgs, ... }: {
+  flake.homeModules.rust = { pkgs, lib, ... }: {
     home.packages = with pkgs; [
-      bacon
       rustup
+      (lib.hiPrio rust-analyzer)
+      inputs.bacon.defaultPackage.${pkgs.stdenv.hostPlatform.system}
+      inputs.bacon-ls.defaultPackage.${pkgs.stdenv.hostPlatform.system}
       cargo-watch
       cargo-expand
       cargo-nextest
@@ -42,7 +44,7 @@
   flake.homeModules.rLang = { pkgs, ... }: {
     home.packages = with pkgs; [
       R
-      rPackages.littler
+      # rPackages.littler
       rPackages.tidyverse
     ];
   };
