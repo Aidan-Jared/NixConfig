@@ -47,7 +47,7 @@ Singleton {
   readonly property alias maxWorkspaces: adapter.maxWorkspaces
   readonly property alias notificationDisplayTime: adapter.notificationDisplayTime
   readonly property alias maxNotificationsInStack: adapter.maxNotificationsInStack
-  readonly property alias bandwidthRefreshInterval: adapter.bandwidthRefreshInterval
+  // readonly property alias bandwidthRefreshInterval: adapter.bandwidthRefreshInterval
   readonly property alias screenLockAppCommand: adapter.screenLockAppCommand
   readonly property alias osdDuration: adapter.osdDuration
   readonly property alias weatherUnits: adapter.weatherUnits

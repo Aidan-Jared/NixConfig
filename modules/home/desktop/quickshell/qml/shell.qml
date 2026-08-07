@@ -993,12 +993,12 @@ ShellRoot {
         }
 
         // bandwidth usage status
-        Bandwidth {
-          anchors.right: parent.right
-          anchors.rightMargin: 4
-          anchors.bottom: parent.bottom
-          anchors.bottomMargin: 42
-        }
+        // Bandwidth {
+        //   anchors.right: parent.right
+        //   anchors.rightMargin: 4
+        //   anchors.bottom: parent.bottom
+        //   anchors.bottomMargin: 42
+        // }
 
         // rectangle where poweroff, sleep etc. buttons placed
         Rectangle {

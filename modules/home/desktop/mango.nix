@@ -4,7 +4,8 @@ let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
     noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    quickshellExe = lib.getExe inputs.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+    quickshellExe = lib.getExe inputs.packages.${pkgs.stdenv.hostPlatform.system}.quickshellWrapped;
+    quickshellIPC = "${lib.getExe pkgs.quickshell} ipc call";
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -195,7 +196,10 @@ let
       		"SUPER,r,reload_config"
 
       		# menu and terminal
-      		"Alt,space,spawn,rofi -show drun"
+      		"SUPER,space,spawn,${quickshellIPC} appLauncher toggle"
+      		"SUPER,c,spawn,${quickshellIPC} controlCenter toggle"
+      		"SUPER,e,spawn,${quickshellIPC} miniDashboard toggle"
+      		"SUPER+CTRL,v,spawn,${quickshellIPC} cliphist toggle"
       		"Alt,Return,spawn,ghostty"
 
       		# exit
@@ -355,6 +359,7 @@ in {
      self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock
      self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
+     pkgs.cliphist
     ];
 
     
