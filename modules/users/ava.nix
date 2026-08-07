@@ -33,10 +33,15 @@
       self.homeModules.python
       self.homeModules.rLang
       self.homeModules.devenv
-      self.homeModules.matrix
-      self.homeModules.discord
+      # code editors
       self.homeModules.zed
       self.homeModules.vscode
+
+      # comunication
+      # self.homeModules.matrix
+      # self.homeModules.discord
+      # self.homeModules.zulip
+
 
       # extra
       self.homeModules.remote
@@ -46,7 +51,7 @@
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.nh
     ];
-    
+
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;
     xdg.configFile."mimeapps.list".force = true;

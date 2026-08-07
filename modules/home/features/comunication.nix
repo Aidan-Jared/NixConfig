@@ -24,4 +24,16 @@
         };
       };
     };
+
+  flake.homeModules.zulip = { pkgs, ... }: {
+    home.packages = with pkgs; [
+      zulip
+    ];
+  };
+
+  flake.homeModules.signal = { pkgs, ... }: {
+    home.packages = with pkgs; [
+      signal-desktop
+    ];
+  };
 }

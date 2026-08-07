@@ -5,8 +5,8 @@
     config.package = pkgs.btop-cuda;
 
     config.settings = {
-        color-theme = "greyscale";
-        theme-background = false;
+        color_theme = "greyscale";
+        theme_background = false;
         vim_keys = true;
         gpu_mirror_graph = true;
         show_gpu_info = "Auto";
