@@ -1,11 +1,9 @@
 { inputs, self, ... }: 
 let
   mangowcModule = { config, lib, pkgs, ... }: let
-    # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
-    # noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    quickshellExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshellWrapped;
-    quickshellIPC = "${quickshellExe} ipc call";
+    fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
+    fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -19,7 +17,7 @@ let
         # waybar &
         # ${noctaliaExe} &
       autostart_sh = ''
-        ${quickshellExe} &
+        waybar &
         awww-daemon &
         
         ${(lib.getExe (
@@ -64,7 +62,7 @@ let
      	animation_type_close="slide";
      	animation_fade_in=1;
      	animation_fade_out=1;
-     	tag_animation_direction=1;
+     	tag_animation_direction=0;
      	zoom_initial_ratio=0.4;
      	zoom_end_ratio=0.8;
      	fadein_begin_opacity=0.5;
@@ -197,11 +195,26 @@ let
       		"SUPER,esc,${swaylock}"
 
       		# menu and terminal
-      		"SUPER,space,spawn,${quickshellIPC} appLauncher toggle"
-      		"SUPER,c,spawn,${quickshellIPC} controlCenter toggle"
-      		"SUPER,e,spawn,${quickshellIPC} miniDashboard toggle"
-      		"SUPER+CTRL,v,spawn,${quickshellIPC} cliphist toggle"
-      		"Alt,Return,spawn,ghostty"
+      		"SUPER,space,spawn,${fuzzelExe}"
+          "SUPER+ctrl,v,spawn,${lib.getExe (pkgs.writeShellScriptBin "fuzzel-clipboard" ''
+                      set -euo pipefail
+                      sel=$(${lib.getExe pkgs.cliphist} list | ${fuzzelDmenu "clip> "})
+                      [ -z "$sel" ] && exit 0
+                      ${lib.getExe pkgs.cliphist} decode <<< "$sel" | ${lib.getExe pkgs.wl-clipboard} wl-copy
+                    '')}"
+          "SUPER+SHIFT,Escape,spawn,${lib.getExe (pkgs.writeShellScriptBin "power-menu" ''
+                      set -euo pipefail
+                      chosen=$(printf "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" | ${fuzzelDmenu "power> "})
+                      case "$chosen" in
+                        Lock)      ${swaylock} ;;
+                        Logout)    loginctl terminate-user "$USER" ;;
+                        Suspend)   systemctl suspend ;;
+                        Hibernate) systemctl hibernate ;;
+                        Reboot)    systemctl reboot ;;
+                        Shutdown)  systemctl poweroff ;;
+                      esac
+                    '')}"
+          "Alt,Return,spawn,ghostty"
 
       		# exit
       		"SUPER,m,quit"
@@ -346,6 +359,27 @@ let
       		"axisSUPER,DOWN,viewtoright_have_client"
       		"axisSUPER,k,viewtoleft_have_client"
       		"axisSUPER,j,viewtoright_have_client"
+
+      		"SUPER+CTRL,e,spawn,pcmanfm"
+          "SUPER,e,spawn,ghostty -e yazi"
+          "NONE,XF86AudioRaiseVolume,spawn,swayosd-client --output-volume +5"
+          "NONE,XF86AudioLowerVolume,spawn,swayosd-client --output-volume -5"
+          "NONE,XF86AudioMute,spawn,swayosd-client --output-volume mute-toggle"
+          "NONE,XF86AudioMicMute,spawn,swayosd-client --input-volume mute-toggle"
+          "NONE,XF86MonBrightnessUp,spawn,swayosd-client --brightness +5"
+          "NONE,XF86MonBrightnessDown,spawn,swayosd-client --brightness -5"
+          "NONE,Caps_Lock,spawn,swayosd-client --caps-lock"
+          "NONE,Num_Lock,spawn,swayosd-client --num-lock"
+          "NONE,XF86Sleep,spawn,${swaylock}; systemctl suspend"
+          "NONE,XF86Standby,spawn,${swaylock}; systemctl suspend"
+          "SUPER+CTRL,s,spawn,${lib.getExe config.pkgs.grim} -l 0 - | ${config.pkgs.wl-clipboard}/bin/wl-copy"
+          "SUPER+SHIFT,e,spawn,${config.pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe config.pkgs.swappy} -f -"
+          "none,Print,spawn,${lib.getExe (config.pkgs.writeShellApplication {
+            name = "screenshot";
+            text = ''
+              ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
+              | ${config.pkgs.wl-clipboard}/bin/wl-copy
+            '';})}"
        	];
 
        	mousebind = [

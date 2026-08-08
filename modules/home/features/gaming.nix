@@ -29,6 +29,5 @@
       lsfg-vk
       lsfg-vk-ui
     ];
-
   };
 }

@@ -5,6 +5,7 @@
       nerd-fonts.fira-code
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
+      maple-mono.NF
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
