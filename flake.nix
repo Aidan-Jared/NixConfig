@@ -56,21 +56,6 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    # niri = {
-    #   url = "github:sodiboo/niri-flake";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    
-    # pandora = {
-    #   url = "github:PandorasFox/pandora";
-    #   flake = false;
-    # };
-    
-    # system76-scheduler-niri = {
-    #   url = "github:Kirottu/system76-scheduler-niri";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     # sops-nix = {
     #   url = "github:Mic92/sops-nix";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -81,15 +66,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # noctalia = {
+    #   url = "github:noctalia-dev/noctalia";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
-    noctalia-greeter = {
-      url = "github:noctalia-dev/noctalia-greeter";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # noctalia-greeter = {
+    #   url = "github:noctalia-dev/noctalia-greeter";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # waybar = {
     #   url = "github:Alexays/Waybar";

@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.cudaHardware = { config, lib, pkgs, modulesPath, ... }: { 
+  flake.nixosModules.mainHardware = { config, lib, pkgs, modulesPath, ... }: { 
     # imports = [
     #   (modulesPath + "/installer/scan/not-detected.nix")
     # ];

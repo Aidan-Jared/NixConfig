@@ -1,14 +1,14 @@
 { self, inputs, ... }:
 {
 
-  flake.nixosConfigurations.hardwareMachine = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.mainMachine = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      self.nixosModules.hardwareConfiguration
+      self.nixosModules.mainConfiguration
     ];
   };
 
-  flake.nixosModules.hardwareConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.mainConfiguration = { pkgs, lib, ... }: {
 
     imports = [
       inputs.home-manager.nixosModules.home-manager
@@ -19,7 +19,7 @@
       self.nixosModules.nixSettings
       self.nixosModules.defaultPkgs
       self.nixosModules.systemConfig
-      self.nixosModules.cudaHardware
+      self.nixosModules.mainHardware
       self.nixosModules.users
       self.nixosModules.remote
       self.nixosModules.VM

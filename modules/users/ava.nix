@@ -40,7 +40,7 @@
       # comunication
       # self.homeModules.matrix
       # self.homeModules.discord
-      # self.homeModules.zulip
+      self.homeModules.zulip
 
 
       # extra

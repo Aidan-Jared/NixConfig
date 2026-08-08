@@ -3,9 +3,9 @@ let
   mangowcModule = { config, lib, pkgs, ... }: let
     # wayleExe = lib.getExe pkgs.wayle;
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
-    noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    quickshellExe = lib.getExe inputs.packages.${pkgs.stdenv.hostPlatform.system}.quickshellWrapped;
-    quickshellIPC = "${lib.getExe pkgs.quickshell} ipc call";
+    # noctaliaExe = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    quickshellExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshellWrapped;
+    quickshellIPC = "${quickshellExe} ipc call";
     # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
@@ -194,6 +194,7 @@ let
      	# reload config;
        	bind = [
       		"SUPER,r,reload_config"
+      		"SUPER,esc,${swaylock}"
 
       		# menu and terminal
       		"SUPER,space,spawn,${quickshellIPC} appLauncher toggle"
@@ -212,16 +213,20 @@ let
       		"ALT,Right,focusdir,right"
       		"ALT,Up,focusdir,up"
       		"ALT,Down,focusdir,down"
+      		"ALT,h,focusdir,left"
+      		"ALT,l,focusdir,right"
+      		"ALT,k,focusdir,up"
+      		"ALT,j,focusdir,down"
 
       		# swap window
       		"SUPER+SHIFT,Up,exchange_client,up"
       		"SUPER+SHIFT,Down,exchange_client,down"
       		"SUPER+SHIFT,Left,exchange_client,left"
       		"SUPER+SHIFT,Right,exchange_client,right"
-      		"SUPER+SHIFT,Up,exchange_client,k"
-      		"SUPER+SHIFT,Down,exchange_client,j"
-      		"SUPER+SHIFT,Left,exchange_client,h"
-      		"SUPER+SHIFT,Right,exchange_client,l"
+      		"SUPER+SHIFT,k,exchange_client,up"
+      		"SUPER+SHIFT,j,exchange_client,down"
+      		"SUPER+SHIFT,h,exchange_client,left"
+      		"SUPER+SHIFT,l,exchange_client,right"
 
       		# switch window status
       		"SUPER,g,toggleglobal,"
@@ -242,6 +247,10 @@ let
       		"alt+super+ctrl,Right,scroller_stack,right"
       		"alt+super+ctrl,Up,scroller_stack,up"
       		"alt+super+ctrl,Down,scroller_stack,down"
+      		"alt+super+ctrl,h,scroller_stack,left"
+      		"alt+super+ctrl,l,scroller_stack,right"
+      		"alt+super+ctrl,k,scroller_stack,up"
+      		"alt+super+ctrl,j,scroller_stack,down"
 
       		#dwindle layout(manual split mode)
       		"alt+shift,Return,dwindle_toggle_split_direction"
@@ -291,6 +300,10 @@ let
       		"alt+shift,Right,focusmon,right"
       		"SUPER+Alt,Left,tagmon,left"
       		"SUPER+Alt,Right,tagmon,right"
+      		"alt+shift,h,focusmon,left"
+      		"alt+shift,l,focusmon,right"
+      		"SUPER+Alt,h,tagmon,left"
+      		"SUPER+Alt,l,tagmon,right"
 
       		# gaps
       		"ALT+SHIFT,X,incgaps,1"
@@ -302,13 +315,22 @@ let
       		"CTRL+SHIFT,Down,movewin,+0,+50"
       		"CTRL+SHIFT,Left,movewin,-50,+0"
       		"CTRL+SHIFT,Right,movewin,+50,+0"
+      		"CTRL+SHIFT,k,movewin,+0,-50"
+      		"CTRL+SHIFT,j,movewin,+0,+50"
+      		"CTRL+SHIFT,h,movewin,-50,+0"
+      		"CTRL+SHIFT,l,movewin,+50,+0"
 
       		# resizewin
       		"CTRL+ALT,Up,resizewin,+0,-50"
       		"CTRL+ALT,Down,resizewin,+0,+50"
       		"CTRL+ALT,Left,resizewin,-50,+0"
       		"CTRL+ALT,Right,resizewin,+50,+0"
+      		"CTRL+ALT,k,resizewin,+0,-50"
+      		"CTRL+ALT,j,resizewin,+0,+50"
+      		"CTRL+ALT,h,resizewin,-50,+0"
+      		"CTRL+ALT,l,resizewin,+50,+0"
 
+      		# comboview
       		"SUPER,1,comboview,1"
       		"SUPER,2,comboview,2"
       		"SUPER,3,comboview,3"
@@ -322,20 +344,22 @@ let
       		# Axis Bindings
       		"axisSUPER,UP,viewtoleft_have_client"
       		"axisSUPER,DOWN,viewtoright_have_client"
+      		"axisSUPER,k,viewtoleft_have_client"
+      		"axisSUPER,j,viewtoright_have_client"
        	];
 
        	mousebind = [
       		# Mouse Button Bindings;
       		# btn_left and btn_right can't bind none mod key;
-      		"mouseSUPER,btn_left,moveresize,curmove"
-      		"mouseNONE,btn_middle,togglemaximizescreen,0"
-      		"mouseSUPER,btn_right,moveresize,curresize"
+      		"SUPER,btn_left,moveresize,curmove"
+      		"NONE,btn_middle,togglemaximizescreen,0"
+      		"SUPER,btn_right,moveresize,curresize"
        	];
 
-       	layerrule = [
-      		"animation_type_open:zoom,layer_name:rofi"
-      		"animation_type_close:zoom,layer_name:rofi"
-       	];
+       	# layerrule = [
+      		# "animation_type_open:zoom,layer_name:fuzzel"
+      		# "animation_type_close:zoom,layer_name:fuzzel"
+       	# ];
 
        	gesturebind = [
        	  "none,left,3,focusdir,left"

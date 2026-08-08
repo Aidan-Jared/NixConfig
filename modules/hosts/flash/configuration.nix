@@ -1,25 +1,24 @@
 { self, inputs, ... }:
 {
 
-  flake.nixosConfigurations.cudaMachine = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.test = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      self.nixosModules.cudaConfiguration
+      self.nixosModules.testConfiguration
     ];
   };
 
-  flake.nixosModules.cudaConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.testConfiguration = { pkgs, lib, ... }: {
 
     imports = [
       inputs.home-manager.nixosModules.home-manager
       self.nixosModules.lix
       self.nixosModules.boot
-#      self.nixosModules.encrypt
       self.nixosModules.fonts
       self.nixosModules.nixSettings
       self.nixosModules.defaultPkgs
       self.nixosModules.systemConfig
-      self.nixosModules.cudaHardware
+      self.nixosModules.testHardware
       self.nixosModules.users
       self.nixosModules.remote
       self.nixosModules.VM
@@ -28,16 +27,12 @@
       self.nixosModules.nvidia
       self.nixosModules.nvidiaCuda
       # self.nixosModules.gtkGreeter
-      # self.nixosModules.tuiGreeter
-      self.nixosModules.nocGreeter
+      self.nixosModules.tuiGreeter
+      # self.nixosModules.nocGreeter
       # self.nixosModules.cosmicGreeter
-      # self.nixosModules.niri
       self.nixosModules.mango
     ];
 
-    # nixpkgs.overlays = [
-    #   inputs.noctalia.overlays.default
-    # ];
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
