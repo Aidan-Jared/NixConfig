@@ -1,12 +1,17 @@
 { self, inputs, ... }:
 {
   flake.homeModules.shellBash = { pkgs, lib, ... }: {
-
-    programs.bash = {
-      enable = true;
-      enableCompletion = true;
-
-        shellAliases = rec {
+    home.sessionPath = [ "$HOME/.local/bin" ];
+      programs.bash = {
+        enable = true;
+        enableCompletion = true;
+        initExtra = ''
+            if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+              . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+            fi
+            export PATH="$HOME/.local/bin:$PATH"
+          '';
+      shellAliases = rec {
         ls="eza --icons --git";
         ll="eza -la --icons --git";
         lt="eza --tree --icons";

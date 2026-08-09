@@ -31,7 +31,7 @@
       self.homeModules.lsp
       self.homeModules.rust
       self.homeModules.python
-      # self.homeModules.rLang
+      self.homeModules.rLang
       self.homeModules.devenv
       # code editors
       self.homeModules.zed
@@ -51,6 +51,10 @@
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.nh
     ];
+
+    services.awww = {
+      enable = true;
+    };
 
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;

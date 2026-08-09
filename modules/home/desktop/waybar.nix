@@ -1,8 +1,8 @@
   { inputs, ... }: {
     flake.homeModules.waybar = { pkgs, lib, ... }: {
-      # home.packages = [
-      #   inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
-      # ];
+      home.packages = [
+        inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
       services.swaync = {
         enable = true;
         settings = {
@@ -64,10 +64,6 @@
                 hide-empty = false;
                 current-only = false;
                 overview-label = "OVERVIEW";
-            };
-
-            "mango/layout"={
-              format = "[] {symbol}";
             };
 
             "mango/window"= {

@@ -19,15 +19,15 @@
         else
           self.wallpaper;
       scaling="fill";
-      effect-blur="8x3";
-      fade-in=0.6;
+      effect-blur="8x2";
+      fade-in=1.6;
       effect-vignette="0.5:0.5";
 
       # --- Clock ---;
       clock=true;
       indicator=true;
       font="Fira Code";
-      timestr="%I:%M %p";
+      timestr="%HH:%M %p";
       datestr="%A, %B %d";
 
       # --- Indicator Layout (eldritch greyscale) ---;
@@ -93,4 +93,53 @@
       ];
     };
   };
+
+  flake.homeModule.stasis = { pkgs, lib, ... }:
+  let
+    stasisExe = lib.getExe inputs.stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis;
+  in {
+    imports = [
+      inputs.stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis
+    ];
+    xdg.configFile."stasis/config.rune".text = ''
+      stasis:
+            monitor_media true
+            respect_idle_inhibitors true
+            inhibit_apps [
+              "mpv"
+            ]
+
+            lock_screen:
+              timeout 300
+              command "loginctl lock-session"
+              lock-command "swaylock -f"
+              resume-command "notify-send 'Welcome back'"
+            end
+
+            dpms:
+              timeout 360
+              command "swaymsg 'output * dpms off'"
+              resume-command "wlopm --off '*'"
+            end
+
+            suspend:
+              timeout 1800
+              command "systemctl suspend"
+            end
+          end
+    '';
+    systemd.user.services.stasis = {
+        Unit = {
+          Description = "Stasis idle manager";
+          PartOf = [ "graphical-session.target" ];
+          After = [ "graphical-session.target" ];
+        };
+        Service = {
+          ExecStart = "${stasisExe}";
+          Restart = "on-failure";
+        };
+        Install.WantedBy = [ "graphical-session.target" ];
+      };
+  };
+
 }

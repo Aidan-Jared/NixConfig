@@ -11,7 +11,9 @@
   
   flake.homeModules.rust = { pkgs, lib, ... }: {
     home.packages = with pkgs; [
-      rustup
+      # rustup
+      rustc
+      cargo
       (lib.hiPrio rust-analyzer)
       inputs.bacon.defaultPackage.${pkgs.stdenv.hostPlatform.system}
       inputs.bacon-ls.defaultPackage.${pkgs.stdenv.hostPlatform.system}
@@ -44,8 +46,12 @@
   flake.homeModules.rLang = { pkgs, ... }: {
     home.packages = with pkgs; [
       R
+      air-formatter
+      # quarto
       # rPackages.littler
       rPackages.tidyverse
+      rPackages.knitr
+      rPackages.rmarkdown
     ];
   };
 

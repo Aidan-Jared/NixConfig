@@ -391,12 +391,16 @@ let
   };
 in {
   flake.nixosModules.mango = { pkgs, ... }: {
-    imports = [ inputs.mangowm.nixosModules.mango ];
+    imports = [
+      inputs.mangowm.nixosModules.mango 
+      self.homeModules.wlogout
+      self.homeModules.stasis
+    ];
 
     environment.systemPackages = [
      self.packages.${pkgs.stdenv.hostPlatform.system}.ghostty
      self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock
-     self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
+     # self.packages.${pkgs.stdenv.hostPlatform.system}.swayidle
      self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel
      pkgs.cliphist
     ];

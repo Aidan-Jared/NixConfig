@@ -51,10 +51,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # stasis = {
-    #   url = "github:saltnpepper97/stasis";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    stasis = {
+      url = "github:saltnpepper97/stasis";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # sops-nix = {
     #   url = "github:Mic92/sops-nix";

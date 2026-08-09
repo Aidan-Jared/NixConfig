@@ -20,12 +20,15 @@
         pop_to_root_on_close = true;
         favicon_service = "twenty";
         search_files_in_root = true;
-#        font = {
-#          normal = {
-#            size = 12;
-#            family = "Fira Code";
-#          };
-#        };
+        telemetry = false;
+        compact_mode = true;
+        keybinding_scheme = "Vim";
+       font = {
+         normal = {
+           size = 12;
+           family = "Maple Nerd Font";
+         };
+       };
         # theme = {
         #   light = {
         #     name = "vicinae-light";
@@ -42,7 +45,7 @@
       };
       extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
        awww-switcher
-       # bluetooth
+       bluetooth
        nix
        power-profile
        ssh

@@ -5,7 +5,7 @@
     config.package = pkgs.btop-cuda;
 
     config.settings = {
-        color_theme = "greyscale";
+        color_theme = "phoenix-night";
         theme_background = false;
         vim_keys = true;
         gpu_mirror_graph = true;
@@ -22,6 +22,7 @@
         enter_accept = true;
         search_mode = "fuzzy";
         sync.records = true;
+        flags = [  "--disable-ctrl-r"  ];
         daemon = {
           enabled = true;
           autostart = true;

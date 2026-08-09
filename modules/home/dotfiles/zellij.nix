@@ -11,7 +11,7 @@
       enable = true;
 
       settings = {
-        # theme = "cyber-noir-m";
+        theme = "cyber-noir-m";
         default_mode = "normal";
         default_layout = "default";
         scrollback_editor = "hx";
@@ -387,130 +387,7 @@
           ];
         };
       };
-
-      themes."sigil-void" = {
-        themes = {
-          "sigil-void"={
-            text_unselected = {
-              base = [ 138 138 142 ];        # fog
-              background = [ 20 20 22 ];     # abyss
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 88 88 92 ];     # ash
-              emphasis_3 = [ 56 56 60 ];     # stone
-            };
-            text_selected = {
-              base = [ 236 232 218 ];        # pale
-              background = [ 56 56 60 ];     # stone
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 212 208 196 ];  # bone
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            ribbon_selected = {
-              base = [ 20 20 22 ];           # abyss
-              background = [ 106 90 120 ];   # sigil
-              emphasis_0 = [ 107 50 50 ];    # blight
-              emphasis_1 = [ 236 232 218 ];  # pale
-              emphasis_2 = [ 212 208 196 ];  # bone
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            ribbon_unselected = {
-              base = [ 138 138 142 ];        # fog
-              background = [ 56 56 60 ];     # stone
-              emphasis_0 = [ 107 50 50 ];    # blight
-              emphasis_1 = [ 212 208 196 ];  # bone
-              emphasis_2 = [ 106 90 120 ];   # sigil
-              emphasis_3 = [ 88 88 92 ];     # ash
-            };
-            table_title = {
-              base = [ 106 90 120 ];         # sigil
-              background = 0;
-              emphasis_0 = [ 107 50 50 ];    # blight
-              emphasis_1 = [ 212 208 196 ];  # bone
-              emphasis_2 = [ 236 232 218 ];  # pale
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            table_cell_selected = {
-              base = [ 236 232 218 ];        # pale
-              background = [ 56 56 60 ];     # stone
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 212 208 196 ];  # bone
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            table_cell_unselected = {
-              base = [ 212 208 196 ];        # bone
-              background = [ 20 20 22 ];     # abyss
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 138 138 142 ];  # fog
-              emphasis_3 = [ 88 88 92 ];     # ash
-            };
-            list_selected = {
-              base = [ 236 232 218 ];        # pale
-              background = [ 56 56 60 ];     # stone
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 212 208 196 ];  # bone
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            list_unselected = {
-              base = [ 212 208 196 ];        # bone
-              background = [ 20 20 22 ];     # abyss
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 138 138 142 ];  # fog
-              emphasis_3 = [ 88 88 92 ];     # ash
-            };
-            frame_selected = {
-              base = [ 106 90 120 ];         # sigil
-              background = 0;
-              emphasis_0 = [ 107 50 50 ];    # blight
-              emphasis_1 = [ 212 208 196 ];  # bone
-              emphasis_2 = [ 236 232 218 ];  # pale
-              emphasis_3 = 0;
-            };
-            frame_highlight = {
-              base = [ 106 90 120 ];         # sigil
-              background = 0;
-              emphasis_0 = [ 236 232 218 ];  # pale
-              emphasis_1 = [ 107 50 50 ];    # blight
-              emphasis_2 = [ 107 50 50 ];    # blight
-              emphasis_3 = [ 107 50 50 ];    # blight
-            };
-            exit_code_success = {
-              base = [ 236 232 218 ];        # pale (no green in palette)
-              background = 0;
-              emphasis_0 = [ 106 90 120 ];   # sigil
-              emphasis_1 = [ 56 56 60 ];     # stone
-              emphasis_2 = [ 212 208 196 ];  # bone
-              emphasis_3 = [ 138 138 142 ];  # fog
-            };
-            exit_code_error = {
-              base = [ 107 50 50 ];          # blight
-              background = 0;
-              emphasis_0 = [ 236 232 218 ];  # pale
-              emphasis_1 = 0;
-              emphasis_2 = 0;
-              emphasis_3 = 0;
-            };
-            multiplayer_user_colors = {
-              player_1 = [ 106 90 120 ];     # sigil
-              player_2 = [ 107 50 50 ];      # blight
-              player_3 = [ 212 208 196 ];    # bone
-              player_4 = [ 138 138 142 ];    # fog
-              player_5 = [ 236 232 218 ];    # pale
-              player_6 = [ 88 88 92 ];       # ash
-              player_7 = [ 56 56 60 ];       # stone
-              player_8 = [ 20 20 22 ];       # abyss
-              player_9 = [ 106 90 120 ];     # sigil
-              player_10 = [ 107 50 50 ];     # blight
-            };
-          };
-        };
-      };
-
+      
       themes."cyber-noir-m" = {
         themes = {
           "cyber-noir-m" = {
