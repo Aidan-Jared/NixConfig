@@ -2,8 +2,7 @@
 let
   mangowcModule = { config, lib, pkgs, ... }: let
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
-    fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
-    fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
+    vicinaeExe = lib.getExe inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default;
     wallpaper = if pkgs.lib.hasSuffix ".mp4" (toString self.wallpaper) then
     pkgs.runCommand "converted-wallpaper.gif" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
       ${pkgs.ffmpeg}/bin/ffmpeg -i ${self.wallpaper} \
@@ -33,6 +32,7 @@ let
            "${lib.getExe pkgs.awww} img ${wallpaper}"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
+        vicinae server &
       '';
 
       settings = {
@@ -203,25 +203,9 @@ let
       		"SUPER,esc,${swaylock}"
 
       		# menu and terminal
-      		"SUPER,space,spawn,${fuzzelExe}"
-          "SUPER+ctrl,v,spawn,${lib.getExe (pkgs.writeShellScriptBin "fuzzel-clipboard" ''
-                      set -euo pipefail
-                      sel=$(${lib.getExe pkgs.cliphist} list | ${fuzzelDmenu "clip> "})
-                      [ -z "$sel" ] && exit 0
-                      ${lib.getExe pkgs.cliphist} decode <<< "$sel" | ${lib.getExe pkgs.wl-clipboard} wl-copy
-                    '')}"
-          "SUPER+SHIFT,Escape,spawn,${lib.getExe (pkgs.writeShellScriptBin "power-menu" ''
-                      set -euo pipefail
-                      chosen=$(printf "Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown" | ${fuzzelDmenu "power> "})
-                      case "$chosen" in
-                        Lock)      ${swaylock} ;;
-                        Logout)    loginctl terminate-user "$USER" ;;
-                        Suspend)   systemctl suspend ;;
-                        Hibernate) systemctl hibernate ;;
-                        Reboot)    systemctl reboot ;;
-                        Shutdown)  systemctl poweroff ;;
-                      esac
-                    '')}"
+      		"SUPER,space,spawn,${vicinaeExe}"
+          "SUPER+ctrl,v,spawn,"
+          "SUPER+SHIFT,Escape,spawn,"
           "Alt,Return,spawn,ghostty"
 
       		# exit

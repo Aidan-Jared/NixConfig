@@ -57,10 +57,6 @@
         keyboard-focus="exclusive";
         exit-on-keyboard-focus-loss="yes";
 
-        # cache=<not set>
-
-        # render-workers=<number of logical CPUs>
-        # match-workers=<number of logical CPUs>
 
         auto-select="no";
 
@@ -69,30 +65,29 @@
 
       # [colors]
       colors = {
-        background="1e2225cc";
-        text="B1B6B9ff";
-        selection="1C4C82ff";
-        selection-text="D2D4D5ff";
-        border="343F46ff";
-        match="4D8FDBff";
-        selection-match="B2D0EBff";
-        message="657b83ff";
-        prompt="586e75ff";
-        placeholder="93a1a1ff";
-        input="657b83ff";
-        counter="93a1a1ff";
+        background="11131aff";
+        text="e1e2ebff";
+        prompt="424753ff";
+        placeholder="424753ff";
+        input="e1e2ebff";
+        match="f4aeffdd";
+        selection="4d8efedd";
+        selection-text="000000ff";
+        selection-match="000000ff";
+        counter="b1c6f7ff";
+        border="424753ff";
       };
 
       # [border]
       border = {
         width="1";
-        radius="10";
+        radius="4";
       };
 
       # [dmenu]
       dmenu = {
         mode="text";  # text|index
-        exit-immediately-if-empty="no";
+        exit-immediately-if-empty="yes";
       };
 
       # [key-bindings]

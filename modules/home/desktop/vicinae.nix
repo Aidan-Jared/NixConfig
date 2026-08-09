@@ -42,7 +42,7 @@
       };
       extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
        awww-switcher
-       bluetooth
+       # bluetooth
        nix
        power-profile
        ssh

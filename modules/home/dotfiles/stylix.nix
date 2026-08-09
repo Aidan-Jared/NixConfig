@@ -1,6 +1,9 @@
 { self, inputs, ... }:
 {
   flake.homeModules.stylix = { pkgs, lib, config, ... }: {
+    import = [
+      inputs.stylix.homeModules.default
+    ];
 
     stylix = {
       enable = true;

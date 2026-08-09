@@ -38,8 +38,7 @@
       # ricing
       self.homeModules.stylix
       self.homeModules.waybar
-      # self.homeModules.noctalia
-      # self.homeModules.vicinae
+      self.homeModules.vicinae
     ];
 
     home.packages = [

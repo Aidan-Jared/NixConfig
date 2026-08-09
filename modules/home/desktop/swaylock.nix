@@ -3,11 +3,21 @@
   flake.wrappersModules.swaylock = { config, lib, pkgs, ... }: {
     package = pkgs.swaylock-effects;
     settings = {
-      image = pkgs.runCommand "wallpaper.png" {
-        nativeBuildInputs = [ pkgs.imagemagick ];
-      } ''
-        convert ${self.wallpaper} $out
-      '';
+      image =  let
+          wallpaperStr = toString self.wallpaper;
+        in
+        if pkgs.lib.hasSuffix ".mp4" wallpaperStr then
+          # Extract 1 frame from MP4 video to PNG
+          pkgs.runCommand "wallpaper.png" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
+            ${pkgs.ffmpeg}/bin/ffmpeg -ss 00:00:01 -i ${self.wallpaper} -vframes 1 $out
+          ''
+        else if (pkgs.lib.hasSuffix ".jpg" wallpaperStr || pkgs.lib.hasSuffix ".jpeg" wallpaperStr || pkgs.lib.hasSuffix ".webp" wallpaperStr) then
+          # Convert JPG/JPEG/WebP image to PNG using ffmpeg
+          pkgs.runCommand "wallpaper.png" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
+            ${pkgs.ffmpeg}/bin/ffmpeg -i ${self.wallpaper} $out
+          ''
+        else
+          self.wallpaper;
       scaling="fill";
       effect-blur="8x3";
       fade-in=0.6;
