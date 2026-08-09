@@ -14,26 +14,31 @@
   flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
     imports = [
       # inputs.stylix.homeModules.stylix
+      # cli
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      # self.homeModules.zellij
+      self.homeModules.zellij
       self.homeModules.yazi
-      self.homeModules.zen
-      self.homeModules.stylix
-      # self.homeModules.swaybag
-      self.homeModules.extraTools
       self.homeModules.lsp
+      self.homeModules.jj
+
+      # coding
       self.homeModules.rust
       self.homeModules.python
       self.homeModules.devenv
-      self.homeModules.matrix
-      self.homeModules.zed
-      self.homeModules.jj
       self.homeModules.vscode
-      # self.homeModules.wayle
-      self.homeModules.noctalia
-      # self.homeModules.ewwBar
+      self.homeModules.zed
+      
+      # desktop
+      self.homeModules.extraTools
+      self.homeModules.zen
+      self.homeModules.matrix
+
+      # ricing
+      self.homeModules.stylix
+      self.homeModules.waybar
+      # self.homeModules.noctalia
       # self.homeModules.vicinae
     ];
 

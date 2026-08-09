@@ -39,6 +39,7 @@
 
       # Desktop Apps
       pkgs.ffmpegthumbnailer 
+      pkgs.ffmpeg 
       pkgs.unar         
       pkgs.glow  
       pkgs.poppler

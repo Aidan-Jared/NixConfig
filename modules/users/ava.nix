@@ -21,7 +21,6 @@
       self.homeModules.zellij
       self.homeModules.yazi
 
-
       # browswer
       self.homeModules.zen
 

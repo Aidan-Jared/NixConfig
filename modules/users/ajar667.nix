@@ -17,11 +17,10 @@
       self.homeModules.shellBash
       self.homeModules.cliTools
       self.homeModules.helix
-      # self.homeModules.zellij
+      self.homeModules.zellij
       self.homeModules.devenv
       self.homeModules.rust
       self.homeModules.python
-      # self.homeModules.btop
       self.homeModules.jj
     ];
     

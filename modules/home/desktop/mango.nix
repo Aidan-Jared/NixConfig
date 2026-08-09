@@ -4,7 +4,15 @@ let
     swaylock = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.swaylock;
     fuzzelExe = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.fuzzel;
     fuzzelDmenu = prompt: "${fuzzelExe} --dmenu --prompt \"${prompt}\"";
-    # swayosd = lib.getExe ;
+    wallpaper = if pkgs.lib.hasSuffix ".mp4" (toString self.wallpaper) then
+    pkgs.runCommand "converted-wallpaper.gif" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
+      ${pkgs.ffmpeg}/bin/ffmpeg -i ${self.wallpaper} \
+        -vf "fps=24,scale=1920:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
+        $out
+    ''
+  else
+    self.wallpaper;
+      # swayosd = lib.getExe ;
   in {
     options.terminal = lib.mkOption {
       type = lib.types.str;
@@ -22,7 +30,7 @@ let
         
         ${(lib.getExe (
            pkgs.writeShellScriptBin "wallpaper"
-           "${lib.getExe pkgs.awww} img ${self.wallpaper}"
+           "${lib.getExe pkgs.awww} img ${wallpaper}"
          ))} &
         wl-paste --watch ${lib.getExe pkgs.cliphist} store &
       '';

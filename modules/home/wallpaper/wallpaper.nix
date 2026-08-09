@@ -1,4 +1,4 @@
 {
-  flake.wallpaper = ./0e7smpf8me4y.jpg;
+  flake.wallpaper = ./black-hole2.3840x2160.mp4;
   flake.wallpaperDir = ./.;
 }

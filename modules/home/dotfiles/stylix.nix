@@ -11,11 +11,22 @@
         applications = 0.9;
       };
 
-      image = pkgs.runCommand "wallpaper.png" {
-        nativeBuildInputs = [ pkgs.imagemagick ];
-      } ''
-        convert ${self.wallpaper} $out
-      '';
+      image = 
+        let
+          wallpaperStr = toString self.wallpaper;
+        in
+        if pkgs.lib.hasSuffix ".mp4" wallpaperStr then
+          # Extract 1 frame from MP4 video to PNG
+          pkgs.runCommand "wallpaper.png" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
+            ${pkgs.ffmpeg}/bin/ffmpeg -ss 00:00:01 -i ${self.wallpaper} -vframes 1 $out
+          ''
+        else if (pkgs.lib.hasSuffix ".jpg" wallpaperStr || pkgs.lib.hasSuffix ".jpeg" wallpaperStr || pkgs.lib.hasSuffix ".webp" wallpaperStr) then
+          # Convert JPG/JPEG/WebP image to PNG using ffmpeg
+          pkgs.runCommand "wallpaper.png" { nativeBuildInputs = [ pkgs.ffmpeg ]; } ''
+            ${pkgs.ffmpeg}/bin/ffmpeg -i ${self.wallpaper} $out
+          ''
+        else
+          self.wallpaper;
       #   cursor = {
       #   name = "DMZ-Black";
       #   size = 24;
