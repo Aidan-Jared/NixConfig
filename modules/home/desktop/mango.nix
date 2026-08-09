@@ -117,8 +117,7 @@ let
        	# Overview Setting;
        	hotarea_size=10;
        	enable_hotarea=0;
-       	ov_tab_mode=1;
-       	ov_no_resize=1;
+       	# ov_tab_mode=1;
        	overviewgappi=5;
        	overviewgappo=30;
 
@@ -200,13 +199,13 @@ let
      	# reload config;
        	bind = [
       		"SUPER,r,reload_config"
-      		"SUPER,esc,${swaylock}"
+      		"SUPER,Escape,spawn,${swaylock}"
 
       		# menu and terminal
-      		"SUPER,space,spawn,${vicinaeExe}"
-          "SUPER+ctrl,v,spawn,"
+      		"SUPER,space,spawn,${vicinaeExe} toggle"
+          "SUPER+ctrl,v,spawn,vicinae 'vicinae://launch/clipboard/history'"
           "SUPER+SHIFT,Escape,spawn,"
-          "Alt,Return,spawn,ghostty"
+          "ALT,Return,spawn,ghostty"
 
       		# exit
       		"SUPER,m,quit"
@@ -249,16 +248,16 @@ let
       		"ALT,e,set_proportion,1.0"
       		"ALT,x,switch_proportion_preset,"
       		"alt+super+ctrl,Left,scroller_stack,left"
-      		"alt+super+ctrl,Right,scroller_stack,right"
-      		"alt+super+ctrl,Up,scroller_stack,up"
-      		"alt+super+ctrl,Down,scroller_stack,down"
-      		"alt+super+ctrl,h,scroller_stack,left"
-      		"alt+super+ctrl,l,scroller_stack,right"
-      		"alt+super+ctrl,k,scroller_stack,up"
-      		"alt+super+ctrl,j,scroller_stack,down"
+      		"ALT+SUPER+CTRL,Right,scroller_stack,right"
+      		"ALT+SUPER+CTRL,Up,scroller_stack,up"
+      		"ALT+SUPER+CTRL,Down,scroller_stack,down"
+      		"ALT+SUPER+CTRL,h,scroller_stack,left"
+      		"ALT+SUPER+CTRL,l,scroller_stack,right"
+      		"ALT+SUPER+CTRL,k,scroller_stack,up"
+      		"ALT+SUPER+CTRL,j,scroller_stack,down"
 
       		#dwindle layout(manual split mode)
-      		"alt+shift,Return,dwindle_toggle_split_direction"
+      		"ALT+SHIFT,Return,dwindle_toggle_split_direction"
 
       		# switch layout
       		"SUPER,n,switch_layout"
@@ -277,19 +276,9 @@ let
       		"CTRL+SUPER,h,tagtoleft,0"
       		"CTRL+SUPER,l,tagtoright,0"
 
-      		"SUPER,1,view,1,0"
-      		"SUPER,2,view,2,0"
-      		"SUPER,3,view,3,0"
-      		"SUPER,4,view,4,0"
-      		"SUPER,5,view,5,0"
-      		"SUPER,6,view,6,0"
-      		"SUPER,7,view,7,0"
-      		"SUPER,8,view,8,0"
-      		"SUPER,9,view,9,0"
-
       		# tag: move client to the tag and focus it
       		# tagsilent: move client to the tag and not focus it
-      		"# Alt,1,tagsilent,1"
+      		# "Alt,1,tagsilent,1"
       		"Alt,1,tag,1,0"
       		"Alt,2,tag,2,0"
       		"Alt,3,tag,3,0"
@@ -301,14 +290,14 @@ let
       		"Alt,9,tag,9,0"
 
       		# monitor switch
-      		"alt+shift,Left,focusmon,left"
-      		"alt+shift,Right,focusmon,right"
-      		"SUPER+Alt,Left,tagmon,left"
-      		"SUPER+Alt,Right,tagmon,right"
-      		"alt+shift,h,focusmon,left"
-      		"alt+shift,l,focusmon,right"
-      		"SUPER+Alt,h,tagmon,left"
-      		"SUPER+Alt,l,tagmon,right"
+      		"ALT+SHIFT,Left,focusmon,left"
+      		"ALT+SHIFT,Right,focusmon,right"
+      		"SUPER+ALT,Left,tagmon,left"
+      		"SUPER+ALT,Right,tagmon,right"
+      		"ALT+SHIFT,h,focusmon,left"
+      		"ALT+SHIFT,l,focusmon,right"
+      		"SUPER+ALT,h,tagmon,left"
+      		"SUPER+ALT,l,tagmon,right"
 
       		# gaps
       		"ALT+SHIFT,X,incgaps,1"
@@ -347,10 +336,10 @@ let
       		"SUPER,9,comboview,9"
 
       		# Axis Bindings
-      		"axisSUPER,UP,viewtoleft_have_client"
-      		"axisSUPER,DOWN,viewtoright_have_client"
-      		"axisSUPER,k,viewtoleft_have_client"
-      		"axisSUPER,j,viewtoright_have_client"
+      		# "axisSUPER,UP,viewtoleft_have_client"
+      		# "axisSUPER,DOWN,viewtoright_have_client"
+      		# "axisSUPER,k,viewtoleft_have_client"
+      		# "axisSUPER,j,viewtoright_have_client"
 
       		"SUPER+CTRL,e,spawn,pcmanfm"
           "SUPER,e,spawn,ghostty -e yazi"

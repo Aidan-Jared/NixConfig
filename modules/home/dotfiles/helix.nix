@@ -7,7 +7,7 @@
       enable = true;
       package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings = {
-        theme = "eldritch_transparent";
+        # theme = "eldritch_transparent";
 
         editor = {
           clipboard-provider = "wayland";

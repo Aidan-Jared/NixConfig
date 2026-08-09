@@ -11,7 +11,7 @@
       enable = true;
 
       settings = {
-        theme = "cyber-noir-m";
+        # theme = "cyber-noir-m";
         default_mode = "normal";
         default_layout = "default";
         scrollback_editor = "hx";

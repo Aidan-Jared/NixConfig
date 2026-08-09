@@ -42,10 +42,10 @@
             modules-left= [
                 "mango/workspaces"
                 "mango/layout"
+                "mango/window"
             ];
 
             "modules-center"= [
-                "dwl/window"
                 "clock"
             ];
             "modules-right"= [
@@ -66,7 +66,11 @@
                 overview-label = "OVERVIEW";
             };
 
-            "dwl/window"= {
+            "mango/layout"={
+              format = "[] {symbol}";
+            };
+
+            "mango/window"= {
                 "format"= "{title}";
                 "icon"= true;
                 "icon-size"= 16;
@@ -256,6 +260,11 @@
             background: transparent;
             color: @text-muted;
             border-bottom: 2px solid transparent;
+        }
+
+        #layout {
+          color: @text-muted;
+          padding: 0 5px;
         }
 
         #workspaces button:hover {

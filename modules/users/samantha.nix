@@ -13,7 +13,7 @@
   
   flake.homeModules.samanthaHome = { pkgs, lib, ... }: {
     imports = [
-      # inputs.stylix.homeModules.stylix
+      inputs.stylix.homeModules.stylix
       # cli
       self.homeModules.shellBash
       self.homeModules.cliTools
