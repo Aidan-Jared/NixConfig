@@ -19,7 +19,7 @@
       self.homeModules.helix
       self.homeModules.zellij
       self.homeModules.devenv
-      self.homeModules.rust
+     # self.homeModules.rust
       self.homeModules.python
       self.homeModules.jj
     ];
