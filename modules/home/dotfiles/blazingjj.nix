@@ -27,7 +27,7 @@
             owner = "blazingjj";
             repo  = "blazingjj";
             rev   = "main";
-            hash  = "sha25-vqObBp1hFsw4O+UPIs3tgcds+hFvqymDyLHdXmQHlYs=";
+            hash  = "sha256-vqObBp1hFsw4O+UPIs3tgcds+hFvqymDyLHdXmQHlYs=";
           };
           commonArgs = { inherit src; };
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
